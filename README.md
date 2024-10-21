@@ -142,6 +142,8 @@ This section will explain various design decisions that a decentralization predi
 
 * I need to dig deeper into this but a weird case involving Polymarket, UMA's dispute resolution system (activist?), "wag the dog" reaction to prediction market closing to the "wrong" candidate, and great NGO work in collecting (and strategically releasing) polling place receipts.
 * Shows that decentralized prediction markets matter in real life and are not just fun and game for bettors.
+* https://frankmuci.substack.com/p/polymarket-settles-bet-against-its
+* https://x.com/Domahhhh/status/1820274098540277895
 
 
 
