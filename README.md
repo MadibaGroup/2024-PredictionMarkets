@@ -53,6 +53,7 @@ This section will explain various design decisions that a decentralization predi
   * Market makers (AMMs)
     * Trace history of AMMs from LMSRs as implemented by Gnosis prediction markets
     * Challenge: when one token goes to zero (after market resolves), AMMs can behave whacky
+      * Providing liquidity to a PM-AMM is guaranteed impertinence/divergence loss, for both shares that go to 1.00 and shares that go to 0.00
   * Classic orderbooks (LOBs)
     * need to be off-chain because too slow for L1 Ethereum
     * Maybe possible through fancy zk-rollup on L2
