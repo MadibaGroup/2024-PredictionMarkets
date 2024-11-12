@@ -2,9 +2,11 @@
 
 Open to collaboration
 
-![c5aeb58089b211ef889df3bb06833c5b.map](./c5aeb58089b211ef889df3bb06833c5b.map.png)
 
 
+## Prediction Markets
+
+* Background on centralized prediction markets and theory
 
 ## Why Decentralized?
 
@@ -14,22 +16,110 @@ Open to collaboration
   * Low barrier to entry: If a widely trusted entity (e.g., Associate Press) is willing to close a market, it is way easier to send a single transaction (Alice wins the election) than run a complete system
   * Agility: by reducing the surface area of any centralization, it is easier to swap it out or give traders multiple options to choose from
 
+## Methodology
 
+* Papers
+
+  * Academic
+  * Grey literature (whitepapers)
+  * Blog posts
+  * News articles
+
+* Implementation
+
+  * GitHub or other open source respositories
+  * Code on block explorers
+  * Transactions on block explorers
+
+* Methodology
+
+  * Search engines (Google, Google Scholar, Apple News)
+  * Terms: prediction market, blockchain prediction market
+    * prediction market + term: polygon, bitcoin, ethereum, avalanche, arbitrium
+  * Follow links and citations / cross-reference
+
+* Structured brainstorming
+
+  * Mind maps - themes (thematic analysis)
+  * Affinity boards
+  * Previous SoKs
+
+  
 
 ## Modular Workflow
 
 This section will explain various design decisions that a decentralization prediction market needs to make, at various stages in the design.
 
-#### Market Topics
+### Underlying Blockchain
+
+* Fees
+* Speed of trading
+* Attacks at the blockchain level (validators)
+* Front-running protection (fair order blockchain)
+* Access control on users
+* Layers 1 vs layer 2s
+  * Bridging (withdrawal windows)
+
+### Market Setup
 
 * Permissionless
   * In a decentralized market, the ability for anyone to permissionlessly open a market on anything is one feature that decentralization itself could bring
   * Let a "let the market figure it out" approach could work
   * Regulatory issues or bad optics could result, but it is hard to shut down (could it be blocked for US residents through regulation c.f., TornadoCash?)
+* Permissionless with centralized slashing
+  * Centralized slashing based on the rules
+  * Lack of participation (?)
+  * Allow override
+  * Less work than permissioned
+  * Like YouTube model
+
 * Permissioned
   * Centralized party sets the topic and articulates a policy for resolving the market
+  * Deny override
+
+### Other Market Options
+
+* Requires current prices to set up the market
+* Requires some candidates
+* Requires "other" / "something else happens"
+* Exact market closing semantics (c.f., missile tests on InTrade)
+* Market has underlying token
+  * Prediction market on price of BTC in a market denominated in BTC
+
+### Market Mechanics
+
+* Binary market
+  * Yes/no
+* Multiple choice
+  * Shares for each choice
+  * Shares for Yes/No for each choice
+    * Used by Polymarket
+    * More complex
+    * Shorting is easier (buy one share rather than incomplete set of shares)
+    * Gives 2 hedging strategies: say you hold Yes for Alice. You can buy Yes for all other candidates. Or you can buy No for Alice.
+    * Investigate: can volume be different for each candidate?
+* Combinatorial and fancy
+
+
+
+* Custodianship of shares
+  * On-chain tokens can be taken to any other DeFi service (trading, lending, etc) or centralized third party
+  * Off-chain custodianship 
+    * What is left to be decentralized at this point?
 
 ### Bootstraping a Price
+
+* Trading
+
+* Market makers (AMMs)
+  * Trace history of AMMs from LMSRs as implemented by Gnosis prediction markets
+  * Challenge: when one token goes to zero (after market resolves), AMMs can behave whacky
+    * Providing liquidity to a PM-AMM is guaranteed impertinence/divergence loss, for both shares that go to 1.00 and shares that go to 0.00
+* Classic orderbooks (LOBs)
+  * need to be off-chain because too slow for L1 Ethereum
+  * Maybe possible through fancy zk-rollup on L2
+* Classic call markets (frequent batch auctions)
+  * same as LOBs
 
 * Impossible to go from 0 traders to 1 trader
   * If 1 trader wins \$X, then someone has to lose \$X
@@ -47,35 +137,7 @@ This section will explain various design decisions that a decentralization predi
     * Show arbitrage paths to correcting mispriced assets
     * Show also that prices can add up to more/less than \$1 if you simplify a price to a single number
 
-### Market Mechanics
-
-* Trading
-  * Market makers (AMMs)
-    * Trace history of AMMs from LMSRs as implemented by Gnosis prediction markets
-    * Challenge: when one token goes to zero (after market resolves), AMMs can behave whacky
-      * Providing liquidity to a PM-AMM is guaranteed impertinence/divergence loss, for both shares that go to 1.00 and shares that go to 0.00
-  * Classic orderbooks (LOBs)
-    * need to be off-chain because too slow for L1 Ethereum
-    * Maybe possible through fancy zk-rollup on L2
-  * Classic call markets (frequent batch auctions)
-    * same as LOBs
-* Shares
-  * Binary market
-    * Yes/no
-  * Multiple choice
-    * Shares for each choice
-    * Shares for Yes/No for each choice
-      * Used by Polymarket
-      * More complex
-      * Shorting is easier (buy one share rather than incomplete set of shares)
-      * Gives 2 hedging strategies: say you hold Yes for Alice. You can buy Yes for all other candidates. Or you can buy No for Alice.
-      * Investigate: can volume be different for each candidate?
-* Custodianship of shares
-  * On-chain tokens can be taken to any other DeFi service (trading, lending, etc) or centralized third party
-  * Off-chain custodianship 
-    * What is left to be decentralized at this point?
-
-## Closing the Market
+### Closing the Market
 
 * Single entity
 
@@ -91,9 +153,33 @@ This section will explain various design decisions that a decentralization predi
 
   * Lots of proposals: Truthcoin and onward
   * None shown to work and most seem to not work
-  * Cannot measure off-chain side-bets on the market: https://bford.info/2019/09/23/rational/
+  * Cannot measure off-chain side-bets on the market: https://bford.info/2019/09/23/rational
 
-  
+* Dispute resolution
+  * Permissioned / permissionless
+
+
+### Payout
+
+* Permissionlesss: Automated vending machine
+* Permissioned model: regulatory checks, traditional KYC
+  * Prediction markets can be self-fulfilling (terrorism, etc.)
+  * Where does surplus go? Or is it locked?
+* Time limit?
+* Push model - polymarket could push USDC
+* Pull model - redeem and get USDC
+
+### Archiving 
+
+* Transactions on-chain are archived on-chain
+* Meta-information, archive it
+* Comments, archive it
+* Transaction off-chain, archive it
+  * Archive:
+    * On-chain
+    * Blobs
+    * IPFS
+    * Web
 
 ## Case Study 1: Satoshi
 
@@ -137,7 +223,6 @@ This section will explain various design decisions that a decentralization predi
 
     * Market resolves to 95%+ for "Other"
 
-      
 
 ## Case Study 2: Venezuela 
 
@@ -146,8 +231,47 @@ This section will explain various design decisions that a decentralization predi
 * https://frankmuci.substack.com/p/polymarket-settles-bet-against-its
 * https://x.com/Domahhhh/status/1820274098540277895
 
-
-
 ## Case Study 3: US Election
 
 * Wait and see if there proves to be anything interesting here.
+
+## Discussion / Lessons Learned
+
+* Feedback mechanism, users behaviours, history, de-anonymization
+* Comments filtered by participation
+* Reasons things fail
+* Regulations
+* Research agenda
+  * Speed, fees
+  * On-chain orderbooks
+  * Regulation
+  * Ethereum fragmentation
+  * Oracle (punt to other SoK)
+* Why Polymarket succeeded?
+  * Could it have succeeded 5 years ago?
+  * Did it do something different?
+  * Stand on shoulder's of giants (Gnosis, Auger)
+  * Faster/lower fees: Polymarket (older ones ran on L1s)
+  * Better UI, more open to novice users
+  * Simplification of the market options/structure
+  * Offload to infrastructure around oracles, stablecoins, AMMs
+  * Stuck around (grit)
+    * Rode long periods of inactivity
+    * Agile in terms of regulatory (fines, shut down US users)
+
+
+
+# Brainstorms
+
+
+
+![c5aeb58089b211ef889df3bb06833c5b.map](./c5aeb58089b211ef889df3bb06833c5b.map.png)
+
+
+
+---
+
+
+
+## ![image](/Users/jeremyclark/Documents/Academia/Deliverables/Publications/01 Drafts/2024-PredictionMarkets/image.png)
+
