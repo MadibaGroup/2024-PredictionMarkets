@@ -258,6 +258,8 @@ This section will explain various design decisions that a decentralization predi
   * Stuck around (grit)
     * Rode long periods of inactivity
     * Agile in terms of regulatory (fines, shut down US users)
+* Bans
+* Dependency on external factors: oracles, stablecoin providers, etc.
 
 
 
