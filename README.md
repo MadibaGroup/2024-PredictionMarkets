@@ -275,5 +275,5 @@ This section will explain various design decisions that a decentralization predi
 
 
 
-## ![image](/Users/jeremyclark/Documents/Academia/Deliverables/Publications/01 Drafts/2024-PredictionMarkets/image.png)
+## ![image](./image.png)
 
