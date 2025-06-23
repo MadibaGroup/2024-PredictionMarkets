@@ -26,3 +26,25 @@ Our primary contributions are as follows.
 
 Test~\cite{KNZ08}
 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
+\hline
+\textbf{Attribute} & \textbf{Ethereum Mainnet} & \textbf{Polygon} & \textbf{Bitcoin} \\
+\hline
+Transaction Latency & $\sim$12--15 sec/block; \newline $\sim$13 min finality & $\sim$2--5 sec/block & $\sim$10 min/block; \newline $\sim$60 min finality \\
+\hline
+Bridging Delays & $\sim$7 days \newline (Optimistic Rollups) & $\sim$30 min--3 hrs \newline (Checkpointing) & $\sim$60 min \newline (Sidechains) \\
+\hline
+Transaction Costs & High \newline (\$1--20+ per tx) & Very low \newline (\$0.01--0.05 per tx) & Moderate--high \newline (\$1--5+ per tx) \\
+\hline
+Throughput (TPS) & $\sim$15--30 TPS & $\sim$7,000 TPS (peak) & $\sim$7 TPS \\
+\hline
+Validator Decentralization & High \newline ($\sim$600,000 validators) & Moderate \newline ($\sim$100--150 validators) & High \newline (large miner base) \\
+\hline
+Censorship Resistance & High \newline (MEV risk present) & Moderate \newline (checkpoint risk) & High \newline (minimal MEV risk) \\
+\hline
+\end{tabular}
+\caption{Comparison of Ethereum Mainnet, Polygon, and Bitcoin on key performance and decentralization attributes.}
+\end{table}
