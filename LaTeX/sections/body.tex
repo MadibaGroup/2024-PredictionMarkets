@@ -1,19 +1,78 @@
 % !TEX root = ../main.tex
 \section{Introduction}
 
-\section{Background and Motivation}
+In late 2024, the United States was in midst of a presidential election when the decentralized prediction market, Polymarket, began receiving mainstream news coverage. Stories focused, in particular, on the fact that it offered odds more favourable to eventual winner Donald Trump than those reflected in conventional polls and forecasts. Polymarket's odds are not set by experts or pundits, instead it is effectively a betting website where odds are extrapolated from the prices of trades made in an open market (or somewhat open, as it was banned in many countries including the US). As with traditional betting, whether online or through a bookie, prediction markets allow speculators to profit from correct forecasts. However the structure of a prediction market is different than traditional betting. One key difference is that prediction markets ease the process of moving in and out of bets before the event resolves, encouraging traders to place bets if they think the odds are over-stated or under-stated, and withdrawing profits if the odds realign with their view. 
+
+It would be easy to think that Polymarket's design is the most obvious and straight-forward way to deploy a prediction market on a blockchain. However the central thesis of this systemization of knowledge paper is that Polymarket found success in bucking the trend set by many previous attempts made in whitepapers (Truthcoin), academic papers, and starts-ups (Auger and Gnosis). 
+
+
+
+
+
+\section{Story Time}
+
+Before diving deep on the mechanics of decentralized prediction markets, we illustrate how markets work and provide value with a fun example. On 3 Oct 2024, a trailer was released with press coverage of a new HBO documentary on Bitcoin and its anonymous founder, Satoshi Nakamoto, to air about a week later on 8 Oct 2024. In an interview, the director stated, on the question of Satoshi's identity, `who we land on is unexpected andis going to result in a fair amount of controversy.' The next day, Polymarket setup a market for speculating on who the documentary would name, providing 15 names plus an "other/multiple" option. A benefit of a decentralized prediction market is allowing niche topics for markets, unlikely to attract mainstream betting websites (see Section~\ref{}). Having an "other" option is also critical after many markets have failed to fully articulate every eventuality (see Section~\ref{}).
+
+In game theory, cheap talk describes strategic misinformation or signalling aimed at shaping beliefs or prices, provided the cost of deception is outweighed by the potential payoff. This is well illustrated by what followed in the HBO Satoshi market as new pieces of evidence emerged, some real and some fake, with some fakes relatively elaborate (professional appearing end-credits or hijacking a target's X.com account) as summarized in Table~\ref{tab:hbo}. 
+
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % Fixed-width column
+
+\begin{table}[t]
+\centering
+\begin{tabularx}{\textwidth}{|L{1cm}|X|L{2cm}|L{2cm}|}
+\hline
+\textbf{Date} & \textbf{Information} & \textbf{Market Impact} & \textbf{Hindsight Verdict} \\
+\hline
+05 Oct & Partially redacted leaked email from an HBO executive implies Len Sassaman. & Immaterial & Fake \\
+\hline
+06 Oct & A long-dormant X account belonging to someone who had corrosponded with Sassaman on Twitter posted a new message stating they were interviewed for the documentary. & Immaterial & Fake\\
+\hline
+07 Oct & Widow of Sassaman states she was not interviewed. & Moderate & Truthful\\
+\hline
+07 Oct & CNN piece states director `confronts' Satoshi suspect `face-to-face' ruling out Sassaman, David Klieman, and Hal Finney. & Material & Truthful\\
+\hline
+07 Oct & Samson Mow, featured in the trailer, speculates it will name Adam Back, also featured heavily in the trailer & Material & Wrong but factual basis \\
+\hline
+07 Oct & End credits of documentary leaked featuring a tribute to Klieman. & Immaterial & Fake \\
+\hline
+07 Oct & Mow states Nick Szabo refused to discuss with director implying he was not `confronted'. & Material & Truthful \\
+\hline
+08 Oct & Peter Todd confirms being confronted for documentary but unsure is he will be named. & Material & Truthful \\
+\hline
+08 Oct & Scene with Todd leaked. & Material & Truthful \\
+\hline
+08 Oct & Commenter on Polymarket claims to screen test and names Nick Szabo. & Immaterial & Fake \\
+\hline
+08 Oct & Fortune publishes movie review disclosing Todd is named & Very Significant & Truthful \\
+\hline
+08 Oct & Documentary airs and names Todd & Very Significant & Conclusive \\
+\hline
+
+
+\end{tabularx}
+\caption{Over a few days, truthful and untruthful (`cheap talk') evidence was presented to traders. The market reacted to correct signals and effectively filtered out fake signals, demonstrating a beneficial feature of prediction markets.\label{tab:hbo}}
+\end{table}
 
 \section{Methodology}
+
+We obtained a collection of academic works on decentralized prediction markets, as well as various intersecting topics including (centralized) prediction markets, oracles, DeFi, and AMMs. We used our knowledge of the field, Google Scholar (search and cited by features), and citations within papers. Our library is available, sorted by topic, on Zotero.\footnote{\url{tk}}. We also searched news sources for opinions and issues on leading decentralized prediction markets, such as polymarket. Finally, we informally monitored markets on popular markets but we did not conduct a systematic measurements as this paper is more concerned with the underlying mechanics than specific markets.
 
 \section{Modular Workflow}
 The modular workflow for DPMs, detailed in sub-sections \ref{subsec:blockchain_infra} through \ref{subsec:economic_tradeoff} , outlines key components and decision pathways involved in platform development and operation. Initially, designers select an appropriate blockchain infrastructure, evaluating trade-offs between Layer-1 mainnet's decentralization and security versus Layer-2's cost and throughput efficiencies, considering bridging delays and associated security risks (Section~\ref{subsec:blockchain_infra}). Following this, market creation is structured by deciding on permissioned or permissionless market listing models (Section~\ref{subsec:market_setup_init}). Next, the workflow addresses the tokenization of market outcomes (Section~\ref{subsec:market_mechcanics}) and implements suitable trading mechanisms such as automated market makers (AMMs), limit order books, or a hybrid combination of both (Section~\ref{subsec:price_bootstrapping}). After market closure, the platform utilizes either centralized or decentralized oracle systems, including potential dispute resolution processes for contested outcomes (Section~\ref{subsec:market_resolution}). Subsequent stages involve selection of payout methods (automatic push or claim-based pull) and managing remaining funds or platform fees (Sections~\ref{subsec:payout_redemption}). The market metadata archival is preserved on-chain logs or decentralized storage services such as IPFS and Arweave (Section~\ref{subsec:archival}). Finally, economic trade-offs affect the popularity usability and adoption of the market ({Section~\ref{subsec:economic_tradeoff}). This modular workflow is visualized in Figure~\ref{fig:dpm_workflow} below.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[height=1\textheight]{figures/fig_modular_workflow.png}
-    \caption{Modular Workflow for Decentralized Prediction Market Platforms.}
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \includegraphics[height=0.75\textheight]{figures/fig_modular_workflow.png}
+   \caption{Modular Workflow for Decentralized Prediction Market Platforms.}
     \label{fig:dpm_workflow}
-\end{figure}
+\end{wrapfigure}
+
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[height=1\textheight]{figures/fig_modular_workflow.png}
+%    \caption{Modular Workflow for Decentralized Prediction Market Platforms.}
+%    \label{fig:dpm_workflow}
+%\end{figure}
 
 \subsection{Underlying Blockchain Infrastructure}\label{subsec:blockchain_infra}
 The base blockchain layer (Layer-1 vs. Layer-2) impacts transaction fees, finality guarantees, throughput, and censorship resistance for DPMs, influencing the efficiency and reliability of each stage within the DPM modular workflow. Selecting the underlying blockchain infrastructure constitutes the initial design decision within the modular workflow for DPMs.
