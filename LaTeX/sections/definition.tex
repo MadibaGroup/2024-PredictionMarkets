@@ -1,0 +1,54 @@
+% !TEX root = ../main.tex
+
+We define a market within a prediction-market system. In contrast to existing definitions, we abstract away details about how they are implemented. If the definitions are not clear, we refer the reader to Appendix~\ref{app:example} where we describe a specific market offered by Polymarket and map each term in the following definitions to this real world example.
+
+\begin{definition}[Market]\label{def:market}
+A (single) market is a tuple $M=(E,\Omega,J,R)$, where $E$ is a well-defined uncertain event, $\Omega$ is a nonempty outcome space for $E$, $J$ is a finite index set of contract labels (“shares”), and $R=(R_j)_{j\in J}$ are nonnegative payoff functions with $R_j:\Omega\to\mathbb{R}_{\ge 0}$. When $M$ resolves to $\omega_M\in\Omega$, one unit of share $j\in J$ pays $R_j(\omega_M)$ (in units of $\mathcal{N}$ defined below).
+\end{definition}
+
+\begin{definition}[Prediction--market system]\label{def:system}
+A prediction--market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{Res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of account), and $\mathsf{Res}=\{\mathrm{res}_M\}_{M\in\mathcal{M}}$ is a family of resolution registers such that, for each $M$ with outcome space $\Omega_M$, we have $\mathrm{res}_M\in\{\bot\}\cup\Omega_M$, $\mathrm{res}_M$ is initially $\bot$, and $\mathrm{res}_M$ transitions exactly once to some $\omega_M\in\Omega_M$.
+\end{definition}
+
+%\paragraph{Notation (realized outcome).}
+%If $\mathrm{res}_M\neq \bot$, define $\omega_M := \mathrm{res}_M\in\Omega_M$.
+
+\paragraph{Remark (Arrow--Debreu Markets).}
+For a market $M=(E,\Omega,J,R)$, suppose there exists a bijection $\iota:J\to\Omega$ and
+$R_j(\omega)\in\{0,1\}$ with $\sum_{j\in J} R_j(\omega)=1$ for all $\omega\in\Omega$.
+Then $M$ is a winner--take--all (Arrow--Debreu) market: a unit claim of label $j$ pays $1$ iff the realized outcome equals $\iota(j)$, and $0$ otherwise.
+
+% = = =
+
+
+\paragraph{System axioms (mechanism–agnostic).}
+For every market $M=(E,\Omega,J,R)\in\mathcal{M}$ (with register $\mathrm{res}_M$ as in Definition~\ref{def:system}):
+
+\begin{enumerate}
+  \item \textbf{Issuance.} The system may increase the outstanding supply of any label $j\in J$ by any $q\ge 0$ subject to policy (unspecified here). Let $S_j(M)\ge 0$ denote the total outstanding supply of label $j$ in $M$.
+
+  \item \textbf{Transfer.} Holdings of each label $j\in J$ are transferable between accounts; transfers conserve per–label totals $S_j(M)$.
+
+  \item \textbf{Burn/Cancel.} The system may decrease $S_j(M)$ via explicit burn/cancel operations according to policy (optionally allowed pre–resolution).
+
+  \item \textbf{Resolution.} The resolution register satisfies $\mathrm{res}_M\in\{\bot\}\cup\Omega$, is initially $\bot$, and transitions exactly once\footnote{Real world \depms like Polymarket might resolve a market, receive a dispute of over the outcome, and resolve it differently after a process (see Section~\ref{wf:close}). In the definition, resolution refers to the final outcome only. An outcome is final when shares can be redeemed for payouts.} to a realized outcome $\omega_M\in\Omega$.
+
+  \item \textbf{Settlement.} Once $\mathrm{res}_M=\omega_M\in\Omega$, any holder of $q$ units of label $j\in J$ may redeem for $q\cdot R_j(\omega_M)$ units of the numeraire $\mathcal{N}$; redeemed units are removed from supply (burned).
+
+  \item \textbf{Conservation of liability.} Let $S_j^{\mathrm{pre}}(M)$ be the outstanding supply of label $j$ immediately before settlement. The total settlement liability is
+  \[
+    \mathsf{Liability}(M)\;=\;\sum_{j\in J} S_j^{\mathrm{pre}}(M)\, R_j(\omega_M)\;\in\;\mathbb{R}_{\ge 0},
+  \]
+  which equals the aggregate numeraire paid out if all outstanding units are redeemed.
+
+  \item \textbf{No pre–resolution obligation.} While $\mathrm{res}_M=\bot$, the system owes no cash payoff on holdings of $(M,j)$ beyond recording balances and permitting issuance/transfer/burn per policy.
+\end{enumerate}
+
+% Remark (optional, keep if desired):
+% Arrow–Debreu (winner–take–all) markets are obtained by requiring $R_i(\omega)\in\{0,1\}$ and, if desired, $\sum_{i\in I} R_i(\omega)=1$ for all $\omega\in\Omega$.
+
+% = = =
+
+
+
+

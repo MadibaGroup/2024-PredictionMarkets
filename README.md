@@ -161,6 +161,7 @@ This section will explain various design decisions that a decentralization predi
 
 ### Payout
 
+* "Sweat the bet, not the payout"
 * Permissionlesss: Automated vending machine
 * Permissioned model: regulatory checks, traditional KYC
   * Prediction markets can be self-fulfilling (terrorism, etc.)
