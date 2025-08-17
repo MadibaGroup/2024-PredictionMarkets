@@ -149,35 +149,75 @@ Dealing with definitional pitfalls has been, to date, a trial and error process 
 
 If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting.
 
+\subsection{Share Structure and Pricing}\label{wf:mech}\label{wf:price}
 
+The core requirement of a prediction market is that wagers are represented by fungible shares. The structure of shares typically falls into one of three categories and two variants (although more exotic structures are possible and explored in research). Consider a market with three possible outcomes: $\Omega=\{\mathsf{A}, \mathsf{B}, \mathsf{C}\}$. 
 
+The first structure we term \textit{winner-take-all (WTA)} and is prominent on Iowa Electronic Markets and supported by Augur and Gnosis. A WTA market issues a share for each outcome $J=\{j_\mathsf{A}, j_\mathsf{B}, j_\mathsf{C}\}$. If the outcome is $\mathsf{B}$, the share $j_\mathsf{B}$ pays \$1 (or one unit of numeraire $\mathcal{N}$) and the other shares pay \$0. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
 
+\[R_{j_{\mathsf{k}}}(\omega)=\begin{cases}1, & \text{if } \omega=\mathsf{k},\\0, & \text{otherwise.}\end{cases}\]
 
+For a WTA market to be well-functioning, conditions must hold on outcome shares. (i) They should be \textit{mutually exclusive} so no more than one share wins: $R_{j_{\mathsf{k}}}(\omega)R_{j_{\mathsf{\ell}}}(\omega)=0 \quad \forall\omega\in\Omega, \forall\mathsf{k}\neq\mathsf{\ell} $; and (ii) they should be \textit{complete} so at least one share wins: $\sum_{\mathsf{k}\in\Omega} R_{j_{\mathsf{k}}}(\omega)=1\quad \forall \omega\in\Omega$. If they are not mutually exclusive, the operator could be undercollateralized for making all payments. If they are incomplete, a deficient market might end with all participants receiving \$0. A consequence is that holding one share for each outcome is equivalent to holding \$1, a fact we will return to in the next section on trading. 
 
-\subsection{Market Mechanisms}\label{wf:mech}
+In a WTA market, the price of a share (\eg $p(j_\mathsf{A})=\$0.54$) is a proxy for the probability that the outcome will occur (\eg $\mathrm{Pr}[\omega=\mathsf{A}]=54\%$). A common adage is the prices of each share sum to \$1.00 ignoring fees and discounting (\eg $p(j_\mathsf{A})=\$0.54$, $p(j_\mathsf{B})=\$0.23$, $p(j_\mathsf{C})=\$0.23$) but this is imprecise. Shares (like anything) have two prices: a bid price (what a trader is willing to buy for) and an ask price (willing to sell for). If the sum of the bid prices exceeds \$1.00 or if the sum of ask prices are below \$1.00, arbitrageurs have an opportunity to secure risk-free profit through a trade that will erase the condition when fully extracted. This means the sum of bids and sum of asks should result in the bid-ask spread straddling \$1.00 but the amount of the spread could be arbitrarily large. So in user interfaces that display a single `price' (\eg the last sale price or the midpoint between the best bid and the best ask), prices may indeed not sum to \$1.00---this is not a market failure, just a misunderstanding.  
 
+ % = = =
+ 
+The second structure we term a \textit{yes-no bundle (YNB)} and YNB markets were prominent on InTrade and are currently prominent on Polymarket. A YNB market issues two shares for each outcome, a `yes' and a `no:'  $J=\{j_{\mathsf{A_Y}}, j_{\mathsf{A_N}}, j_{\mathsf{B_Y}}, j_{\mathsf{B_N}}, j_{\mathsf{C_Y}},j_{\mathsf{C_N}} \}$. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
+
+\[
+R_{j_{\mathsf{k_Y}}}(\omega)=
+\begin{cases}
+1, & \text{if } \omega=\mathsf{k},\\
+0, & \text{otherwise.}
+\end{cases}
+\qquad
+R_{j_{\mathsf{k_N}}}(\omega)=
+\begin{cases}
+1, & \text{if } \omega\neq\mathsf{k},\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+Each outcome-specific pair $\{j_{\mathsf{k_Y}}, j_{\mathsf{k_N}}\}$ constitutes a two-outcome WTA market ($\mathsf{k}$ vs.\ not-$\mathsf{k}$). A YNB market is the union of these pairs, so the WTA exclusivity and completeness properties hold per pair. However exclusivity and completeness do not necessarily hold across all bundles, allowing more flexible markets. For example, a market on what words Trump will say in a congressional address included Bitcoin (no), beautiful at least 10 times (yes), and Canada (yes).\footnote{\polyurl{What will Trump say during address to Congress?}{https://polymarket.com/event/what-will-trump-say-during-state-of-the-union?tid=1755462445353}} Multiple words can resolve to yes and the market does not need to include every possible word (or an `other' category). Further if the market is already underway with active trades, the word list can be expanded before the speech with a YNB market, whereas a WTA market cannot be fairly altered once the market begins trading. 
+
+A variant of the YNB market is one where, even though it is not necessary, the share outcomes are in fact complete and exclusive. For example, the Satoshi/HBO YNB market from Section~\ref{sec:hbo} was made exclusive and complete across bundles by including a bundle for the outcome: `other/multiple.' We term this variant as \textit{YNB negative risk (YNB-NR)}, a term introduced by Polymarket. Recall that in a WTA market, roughly speaking, the share prices sum to \$1 (modulo the fine print about bid/ask spreads above). For a YNB-NR market, the Yes shares are the same as a WTA share and sum to \$1, while the No shares will sum to $|\Omega|-1$. 
+
+Further, in a YNB market, holding a No share for Hal Finney has the same payoff as holding a Yes share for every other candidate. Polymarket introduced a \textit{negRisk} gadget that allows a trader to convert any No share into a portfolio of Yes shares for every other outcome. This enables traders to adjust their positions with less buying/selling on the markets, and also aligns prices between Yes and No markets with low friction arbitrage opportunities. Formally, a single No share has the equivalence (\ie same payoff ignoring fees and discounting):
+
+\[
+j_{\mathsf{k_N}} \equiv \sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} j_{\mathsf{\ell_Y}} \quad\text{for any }\mathsf{k}\in\Omega.
+\]
+
+And multiple No shares can be converted into Yes shares plus cash:
+
+\[
+\sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} j_{\mathsf{\ell_N}}
+\equiv
+j_{\mathsf{k_Y}} + \$1\cdot(|\Omega|-2)
+\]
+
+The third structure is a market where the outcome is a quantity of interest (\eg a vote share, temperature, or price level) observed at a cutoff time. Termed a \textit{linear} (often called \textit{scalar}) market, there is only one share and its payout is what value the quantity takes on (perhaps normalized to the range $[0,1]$ with rounding). As an example, in a market on Trump's popular vote, if the quantity is 49.8\%, the share will pay \$0.498. Shares can also be sold in bundles with `long' receiving \$0.498 and `short' receiving (\$1-\$0.498).
+
+Formally, if we let $X:\Omega\to\mathbb{R}$ be the observed quantity, and $[a,b]$ be an interval of values, then the linear share $j_{\mathrm{lin}}$ pays:
+
+\[
+R_{j_{\mathrm{lin}}}(\omega)=
+\begin{cases}
+0, & X(\omega)\le a,\\[3pt]
+\dfrac{X(\omega)-a}{\,b-a\,}, & a< X(\omega) < b,\\[6pt]
+1, & X(\omega)\ge b.
+\end{cases}
+\]
+
+While linear markets are supported by \depms like Augur, Gnosis, and Omen, they are not frequently used. Even though Polymarket uses the Gnosis Conditional Tokens Framework (CTF) which supports linear markets, it instead approximates one by splitting the quantity into `buckets' and running a YNB market for each bucket. This allows greater code-reuse and possibly avoid small edge cases over the exact resolution of the quantity (\eg off by 0.1 percentage disputes). However a problem with buckets is as follows: Alice estimates correctly that Trump will win the election with 49--51\% of the popular vote. If there is a bucket for 45--49.9\% and a bucket for 50--54.9\%, Alice's forecast does not fit into a single bucket---she must buy both which dilutes her expected return on capital.
+
+\subsection{Trading}\label{wf:trade}
 % JC
 
 Bookie: bookie sets odds, takes opposite side of initial bets, eventually balances books and guaranteed profit, first trader can trade
 Complete set: bookie has no risk, just generates complete sets of shares for \$1, first trader sets a bid, or buys complete set and sets asks, second trader actually exchanges
 Both are bounded in profit: second trader by first trader's position, first trader by bookie's position
-
-Buckets (betting on price intervals hurts leverage if your private information spans the chosen interval)
-
-
-\subsection{Pricing}\label{wf:price}
-
-Consider a market with three mutually exclusive options A, B, and C that represent the complete set of possible outcomes. Markets are typically structured so that the price of each share varies from \$0.00 (the payout if wrong) to \$1.00 (the payout if correct). The price of a share (\eg A=\$0.54) is a proxy for the probability  that the outcome will occur (\eg $\mathrm{Pr}[A]=54\%$). A common adage is the prices of each share add to \$1.00 (\eg A=\$0.54, B=\$0.23,C=\$23) but this is imprecise. Shares (like anything) have two prices: a bid price (what a trader is willing to buy for) and an ask price (willing to sell for). If the sum of the bid prices exceed \$1.00 or if the sum of ask prices is  below \$1.00, arbitrageurs have an opportunity to secure risk-free profit through a trade that will erase the condition when fully extracted. This means the sum of prices should result in the bid-ask spread straddling \$1.00 but the amount of the spread could be arbitrarily large. So in user interfaces that display a single `price' (\eg the last sale price or the midpoint between the best bid and the best ask), prices may indeed not sum to \$1.00---this is not a market failure, just a misunderstanding.  
-
-
-
- arbitrage opportunity exists. 
-
-
-% JC
-
-\subsection{Trading}\label{wf:trade}
-% JC
 
 In section~\ref{wf:trade}, we discuss options for trading prediction market shares. If the trading platform is on-chain, MEV protection. 
 
