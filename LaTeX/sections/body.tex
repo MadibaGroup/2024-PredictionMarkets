@@ -59,17 +59,11 @@ Consider the following taxonomy of wagering systems:
 
 \paragraph{Bookmakers versus prediction markets.}
 
-A wager is a two-party contract with payouts based on the outcome of a future event. Consider Alice and Bob who wager on the same outcome of an event. With a bookmaker (or online betting), Alice's contract is different from Bob's contract in at least two regards: (i) it specifically names Alice as the counterparty and (ii) the payouts could be different if the odds changed between Alice's wager and Bob's. By contrast, in a prediction market contract (called a share), Alice and Bob hold identical contracts: (i) all contracts are between the market operator and whoever redeems the contract, and (ii) the payout is exactly the same (typically \$0 if incorrect and \$1 if correct). Odds are reflected in the price paid for a prediction market contract (\ie variable cost and fixed payout), while a bookmaker contract does not have a cost (\ie fixed cost and variable payout).
-
-Thus the key distinction is that prediction market shares are \textit{fungible} and can be freely traded between participants, enabling a free market that communicates information to the public through share prices, trading volume, market depth, and other financial market metrics. 
+A wager is a two-party contract with payouts based on the outcome of a future event. Consider Alice and Bob who wager on the same outcome of an event. With a bookmaker (or online betting), Alice's contract is different from Bob's contract in at least two regards: (i) it specifically names Alice as the counterparty and (ii) the payouts could be different if the odds changed between Alice's wager and Bob's. By contrast, in a prediction market contract (called a share), Alice and Bob hold identical contracts: (i) all contracts are between the market operator and whoever redeems the contract, and (ii) the payout is exactly the same (typically \$0 if incorrect and \$1 if correct). Odds are reflected in the price paid for a prediction market contract (\ie variable cost and fixed payout), while a bookmaker contract has a fixed cost and variable payout. Thus the key distinction is that prediction market shares are \textit{fungible} and can be freely traded between participants, enabling a free market that communicates information to the public through share prices, trading volume, market depth, and other financial market metrics. 
 
 \paragraph{\cepm versus \depm.}
 
 The term \textit{decentralized prediction market} originates from the Ethereum whitepaper and we abbreviate it \depm to match terms like DeFi (decentralized finance) or DePIN (decentralized physical infrastructure networks). The term \textit{decentralized} in each of these is actually shorthand for both \textit{decentralized} and \textit{permissionless}, where permissionlessness is generally the more important way \depms distingusih themsleves from centralized prediction markets (\cepms). Permissionlessness could extend itself to setting up markets, creating market shares, trading shares, closing the market, and withdrawing rewards, but not all systems will open up each of these operations (as we will explain in our modular framework). We say a system is \depm if at least one is permissionless.
-
-
-
-
 
 \subsection{Definitions}
 
@@ -122,13 +116,12 @@ In game theory, cheap talk describes strategic misinformation or signalling aime
 
 Also of interest is how the prediction market did not seem to extract insider information which is in violation of what the theory would predict. The director did state he did not participate in the market and advised his team working on the film not to either. Friction for novice users is also perhaps high---web3 apps have a learning curve and if insiders were based in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market.
 
-
-
 \section{Modular Workflow}
 
 We now turn to the design landscape of \depms and step through our modular workflow, summarized in Figure~\ref{fig:flow}. Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to the decentralization and permissionlessness of prediction markets. 
 
-\subsection{Underlying Infrastructure}\label{subsec:blockchain_infra}\label{wf:chain}
+\subsection{Underlying Infrastructure}
+\label{subsec:blockchain_infra}\label{wf:chain}
 
 In theory, a decentralized and permissionless system might run on a system other than a blockchain, but blockchain technology underlays all known \depms. Selecting a blockchain constitutes the initial design decision within our modular workflow. In selecting a blockchain, a set of desirable features include expressive smart contracts, low transactions fees, fast finality, guaranteed inclusion, and censorship resistance. The earliest research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a separate chain (perhaps integrated with Bitcoin as a sidechain) would be required. Later Ethereum was deployed, providing general smart contracts, and most \depm activity moved to it. Much later, high fees on Ethereum caused the diversification of the VM-based blockchain space into numerous competing chains and layer 2 (L2) scalability solutions. As of today, the most active \depms run on chains built to execute smart contracts (\eg EVM or WASM). Most no longer run on Ethereum but on either an Ethereum competitor (\eg Polygon or Solana) or an Ethereum L2 (\eg Arbitrum or Optimism).
 
@@ -140,75 +133,37 @@ Generally, there are no strong qualitative differences between the named blockch
 
 \subsection{Market Topic}\label{wf:topic}
 
-\begin{table}[t]
+\cepms include the Iowa Electronic Markets, Kalshi, and PredictIt, as well as InTrade historically. These systems exercise control over what topics may form a market and thus are \textit{permissioned} with respect to market topics. They also operate under regulations that may restrict markets to certain topics or fully ban operations in regulated jurisdictions~\cite{Du19}. 
 
-\begin{tabular}{L{0.2\textwidth} L{0.8\textwidth}}
-\hline
-\textbf{Pitfall} & \textbf{Description} \\
-\hline
+By contrast, \depms like Augur, Gnosis, and PlotX enable \textit{permissionless} market creation by any user without centralized review. This removes the regulatory hook, enables niche topics that might not attract mainstream interest, and allows markets to be created without delay after real world events. However it can also lead to a greater incidence of malformed (or even malicious) market definitions, and unlawful topics, such as the `assassination markets' which appeared on Augur in 2018. \depms are generally web3 applications which means that a web-based user interface mediates transactions between the user and the underlying smart contracts. Market topic moderation could be implemented at the web3 layer (\eg Predictions.Global unlisted assignations markets from Augur's smart contracts) but this does not prevent users from building an alternative UI or directly transacting with the smart contracts. While \depms have the option to operate permissionlessly, they may also choose to permission market creation while leaving other aspects permissionless. At the time of writing, Polymarket is considered a \depm and while market topics can be suggested by users, final approval is made by a Market Integrity Committee~\cite{ClEsGS21}.
 
-% = = =
+A \textit{hybrid model} puts some controls on topic creation without centralizing it fully. For example, proposers may have to stake tokens to propose a market, and while the market is optimistically published, a review (either centralized or via an on-chain voting mechanism) could remove the market and/or slash the proposer.  
 
-\multirow{2}{\linewidth}{Borderline \\ Categories}
-  & \textit{Example}: A market on whether Zelensky would wear a suit was contested when he wore a single-breasted jacket with a high button stance and patch chest pockets. Media equivocated on the term suit.\\
-\cline{2-2}
-  & \textit{Mitigation}: Clearly state inclusion/exclusion criteria. (Later, a market on a potential hug between Trump and Putin spent two paragraphs defining a hug.) \\
-\hline\hline
+\input{tables/topics.tex}
 
-% = = =
+Careful attention must be paid to both the general topic of the market and the `fine-print' or exact predicate that decides the market. Table~\ref{tab:pitfalls} provides several examples of pitfalls. A pitfall in the predicate means the market topic is acceptable but there is an issue with its exact specification (\eg a market about wearing a suit needs to define a suit). A pitfall in the topic means the topic itself is problematic, even if it is worded impeccably (\eg a Polymarket market about whether Polymarket will shut down is problematic because winners will not be paid if it does). The first pitfall, borderline categories, is very prominent with many other disputes, including whether enforcement against TikTok in the US constitutes a ban,\footnote{\polyurl{TikTok banned in the US before May 2025?}{https://polymarket.com/event/tiktok-banned-in-the-us-before-may-2025}} or if finding debris from the Titan submersible constitutes it being found.\footnote{\polyurl{Will the missing submarine be found by June 23?}{https://polymarket.com/event/will-the-missing-submarine-be-found-by-june-23}} 
 
-\multirow{2}{\linewidth}{Operational Definition (latent outcomes)}
-  & Example: “Did a U.S. strike destroy an Iranian nuclear facility?” — incompatible official claims; no neutral access. \\
-\cline{2-2}
-  & Resolution: Use observable proxies with thresholds, a source hierarchy, and a default on deadline. \\
-\hline
-\end{tabular}
+These issues are not limited to \depms and apply to event wagering in general, however some issues are more pronounced in \depms. If market creation is permissionless, market creators may be amateurs and error-prone; may draft adversarial markets to trick traders; or duplicate existing markets, thinning out liquidity. \cepms have the latitude to organize, pause, or revise markets or ban users. \depms may give themselves this latitude at the risk of appearing less permissionless. Further it seems inevitable that some markets will fall into a pitfall and \depms have to carefully consider how dispute resolution will work while also appealing to blockchain enthusiasts.
 
-% = = =
+Dealing with definitional pitfalls has been, to date, a trial and error process where market creators learn from past mistakes and ad hoc `legalese' (e.g., a `consensus of credible reporting' may be used to resolve markets) is copied from market to market. Future research could develop machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes) and verify they are well-defined with model checking. 
 
-\caption{Pitfalls in defining a prediction market topic.\label{tab:topics}}
-\end{table}
-
-A market topic needs to be well-defined but there is no concise definition, instead there are known pitfalls from past markets. 
-
-Pitfall 
+If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting.
 
 
 
-Markets can't be fixed once running 
 
 
-Dealing with definitional pitfalls has been a trial and error process. Polymarket markets . A market on a possible hug between Trump and Putin spent two paragraphs defining what constitutes a hug. 
-
-A prediction market can be setup for any topic. 
-
-Some topics struggle. 
-%JC
-
-Who chooses?
-
-Well-defined
-
-Multiple outcomes
-
-Different outcomes
-
-Clearly defined outcomes: suit
-
-Correct premise: divorce
-
-Outcome is knowable: iran strike
-
-Paradoxical: questions about the numinair. 
-
-Buckets (betting on price intervals hurts leverage if your private information spans the chosen interval)
 
 \subsection{Market Mechanisms}\label{wf:mech}
+
 % JC
 
 Bookie: bookie sets odds, takes opposite side of initial bets, eventually balances books and guaranteed profit, first trader can trade
 Complete set: bookie has no risk, just generates complete sets of shares for \$1, first trader sets a bid, or buys complete set and sets asks, second trader actually exchanges
 Both are bounded in profit: second trader by first trader's position, first trader by bookie's position
+
+Buckets (betting on price intervals hurts leverage if your private information spans the chosen interval)
+
 
 \subsection{Pricing}\label{wf:price}
 
@@ -229,6 +184,8 @@ In section~\ref{wf:trade}, we discuss options for trading prediction market shar
 \subsection{Market Resolution}\label{wf:close}
 
 \subsection{Settlement}\label{wf:clear}
+
+timestamps and suppresion attacks
 
 \subsection{Archiving}\label{wf:archive}
 
