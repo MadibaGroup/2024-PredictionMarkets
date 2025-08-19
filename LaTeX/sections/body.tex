@@ -82,8 +82,9 @@ The term \textit{decentralized prediction market} originates from the Ethereum w
 
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % Fixed-width column
 
-\begin{table}[t]
+\begin{table}[t!]
 \centering
+\caption{Over a few days, truthful and untruthful (`cheap talk') evidence was presented to traders. The market reacted to correct signals and effectively filtered out fake signals, demonstrating a beneficial feature of prediction markets.\label{tab:hbo}}
 \begin{tabularx}{\textwidth}{|X|L{7cm}|L{1.7cm}|L{1.7cm}|}
 \hline
 \textbf{Date} & \textbf{Information} & \textbf{Market Impact} & \textbf{Hindsight Verdict} \\
@@ -113,7 +114,6 @@ The term \textit{decentralized prediction market} originates from the Ethereum w
 08 Oct & Documentary airs and names Todd & Very Significant & Conclusive \\
 \hline
 \end{tabularx}
-\caption{Over a few days, truthful and untruthful (`cheap talk') evidence was presented to traders. The market reacted to correct signals and effectively filtered out fake signals, demonstrating a beneficial feature of prediction markets.\label{tab:hbo}}
 \end{table}
 
 Before diving deep on the mechanics of decentralized prediction markets, we illustrate how markets work and provide value with a lighthearted example. On 3 Oct 2024, a trailer was released with press coverage of a new HBO documentary on Bitcoin to air about a week later on 8 Oct 2024. In an interview, the director stated, the film would question Satoshi's anonymous identity and, `who we land on is unexpected and is going to result in a fair amount of controversy.' The next day, Polymarket setup a market for speculating on who the documentary would name, providing 15 names plus an `other/multiple' option. A benefit of a decentralized prediction market is allowing niche topics for markets, unlikely to attract mainstream betting websites---in this case, attracting \$44M USD in trading volume. Having an `other' option is also critical after many markets have failed to fully articulate every eventuality and in this case, the winner, was not one of the original 15 names (see Section~\ref{wf:topic}).
@@ -235,13 +235,13 @@ While linear markets are supported by \depms like Augur, Gnosis, and Omen, they 
 
 A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-1155. By contrast, \cepm outcome shares are held in-house by the operator. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services (\eg on-chain trading, lending, leverage, \etc). From a software development perspective, it also means that \depms can be built with external libraries or using outside infrastructure.  Options for trading outcome shares can be broken into two steps: (i) how does the first outcome share come into existence and how does the first trader trade, and (ii) how do traders trade once a market has been established? 
 
-\subsubsection{The first trade.} Probably the greatest evolution in \depms, from Truthcoin through Augur and Gnosis to Polymarket, concerns how the first trade happens. There are three options: \textit{automated bookmaking}, \textit{splitting}, and \textit{matching}. \textit{Automated bookmaking} was popularized through the academic work of Robin Hanson and was first suggested for \depms by Truthcoin, which heavily influenced Augur and Gnosis. In this model, the operator sets initial prices for each outcome share (equivalent to setting market odds) and collateralizes enough payout money to cover a worst-case loss. If Alice is the first trader, she can immediately trade with the operator. The operator is autonomous and sets buy/sell prices algorithmically, originally using Hanson's logarithmic market scoring rule (LMSR). Acute readers might wonder if this is the same as an automated market maker (\eg Uniswap) and we will discuss the relationship later in this section. For now, the key point is that the operator is Alice's counterparty: if Alice wins, the operator loses, and vice-versa. The pros are instant liquidity for the first trader and the cons are risk of losing money and the burden of needing to set initial odds (getting them wrong increases the chances it loses).
+\subsubsection{The first trade.} Probably the greatest evolution in \depms, from Truthcoin through Augur and Gnosis to Polymarket, concerns how the first trade happens. There are three options: \textit{automated bookmaking}, \textit{splitting}, and \textit{matching}. \textit{Automated bookmaking} was popularized through the academic work of Robin Hanson and was first suggested for \depms by Truthcoin, which heavily influenced Augur and Gnosis. In this model, the operator sets initial prices for each outcome share (equivalent to setting market odds) and collateralizes enough payout money to cover a worst-case loss. If Alice is the first trader, she can immediately trade with the operator. The operator is autonomous and sets buy/sell prices algorithmically, originally using Hanson's logarithmic market scoring rule (LMSR). The key point is that the operator is Alice's counterparty; if Alice wins, the operator loses, and vice-versa. The pros are instant liquidity for the first trader and the cons are risk of losing money and the burden of needing to set initial odds (getting them wrong increases the chances it loses). Acute readers might wonder if this is the same as an automated market maker (\eg Uniswap) discussed below. Roughly speaking, a WTA market run by automated bookmaking is termed a cost-function prediction market (CFPM) and a CFPM is equivalent in pricing (and trade costs) to an AMM (defined by a set of axioms) with the right invariant.
 
-The second approach, \textit{splitting}, is used by IEM and was first suggested for \depms by the Princeton \depm. Augur switched to this approach, Gnosis implemented it in CTF, and Polymarket uses it. Recall that in a WTA market, exactly one share in a set of shares will payout \$1. This means that holding a complete portfolio of every share is equivalent (in payoff, ignoring fees and discounting) to holding \$1. Splitting allows the first trader Alice to purchase a complete portfolio of shares for \$1 (and generally merging is also permitted where \$1 can be redeemed for a complete set of shares at any time before the market closes). However splitting does not allow Alice to actually trade. Alice can list ask prices (through a limit order book or by being the first liquidity provider in an AMM) for some or all of the shares, and if Bob is willing to buy a share from Alice, the first trade occurs. The pros to splitting is that the operator has zero exposure to the market and is always fully solvent if it custodies the money received for each portfolio, while the con is that Alice must wait for a second trader, Bob, before she can trade. 
+The second approach, \textit{splitting}, is used by IEM and was first suggested for \depms by the Princeton \depm. Augur switched to this approach, Gnosis implemented it in CTF, and Polymarket uses it. Recall that in a WTA market, exactly one share in a set of shares will payout \$1. This means that holding a complete portfolio of every share is equivalent (in payoff, ignoring fees and discounting) to holding \$1. Splitting allows any trader to purchase a complete portfolio of shares for \$1 (and generally \textit{merging} is also permitted where a complete set can be redeemed for \$1 at any time before the market closes). Alice can obtain a set of shares and list asking prices (through a limit order book or by being the first liquidity provider in an AMM) for some or all of the shares, and if Bob is willing to buy a share from Alice, the first trade occurs. The pros to splitting is that the operator has zero exposure to the market, and the operator is always fully solvent, while the con is that Alice must wait for a second trader, Bob, before she can trade. 
 
-In YNB markets, each outcome is a separate WTA market so splitting is also separated by outcome---\ie \$1 receives a yes/no share for single selected outcome only. For every outcome, the supply of yes shares will match the supply of no shares. However the total supply of yes/no bundles for the first outcome will not necessarily match the supply of the second outcome.
+In YNB markets, each outcome’s YES/NO pair is its own two-outcome WTA market. Splitting is per outcome: converting \$1 of collateral mints one \(j_{\mathsf{k_Y}}\) and one \(j_{\mathsf{k_N}}\) for the chosen \(\mathsf{k}\). Hence, within any bundle \(\mathrm{totSupply}(j_{\mathsf{k_Y}})=\mathrm{totSupply}(j_{\mathsf{k_N}})\). Across outcomes, however, supplies are uncoupled—the total minted for the \(\mathsf{A}\) bundle need not match that for \(\mathsf{B}\) or \(\mathsf{C}\).
 
-The third approach, \textit{matching}, was used by InTrade and to our knowledge is not used in any \depms. Briefly, it mirrors a futures market, where Alice posts an short/long position and price on an orderbook with a margin account holding enough cash to cover her maximum loss if she obtains the position. If Bob is willing to take the other side, also with sufficient margin for his maximum loss, the operator matches them, creates two shares and gives them to Alice and Bob. Alice and Bob are not counterparties, both settle with the operator, however their coincidence of wants (COW) is necessary for the operator to create shares at no risk to itself. The pros/cons mirror those of splitting but matching is operationally more complex: the operator needs to run an orderbook and is involved in the trading process. 
+The third approach, \textit{matching}, was used by InTrade and to our knowledge is not used in any \depms. Briefly, it mirrors a futures market, where Alice posts a desired short/long position at a chosen price on an orderbook with a margin account holding enough cash to cover her maximum loss if she obtains the position. If Bob is willing to take the other side, also with sufficient margin for his maximum loss, the operator matches them, creates two shares and gives them to Alice and Bob. Alice and Bob are not counterparties, both settle with the operator once the shares are created, however their coincidence of wants (COW) is necessary for the operator to create shares at no risk to itself. The pros/cons mirror those of splitting but matching is operationally more complex: the operator needs to run an orderbook and is involved in the trading process. 
 
 \subsubsection{Trading in established markets.}
 
@@ -259,20 +259,81 @@ A final trading-relevant subject for prediction markets is arbitrage. Arbitrageu
 
 \subsection{Market Resolution}\label{wf:close}
 
+\textblue{To be finalized}
+
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Settlement}\label{wf:clear}
 
-timestamps and suppresion attacks, reentrancy 
+The slogan `sweat the game, not the payout' is used to differentiate regulated sportsbook operators from `neighbourhood bookies,' however even legitimate operators in the US have allegedly denied payouts using a legal loophole.\footnote{A law protects sports books from obvious errors, like a `fat finger' when setting odds, but can be misused to claim long-shot bets were `obvious mistakes' after the fact.} The advantage of a \depm in this context is two-fold: (i) payouts are fully (or largely) autonomous, not subject to human discretion, and (ii) the share structure ensures the operator has zero risk (or predetermined bounded risk, in the case of automated bookmaking) and is therefore financially indifferent to making any fair payout.
+
+%	5.	Collateral \& solvency.
+%Prove on-chain that total liabilities ≤ locked collateral; prefer stable collateral for event risk.
+%• Polymarket/Omen: USDC-style stablecoins; CTF algebra guarantees solvency on split/merge.
+%• Augur: historically ETH/DAI; solvency via complete-set mint/burn.
+
+Once the market is resolved, a \depm will enable each winning share to be converted into 1 unit of the numeraire (\eg 1 USD in a stablecoin) and transferred into the user's self-custody. While a \depm in theory could \textit{push} payouts to users, it is common to wait for the user to initiate the redemption. Augur, CTF, and Omen implement such a \textit{pull} mechanism. In this case, users pay the gas cost of the redemption which requires users to hold the native currency of the underlying blockchain. Polymarket offers gasless withdrawals (using OpenGSN relayers), however users can bypass this at their choice. In a pull model, some users may not redeem their shares in a timely manner---a \depm may opt to sweep this surplus into its own capital or burn it, but \depms generally hold it on-chain in perpetuity. As with any smart contract allowing withdraws based account balances, hardening against reentrancy attacks is critical.
+
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Archiving}\label{wf:archive}
 
+%	6.	Auditability \& logs.
+%Persist the payout vector, resolution block/time, and redeemed vs redeemable totals on-chain; append-only edit logs for clarifications.
+%• Polymarket: UMA ancillaryData + adapter write; Gamma indexes extra metadata off-chain.
+%• Omen: Realitio question/answer history on-chain + subgraph.
+%• Augur: on-chain dispute history.
 
+Archival, transparency, and metadata persistence within DPMs ensure verifiable and accessible records, directly impacting market integrity and governance processes.
+
+Critical metadata, such as market states, transaction histories, and resolution outcomes, inherently benefit from blockchain immutability and cryptographic verification~\cite{Du19},~\cite{ClEsGS21}. Augur v2 stores metadata, including user profit/loss computations, directly on-chain, providing immediate access without external archives. This design increases transparency but also results in higher transaction costs and larger blockchain state size~\cite{Fo20}.
+
+Off-chain metadata - including market descriptions, resolution criteria, and user-generated content - are typically stored in decentralized storage solutions due to blockchain capacity constraints~\cite{BCCJM21}. IPFS (InterPlanetary File System) employs peer-to-peer, content-addressable storage using cryptographic hashes, verifying content authenticity through immutable identifiers. IPFS’s availability depends on node operators maintaining persistent storage through pinning, without central points of failure~\cite{IM24}. Arweave offers an economic incentive structure combined with a "blockweave" architecture for permanent data storage, providing perpetual availability and resistance to censorship~\cite{BCKW23}.
+
+Recent updates to Ethereum, such as proto-danksharding, provide ephemeral "blob" storage. These storage blobs temporarily allow for large metadata availability and cryptographic verification. However, their short-term nature necessitates subsequent migration to persistent storage solutions~\cite{Fo20}.
+
+The archival model chosen by a DPM influences governance outcomes and resilience against manipulation. Persistent archival supports retrospective audits critical for resolving disputes and maintaining accountability of oracle activities~\cite{ClEsGS21}. Decentralized archival mechanisms prevent centralized control from suppressing or altering market data, enabling community-driven governance or protocol forks when required~\cite{BCKW23}.
+
+Table \ref{tab:archival-methods} compares archival methods such as blockchain storage, IPFS, Arweave, Ethereum blob storage, and hybrid models. It details each method's durability, authenticity, and accessibility, highlighting their distinct operational trade-offs and cost implications for decentralized prediction markets.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparative Evaluation of Archival Methods for Decentralized Prediction Markets}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{
+        |p{2.3cm}|
+        p{3cm}|
+        >{\centering\arraybackslash}p{2.0cm}|
+        >{\centering\arraybackslash}p{2.5cm}|
+        >{\centering\arraybackslash}p{2.8cm}|
+        >{\centering\arraybackslash}p{2.6cm}|
+    }
+        \hline \textbf{Archival Method} & \textbf{Description} & \textbf{Durability \& Persistence} & \textbf{Authenticity \& Integrity} & \textbf{Accessibility \& Discovery} & \textbf{Example Platforms} \\
+        \hline Blockchain On-chain Storage & Directly store metadata and outcomes on-chain (e.g., Ethereum). & Extremely high (immutable, perpetual) & High authenticity (cryptographic guarantees) & Excellent (immediate, global nodes) & Augur (partial), Gnosis \\
+        \hline IPFS (InterPlanetary File System) & Decentralized, peer-to-peer, content-addressable storage. & Medium (requires community pinning) & High (content hashes provide tamper-evidence) & Good (distributed nodes, variable retrieval speeds) & Augur, Polymarket \\
+        \hline Arweave Permanent Storage & Blockchain-based storage with economic incentives for permanent retention. & Very high (economically incentivized permanence) & Very high (blockchain-backed immutability) & High (permanent, redundant node distribution) & Mirror.xyz, RedStone Oracles (experimental) \\
+        \hline Ethereum Blob Storage & Temporary large-data storage via Ethereum blobs (proto-danksharding). & Low (temporary, ephemeral data availability) & High (cryptographic authenticity guaranteed short-term) & Moderate (short-term retrieval from Ethereum nodes) & Ethereum L2s (Optimism, Arbitrum) \\
+        \hline Centralized Cloud Storage & Traditional cloud services (AWS, Google Cloud). & Variable (single point of failure risk) & Low–moderate (trust reliant on centralized operator) & High (fast retrieval, easy indexing) & Early centralized prediction platforms \\
+        \hline Hybrid Storage Model & Combination: blockchain on-chain pointers plus decentralized or permanent storage. & High (leverages strengths of multiple methods) & High (on-chain hashes guarantee authenticity) & Very high (multiple redundancy points, robust discovery) & Polymarket, UMA \\
+        \hline
+    \end{tabular}
+    \label{tab:archival-methods}
+\end{table}
 
 
 \section{Discussion}
+
+The design of DPMs involves inherent economic trade-offs affecting platform adoption, integrity, and resilience. This analysis examines these trade-offs across four dimensions: decentralization versus speed, liquidity versus capital efficiency, incentive robustness versus usability, and expressiveness versus composability, with agility noted as an additional consideration.
+
+A fundamental trade-off occurs between decentralization and execution speed. Fully decentralized DPMs, such as early Augur versions, achieve censorship resistance but experience latency and high transaction costs due to reliance on Ethereum’s mainnet~\cite{BCFKMN14}~\cite{AKPWZ15}. Hybrid models, including Polymarket, employ off-chain order matching and on-chain settlements or dedicated sidechains to increase throughput and improve usability, albeit with the addition of trust assumptions and centralization risks~\cite{ClEsGS21}. Layer-2 technologies like state channels and rollups offer alternative methods to balance decentralization and performance~\cite{BBMMM19}.
+
+Liquidity provision versus capital efficiency presents another critical trade-off. Automated market makers (AMMs), such as Hansonian market scoring rules or constant product market makers (CPMM), deliver continuous liquidity by committing substantial collateral, reducing capital efficiency~\cite{Ha03}~\cite{AC20}. Conversely, order-book-based models maximize capital efficiency by avoiding idle capital but can encounter liquidity issues and impaired price discovery, as noted in Augur v1 markets~\cite{AA20}. Platforms like Gnosis address some of these challenges through conditional markets that dynamically allocate capital among outcomes~\cite{Gn17}.
+
+Incentive robustness and usability reflect another key trade-off. Augur’s multi-stage dispute mechanisms and token staking enhance manipulation resistance but complicate user experience and slow resolution processes~\cite{AKPWZ15}~\cite{ClEsGS21}. In contrast, simplified oracle solutions, such as UMA's optimistic oracle, offer streamlined resolution processes but carry greater risks of manipulation. Hierarchical or two-tiered dispute frameworks (e.g., Pisa watchtowers) seek to address these issues by maintaining manipulation resistance while minimizing complexity~\cite{BBMMM19}.
+
+Expressiveness versus composability represents an additional design dimension. Highly expressive combinatorial market structures, such as those enabled by Gnosis’s Conditional Tokens, allow detailed market configurations but reduce interoperability and composability with other decentralized finance (DeFi) systems due to technical complexity~\cite{Gn17}. Simpler binary or categorical markets increase interoperability and composability but sacrifice detailed market structuring capabilities.
+
 
 \section{Conclusion} 
 

@@ -178,3 +178,62 @@ flowchart LR
   YA1 --> YA
 ```
 
+```mermaid
+stateDiagram-v2
+  State "{}" as 000
+  State "{C}" as 001
+  State "{B}" as 010
+  State "{B,C}" as 011
+  State "{A}" as 100
+  State "{A,C}" as 101
+  State "{A,B}" as 110
+  State "{A,B,C}" as 111
+  State "$1" as Unit
+  
+  Unit --> 111: Split
+  
+  111 --> Unit: Merge
+  
+  111 --> 011: sell
+  111 --> 101: sell
+  111 --> 110: sell
+  
+  101 --> 100: sell
+  101 --> 001: sell
+  101 --> 111: buy
+  
+  110 --> 010: sell
+  110 --> 100: sell
+  110 --> 111: buy
+  
+  011 --> 010: sell
+  011 --> 001: sell
+  011 --> 111: buy
+
+  001 --> 000: sell
+  001 --> 011: buy
+  001 --> 101: buy
+  
+  010 --> 000: sell
+  010 --> 011: buy
+  010 --> 110: buy
+  
+  100 --> 000: sell
+  100 --> 110: buy
+  100 --> 101: buy
+  
+  000 --> 001: buy
+  000 --> 010: buy
+  000 --> 100: buy
+  
+
+  
+
+  
+
+
+  
+ 
+  
+```
+
