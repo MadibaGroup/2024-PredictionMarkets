@@ -279,50 +279,15 @@ Once the market is resolved, a \depm will enable each winning share to be conver
 
 \subsection{Archiving}\label{wf:archive}
 
-%	6.	Auditability \& logs.
-%Persist the payout vector, resolution block/time, and redeemed vs redeemable totals on-chain; append-only edit logs for clarifications.
-%• Polymarket: UMA ancillaryData + adapter write; Gamma indexes extra metadata off-chain.
-%• Omen: Realitio question/answer history on-chain + subgraph.
-%• Augur: on-chain dispute history.
+Publicly accessible \depm data provides society with a useful forecasting tool, and archival datasets enable calibration, insight into historical events, and replication of findings. On-chain records (state, logs, and calldata) inherit strong archival and verification properties so long as the chain persists. These records can be replayed and exposed via deterministic chain indexers (\eg The Graph, SubQuery) or managed subgraph hosting (\eg Goldsky). Human-readable materials can be stored in content-addressed, peer-to-peer systems (\eg IPFS) and mirrored to permanence layers with economic durability (\eg Arweave, Filecoin), with their content identifiers anchored on-chain. Privately held operational data can be released as signed public snapshots or made queryable via open APIs.
 
-Archival, transparency, and metadata persistence within DPMs ensure verifiable and accessible records, directly impacting market integrity and governance processes.
+Two kinds of artifacts matter most. First, the market semantics: the market topic, resolution rules, and any clarifications. Platforms such as Augur and Polymarket record stable on-chain identifiers (e.g., market/condition and token IDs) and keep the human-readable documents in content-addressed storage, with their content hashes/CIDs referenced on-chain. Second is the market data, including trading data (time, volume, price), outcome share supply and redemption totals, and timestamps for the status of the market (\eg opened, resolved, finalized). In practice, settlements and token movements are emitted on-chain, then replayed by deterministic chain indexers into queryable tables for research and UX. The same applies to the resolution process, its dispute trail and finalized outcome. If trading is off-chain (fully or partially), \depms will need to expose application indexes/APIs for fast access and publish signed public snapshots for reproducibility. This missing data includes detailed trading, order-book depth, and liquidity metrics.
 
-Critical metadata, such as market states, transaction histories, and resolution outcomes, inherently benefit from blockchain immutability and cryptographic verification~\cite{Du19},~\cite{ClEsGS21}. Augur v2 stores metadata, including user profit/loss computations, directly on-chain, providing immediate access without external archives. This design increases transparency but also results in higher transaction costs and larger blockchain state size~\cite{Fo20}.
-
-Off-chain metadata - including market descriptions, resolution criteria, and user-generated content - are typically stored in decentralized storage solutions due to blockchain capacity constraints~\cite{BCCJM21}. IPFS (InterPlanetary File System) employs peer-to-peer, content-addressable storage using cryptographic hashes, verifying content authenticity through immutable identifiers. IPFS’s availability depends on node operators maintaining persistent storage through pinning, without central points of failure~\cite{IM24}. Arweave offers an economic incentive structure combined with a "blockweave" architecture for permanent data storage, providing perpetual availability and resistance to censorship~\cite{BCKW23}.
-
-Recent updates to Ethereum, such as proto-danksharding, provide ephemeral "blob" storage. These storage blobs temporarily allow for large metadata availability and cryptographic verification. However, their short-term nature necessitates subsequent migration to persistent storage solutions~\cite{Fo20}.
-
-The archival model chosen by a DPM influences governance outcomes and resilience against manipulation. Persistent archival supports retrospective audits critical for resolving disputes and maintaining accountability of oracle activities~\cite{ClEsGS21}. Decentralized archival mechanisms prevent centralized control from suppressing or altering market data, enabling community-driven governance or protocol forks when required~\cite{BCKW23}.
-
-Table \ref{tab:archival-methods} compares archival methods such as blockchain storage, IPFS, Arweave, Ethereum blob storage, and hybrid models. It details each method's durability, authenticity, and accessibility, highlighting their distinct operational trade-offs and cost implications for decentralized prediction markets.
-
-\begin{table}[htbp]
-    \centering
-    \caption{Comparative Evaluation of Archival Methods for Decentralized Prediction Markets}
-    \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{
-        |p{2.3cm}|
-        p{3cm}|
-        >{\centering\arraybackslash}p{2.0cm}|
-        >{\centering\arraybackslash}p{2.5cm}|
-        >{\centering\arraybackslash}p{2.8cm}|
-        >{\centering\arraybackslash}p{2.6cm}|
-    }
-        \hline \textbf{Archival Method} & \textbf{Description} & \textbf{Durability \& Persistence} & \textbf{Authenticity \& Integrity} & \textbf{Accessibility \& Discovery} & \textbf{Example Platforms} \\
-        \hline Blockchain On-chain Storage & Directly store metadata and outcomes on-chain (e.g., Ethereum). & Extremely high (immutable, perpetual) & High authenticity (cryptographic guarantees) & Excellent (immediate, global nodes) & Augur (partial), Gnosis \\
-        \hline IPFS (InterPlanetary File System) & Decentralized, peer-to-peer, content-addressable storage. & Medium (requires community pinning) & High (content hashes provide tamper-evidence) & Good (distributed nodes, variable retrieval speeds) & Augur, Polymarket \\
-        \hline Arweave Permanent Storage & Blockchain-based storage with economic incentives for permanent retention. & Very high (economically incentivized permanence) & Very high (blockchain-backed immutability) & High (permanent, redundant node distribution) & Mirror.xyz, RedStone Oracles (experimental) \\
-        \hline Ethereum Blob Storage & Temporary large-data storage via Ethereum blobs (proto-danksharding). & Low (temporary, ephemeral data availability) & High (cryptographic authenticity guaranteed short-term) & Moderate (short-term retrieval from Ethereum nodes) & Ethereum L2s (Optimism, Arbitrum) \\
-        \hline Centralized Cloud Storage & Traditional cloud services (AWS, Google Cloud). & Variable (single point of failure risk) & Low–moderate (trust reliant on centralized operator) & High (fast retrieval, easy indexing) & Early centralized prediction platforms \\
-        \hline Hybrid Storage Model & Combination: blockchain on-chain pointers plus decentralized or permanent storage. & High (leverages strengths of multiple methods) & High (on-chain hashes guarantee authenticity) & Very high (multiple redundancy points, robust discovery) & Polymarket, UMA \\
-        \hline
-    \end{tabular}
-    \label{tab:archival-methods}
-\end{table}
-
+For example, Polymarket settles markets on the canonical ledger using the UMA Optimistic Oracle (the dispute game) and writes the final payout vector into the Gnosis Conditional Tokens Framework (CTF) (the settlement contract); outcome shares are ERC-1155 tokens (a multi-token standard), so transfers, mints, and redemptions are visible in logs. Trades are matched off-chain on a central limit order book (CLOB) but settle on-chain, while detailed order-book depth, quotes, and liquidity metrics are exposed via Polymarket’s public application API (“Gamma,” the curated index). For reproducible research, the same on-chain events are also mirrored by deterministic chain indexers (subgraphs run by services such as Goldsky/The Graph), and API time series can be cross-checked against transaction hashes on the ledger.
 
 \section{Discussion}
+
+
 
 The design of DPMs involves inherent economic trade-offs affecting platform adoption, integrity, and resilience. This analysis examines these trade-offs across four dimensions: decentralization versus speed, liquidity versus capital efficiency, incentive robustness versus usability, and expressiveness versus composability, with agility noted as an additional consideration.
 

@@ -1,0 +1,963 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     42410,        953]
+NotebookOptionsPosition[     41732,        934]
+NotebookOutlinePosition[     42126,        950]
+CellTagsIndexPosition[     42083,        947]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"-", "Full"}]}]}], " ", "state", " ", "graph", " ", "on", " ", 
+     "6", " ", "bits", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"AY", ",", "AN", ",", "BY", ",", "BN", ",", "CY", ",", "CN"}],
+         ")"}], "--"}], "--"}]}], "-"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"states", "=", 
+     RowBox[{"Tuples", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}], ",", "6"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"hamming1Q", "[", 
+      RowBox[{"{", 
+       RowBox[{"u_", ",", "v_"}], "}"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"Total", "@", 
+       RowBox[{"Abs", "[", 
+        RowBox[{"u", "-", "v"}], "]"}]}], "==", "1"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"edges", "=", 
+     RowBox[{"UndirectedEdge", "@@@", 
+      RowBox[{"Select", "[", 
+       RowBox[{
+        RowBox[{"Subsets", "[", 
+         RowBox[{"states", ",", 
+          RowBox[{"{", "2", "}"}]}], "]"}], ",", "hamming1Q"}], "]"}]}]}], 
+    ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"G", "=", 
+     RowBox[{"Graph", "[", 
+      RowBox[{"states", ",", "edges", ",", 
+       RowBox[{"VertexSize", "->", "Tiny"}], ",", 
+       RowBox[{"ImageSize", "->", "Large"}], ",", 
+       RowBox[{"GraphLayout", "->", "\"\<SpringElectricalEmbedding\>\""}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"-", "negRisk"}]}]}], " ", 
+      RowBox[{"map", ":", "NO"}]}], "->", 
+     RowBox[{
+      RowBox[{"complementary", " ", "YES", " ", 
+       RowBox[{
+        RowBox[{"basket", "--"}], "--"}]}], "-"}]}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"AN", "->", 
+      RowBox[{"BY", "+", "CY"}]}], ";", 
+     RowBox[{"BN", "->", 
+      RowBox[{"AY", "+", "CY"}]}], ";", 
+     RowBox[{"CN", "->", 
+      RowBox[{"AY", "+", "BY"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"negRisk", "[", 
+      RowBox[{"{", 
+       RowBox[{
+       "ay_", ",", "an_", ",", "by_", ",", "bn_", ",", "cy_", ",", "cn_"}], 
+       "}"}], "]"}], ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"ay", "+", "bn", "+", "cn"}], ",", 
+       RowBox[{"(*", 
+        RowBox[{"pays", " ", "on", " ", "A"}], "*)"}], 
+       RowBox[{"by", "+", "an", "+", "cn"}], ",", 
+       RowBox[{"(*", 
+        RowBox[{"pays", " ", "on", " ", "B"}], "*)"}], 
+       RowBox[{"cy", "+", "an", "+", "bn"}]}], "   ", 
+      RowBox[{"(*", 
+       RowBox[{"pays", " ", "on", " ", "C"}], "*)"}], "}"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"labels", "=", 
+     RowBox[{"AssociationThread", "[", 
+      RowBox[{"states", ",", 
+       RowBox[{"negRisk", "/@", "states"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"-", "Build"}]}]}], " ", "reduced", " ", "vertices", " ", 
+      "and", " ", "edges", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", "quotient", ")"}], "--"}], "--"}]}], "-"}], "*)"}], "\n",
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vred", "=", 
+     RowBox[{"Union", "[", 
+      RowBox[{"Values", "[", "labels", "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Correct", " ", "handling", " ", "of", " ", "edge", " ", 
+     RowBox[{"endpoints", ":", 
+      RowBox[{
+       RowBox[{"use", " ", 
+        RowBox[{"(", 
+         RowBox[{"List", "@@", "e"}], ")"}], " ", "in", " ", "parentheses", " ",
+         "and", " ", "drop", " ", "self"}], "-", 
+       RowBox[{
+       "loops", " ", "when", " ", "both", " ", "endpoints", " ", "map", " ", 
+        "to", " ", "the", " ", "same", " ", 
+        RowBox[{"class", "."}]}]}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Ered", "=", 
+     RowBox[{"Union", "@", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"edges", ",", 
+        RowBox[{"e_", ":>", 
+         RowBox[{"Module", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"u", ",", "v", ",", "a", ",", "b"}], "}"}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"u", ",", "v"}], "}"}], "=", 
+             RowBox[{"(", 
+              RowBox[{"List", "@@", "e"}], ")"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"a", "=", 
+             RowBox[{"labels", "[", "u", "]"}]}], ";", 
+            RowBox[{"b", "=", 
+             RowBox[{"labels", "[", "v", "]"}]}], ";", "\[IndentingNewLine]", 
+            
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "===", "b"}], ",", "Nothing", ",", 
+              RowBox[{"UndirectedEdge", "@@", 
+               RowBox[{"Sort", "[", 
+                RowBox[{"{", 
+                 RowBox[{"a", ",", "b"}], "}"}], "]"}]}]}], "]"}]}]}], 
+          "]"}]}]}], "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Greduced", "=", 
+     RowBox[{"Graph", "[", 
+      RowBox[{"Vred", ",", "Ered", ",", 
+       RowBox[{"VertexLabels", "->", 
+        RowBox[{"(", 
+         RowBox[{"v_", ":>", 
+          RowBox[{"Row", "[", 
+           RowBox[{"v", ",", "\"\<,\>\""}], "]"}]}], ")"}]}], ",", 
+       RowBox[{"VertexSize", "->", "Small"}], ",", 
+       RowBox[{"ImageSize", "->", "Large"}], ",", 
+       RowBox[{"GraphLayout", "->", "\"\<SpringElectricalEmbedding\>\""}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"-", "Metrics"}]}]}], " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"robust", " ", "to", " ", "older", " ", "versions"}], ")"}], 
+        "--"}], "--"}]}], "-"}], "*)"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"avgShortestPath", "[", "g_Graph", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"d", "=", 
+          RowBox[{"Normal", "@", 
+           RowBox[{"GraphDistanceMatrix", "[", "g", "]"}]}]}], ",", "n", ",", 
+         "vals"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"n", "=", 
+         RowBox[{"Length", "[", "d", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"vals", "=", 
+         RowBox[{"Flatten", "@", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"d", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j"}], "]"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", 
+              RowBox[{"n", "-", "1"}]}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"j", ",", 
+              RowBox[{"i", "+", "1"}], ",", "n"}], "}"}]}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Mean", "[", "vals", "]"}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"triangleCount", "[", "g_Graph", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"A", "=", 
+         RowBox[{"Normal", "@", 
+          RowBox[{"AdjacencyMatrix", "[", "g", "]"}]}]}], "}"}], ",", 
+       RowBox[{"Round", "[", 
+        RowBox[{
+         RowBox[{"Tr", "[", 
+          RowBox[{"MatrixPower", "[", 
+           RowBox[{"A", ",", "3"}], "]"}], "]"}], "/", "6"}], "]"}]}], 
+      "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"metrics", "[", "g_Graph", "]"}], ":=", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<Vertices\>\"", "->", 
+        RowBox[{"VertexCount", "[", "g", "]"}]}], ",", 
+       RowBox[{"\"\<Edges\>\"", "->", 
+        RowBox[{"EdgeCount", "[", "g", "]"}]}], ",", 
+       RowBox[{"\"\<Diameter\>\"", "->", 
+        RowBox[{"GraphDiameter", "[", "g", "]"}]}], ",", 
+       RowBox[{"\"\<AverageShortestPath\>\"", "->", 
+        RowBox[{"avgShortestPath", "[", "g", "]"}]}], ",", 
+       RowBox[{"\"\<AverageDegree\>\"", "->", 
+        RowBox[{"Mean", "@", 
+         RowBox[{"VertexDegree", "[", "g", "]"}]}]}], ",", 
+       RowBox[{"\"\<BipartiteQ\>\"", "->", 
+        RowBox[{"BipartiteGraphQ", "[", "g", "]"}]}], ",", 
+       RowBox[{"\"\<TriangleCount\>\"", "->", 
+        RowBox[{"triangleCount", "[", "g", "]"}]}]}], "|>"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"mFull", "=", 
+     RowBox[{"metrics", "[", "G", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"mRed", "=", 
+     RowBox[{"metrics", "[", "Greduced", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"metricOrder", "=", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Vertices\>\"", ",", "\"\<Edges\>\"", 
+       ",", "\"\<Diameter\>\"", ",", "\"\<AverageShortestPath\>\"", 
+       ",", "\"\<AverageDegree\>\"", ",", "\"\<BipartiteQ\>\"", 
+       ",", "\"\<TriangleCount\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{"Grid", "[", 
+    RowBox[{
+     RowBox[{"Prepend", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"With", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"k", "=", "#"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"k", ",", 
+              RowBox[{"mFull", "[", "k", "]"}], ",", 
+              RowBox[{"mRed", "[", "k", "]"}]}], "}"}]}], "]"}], "&"}], "/@", 
+         "metricOrder"}], ")"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Metric\>\"", ",", "\"\<Original (Q6)\>\"", 
+         ",", "\"\<Reduced (negRisk)\>\""}], "}"}]}], "]"}], ",", 
+     RowBox[{"Frame", "->", "All"}]}], "]"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"Row", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<Original (Q6)\>\"", ",", "Bold", ",", "14"}], "]"}], ",", 
+      
+      RowBox[{"Spacer", "[", "20", "]"}], ",", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<Reduced (negRisk)\>\"", ",", "Bold", ",", "14"}], "]"}]}],
+      "}"}], "]"}], "\n", 
+   RowBox[{"Row", "[", 
+    RowBox[{"{", 
+     RowBox[{"G", ",", "Greduced"}], "}"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.964613392671996*^9, 3.964613395624467*^9}},
+ CellLabel->"In[69]:=",ExpressionUUID->"7d071093-a1b5-4154-b90c-6e4fdd94f182"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"Metric\"\>", "\<\"Original (Q6)\"\>", "\<\"Reduced (negRisk)\"\>"},
+    {"\<\"Vertices\"\>", "64", "40"},
+    {"\<\"Edges\"\>", "192", "150"},
+    {"\<\"Diameter\"\>", "6", "5"},
+    {"\<\"AverageShortestPath\"\>", 
+     FractionBox["64", "21"], 
+     FractionBox["901", "390"]},
+    {"\<\"AverageDegree\"\>", "6", 
+     FractionBox["15", "2"]},
+    {"\<\"BipartiteQ\"\>", "True", "False"},
+    {"\<\"TriangleCount\"\>", "0", "120"}
+   },
+   AutoDelete->False,
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.96461307780861*^9, 3.96461339884571*^9},
+ CellLabel->"Out[84]=",ExpressionUUID->"8df1059f-83dd-4549-8048-7c5fea0a7399"],
+
+Cell[BoxData[
+ TemplateBox[{
+   StyleBox["\"Original (Q6)\"", Bold, 14, StripOnInput -> False], 
+   TemplateBox[{20}, "Spacer1"], 
+   StyleBox["\"Reduced (negRisk)\"", Bold, 14, StripOnInput -> False]},
+  "RowDefault"]], "Output",
+ CellChangeTimes->{3.96461307780861*^9, 3.964613398846484*^9},
+ CellLabel->"Out[85]=",ExpressionUUID->"56fb19a3-f978-4945-97f6-6ed6b3b0735b"],
+
+Cell[BoxData[
+ TemplateBox[{
+   GraphicsBox[
+    NamespaceBox["NetworkGraphics", 
+     DynamicModuleBox[{Typeset`graph = HoldComplete[
+         Graph[CompressedData["
+1:eJxVjsEVgCAMQ/s9uIebOIMjsID739SGlsgDCmma5Bj3NbaION+zx2/RV8B6
+ZkXNrxSsLWLik5K4BNBvatFDYhVGCeRYywidZJakeDIRWNGxuFhELBYWBbPH
+LDEbTBqTwySwMYyKtTEIKw959gKv
+          "], {Null, CompressedData["
+1:eJwVxdW10wAAANDG3d0b97RxlxkY4S3AiowGfNxz/Z/fv37A1+v155//AyAA
+AQhAAALggzCIgiQoggEEQxhEQRIUwjhMwzIcISiCIQyiIDGKoyyqogmGYxym
+YSnO4zqeESRBEQxhEDlJkyxpkgVFUxxlUSXN0zZdMSzDMQ5Tszzrsg3Hcx73
+4d/8VxAFSVAEQ2hFWVRFU+wkWdIkS+plXbblQVEVTXGUUdVVV500XfO0WX/r
+i2EaluEYq2mbrrlZtuVZu/22D8d1POd03+7lvb37/fiBH/qxn/ttEAVJUARd
+GIVpWIZ9lEVVNMRJnMZ1PCZZ0iRTmqWfdM6+2ZIXeZnX+VpURVNsZVV+yr36
+Vkfd1J/6bL7N9fl+7u/Tdm3fju3aDd3Ubf3Qz/0+LMMxTuM8ntMyXfMy38uz
+buu+ntuxXfux38dzXud9PffzF+t8Mys=
+           "]}, {
+          GraphLayout -> "SpringElectricalEmbedding", ImageSize -> Large, 
+           VertexSize -> {Tiny}}]]}, 
+      TagBox[
+       GraphicsGroupBox[
+        GraphicsComplexBox[CompressedData["
+1:eJw1kn841Accx+/7PYfrLNn8ep60eOouM0TRltHnIz8Sui2KeOKeNEu6HuyK
+pj2YdRHteWRPyEymS+aJYXFDO6SWndHJEWIj5ZwfZ+4H7nK3ac+z9/O8n/df
+r/c/77dDXFJYPEmhUHDdb7Jild471GeAWr4hmP/BP1AT7WlzbW0W1LlHHm/J
+N4BDkqF3JWABypPkkOFOvsH+k+aMZbfbHQJ5nN+9pweNcbamlFnVQuJ8oWSN
+66yHevNidtpzEuNr7ZnUEj0oCltSHJtpGOXmWhjaIwe/29kJdB8a6s/72xQ4
+rvd6XMwTowmm5yePHB9TgSLopFT8tzFaRhwtloIGPgnhsS4fpqNH5YmS600j
+gMJm8/ljplghaGC3HjfFwNixhfvb6Wh6adYlhEJgq1eggN9Ox1nOxKT9OQJp
+RfJf12zNcLy7LcOxTgVD5HLkTjEDlSYf5vE/J1G/crSRs1MBPoF79u2VqaA9
+JohFBi9AGZu25NCjhl5vl76e1yoQKGdSZ2lS4OwZl9h0qEFyJyvgVSwdTx80
+SHakLEPOdkWMKp3AjZllCaecNND/yix/UUpgRXPyNFOkAyen0saZPCVkXxGX
+a3Va+Cw8qF1wgYapDezhokoD5Io3BI3lacFEcMCZ+p4BbESunTwvHSzIK743
+lxBo9sw6eIPPFPRHeyeeKyVQcMHPNqqNgRb7jgxc3E1iE1ngIY82wgl7XVHB
+CRJJC5PAMLkRsp+HhuftpqEy87cYWfMquHHTLcWvjTCux7e/es4AnZHFTPOY
+ebi3dZobp5mDS12L9fLqOWAfakObjgV42CMLqzuvAorfTX1/2Zfgzf9Keddd
+DTyHtx+50E2Ql7nGLd+mAbw8vrfyUz0MmDW3Hrqrhm7XDD+9Qg8/SBjGTJYO
+dk0Fhp/iyKE1deL9piot2HWNza3wSexzuk8TOhvg3v5JJu2hCubr+B7uX+sh
+QH9ss1eOGqIP2Im+4xN4VcDKaWwYgBvCVN/FZQpyN6V+nBBCx7fsJmtyBgjs
+4iSy6hMIxJCAxLwtJL77s2e6amh9j+6TQWZPjNC2Y5Sb9kAJZyJ4njEFRhi8
+v76v3ozErMjEHOmtShiKCqUevKWG/39es/Jt8tp1DcwXLFn9KHoKv+xIlm39
+YxRKjLvsMmqHYdQi1v+R0BQ7WIUR5OE/od46V8rxJTBhevha2cwgJI6lOFbK
+CHwQSvF9WfUSXOw5PlYRKri6GDr0V8AUGNuKs+LP0rDbRvNMKJyDJ7Tbc9Ur
+Wtj8wqpIWiyH00+5A+qzOmBPdjxevaKEIfuKpU7xFIhemFBZUiVsS9v1xeoo
+A4MYNyo+ctRAwcZK6jcZRviOrGV2dUoFRHZLzQiDhgr/QbubLVrYlNLh4PTT
+KoiymqzFVC38C+6e5QY=
+         "], {{
+           Directive[
+            Opacity[0.7], 
+            Hue[0.6, 0.7, 0.7], 
+            CapForm["Round"]], 
+           Arrowheads[0.], {
+            ArrowBox[CompressedData["
+1:eJwVxdW10wAAANDG3d0b97RxlxkY4S3AiowGfNxz/Z/fv37A1+v155//AyAA
+AQhAAALggzCIgiQoggEEQxhEQRIUwjhMwzIcISiCIQyiIDGKoyyqogmGYxym
+YSnO4zqeESRBEQxhEDlJkyxpkgVFUxxlUSXN0zZdMSzDMQ5Tszzrsg3Hcx73
+4d/8VxAFSVAEQ2hFWVRFU+wkWdIkS+plXbblQVEVTXGUUdVVV500XfO0WX/r
+i2EaluEYq2mbrrlZtuVZu/22D8d1POd03+7lvb37/fiBH/qxn/ttEAVJUARd
+GIVpWIZ9lEVVNMRJnMZ1PCZZ0iRTmqWfdM6+2ZIXeZnX+VpURVNsZVV+yr36
+Vkfd1J/6bL7N9fl+7u/Tdm3fju3aDd3Ubf3Qz/0+LMMxTuM8ntMyXfMy38uz
+buu+ntuxXfux38dzXud9PffzF+t8Mys=
+             "], 0.005642032428661387]}}, {
+           Directive[
+            Hue[0.6, 0.5, 1.], 
+            EdgeForm[
+             Directive[
+              GrayLevel[0], 
+              Opacity[0.7]]]], 
+           DiskBox[1, 0.005642032428661387], 
+           DiskBox[2, 0.005642032428661387], 
+           DiskBox[3, 0.005642032428661387], 
+           DiskBox[4, 0.005642032428661387], 
+           DiskBox[5, 0.005642032428661387], 
+           DiskBox[6, 0.005642032428661387], 
+           DiskBox[7, 0.005642032428661387], 
+           DiskBox[8, 0.005642032428661387], 
+           DiskBox[9, 0.005642032428661387], 
+           DiskBox[10, 0.005642032428661387], 
+           DiskBox[11, 0.005642032428661387], 
+           DiskBox[12, 0.005642032428661387], 
+           DiskBox[13, 0.005642032428661387], 
+           DiskBox[14, 0.005642032428661387], 
+           DiskBox[15, 0.005642032428661387], 
+           DiskBox[16, 0.005642032428661387], 
+           DiskBox[17, 0.005642032428661387], 
+           DiskBox[18, 0.005642032428661387], 
+           DiskBox[19, 0.005642032428661387], 
+           DiskBox[20, 0.005642032428661387], 
+           DiskBox[21, 0.005642032428661387], 
+           DiskBox[22, 0.005642032428661387], 
+           DiskBox[23, 0.005642032428661387], 
+           DiskBox[24, 0.005642032428661387], 
+           DiskBox[25, 0.005642032428661387], 
+           DiskBox[26, 0.005642032428661387], 
+           DiskBox[27, 0.005642032428661387], 
+           DiskBox[28, 0.005642032428661387], 
+           DiskBox[29, 0.005642032428661387], 
+           DiskBox[30, 0.005642032428661387], 
+           DiskBox[31, 0.005642032428661387], 
+           DiskBox[32, 0.005642032428661387], 
+           DiskBox[33, 0.005642032428661387], 
+           DiskBox[34, 0.005642032428661387], 
+           DiskBox[35, 0.005642032428661387], 
+           DiskBox[36, 0.005642032428661387], 
+           DiskBox[37, 0.005642032428661387], 
+           DiskBox[38, 0.005642032428661387], 
+           DiskBox[39, 0.005642032428661387], 
+           DiskBox[40, 0.005642032428661387], 
+           DiskBox[41, 0.005642032428661387], 
+           DiskBox[42, 0.005642032428661387], 
+           DiskBox[43, 0.005642032428661387], 
+           DiskBox[44, 0.005642032428661387], 
+           DiskBox[45, 0.005642032428661387], 
+           DiskBox[46, 0.005642032428661387], 
+           DiskBox[47, 0.005642032428661387], 
+           DiskBox[48, 0.005642032428661387], 
+           DiskBox[49, 0.005642032428661387], 
+           DiskBox[50, 0.005642032428661387], 
+           DiskBox[51, 0.005642032428661387], 
+           DiskBox[52, 0.005642032428661387], 
+           DiskBox[53, 0.005642032428661387], 
+           DiskBox[54, 0.005642032428661387], 
+           DiskBox[55, 0.005642032428661387], 
+           DiskBox[56, 0.005642032428661387], 
+           DiskBox[57, 0.005642032428661387], 
+           DiskBox[58, 0.005642032428661387], 
+           DiskBox[59, 0.005642032428661387], 
+           DiskBox[60, 0.005642032428661387], 
+           DiskBox[61, 0.005642032428661387], 
+           DiskBox[62, 0.005642032428661387], 
+           DiskBox[63, 0.005642032428661387], 
+           DiskBox[64, 0.005642032428661387]}}]], 
+       MouseAppearanceTag["NetworkGraphics"]], AllowKernelInitialization -> 
+      False]], {
+    FormatType -> TraditionalForm, FrameTicks -> None, ImageSize -> Large, 
+     DefaultBaseStyle -> "NetworkGraphics"}], 
+   GraphicsBox[
+    NamespaceBox["NetworkGraphics", 
+     DynamicModuleBox[{Typeset`graph = HoldComplete[
+         Graph[{{0, 0, 0}, {0, 0, 1}, {0, 1, 0}, {0, 1, 1}, {0, 1, 2}, {0, 2, 
+          1}, {0, 2, 2}, {1, 0, 0}, {1, 0, 1}, {1, 0, 2}, {1, 1, 0}, {1, 1, 
+          1}, {1, 1, 2}, {1, 1, 3}, {1, 2, 0}, {1, 2, 1}, {1, 2, 2}, {1, 2, 
+          3}, {1, 3, 1}, {1, 3, 2}, {2, 0, 1}, {2, 0, 2}, {2, 1, 0}, {2, 1, 
+          1}, {2, 1, 2}, {2, 1, 3}, {2, 2, 0}, {2, 2, 1}, {2, 2, 2}, {2, 2, 
+          3}, {2, 3, 1}, {2, 3, 2}, {2, 3, 3}, {3, 1, 1}, {3, 1, 2}, {3, 2, 
+          1}, {3, 2, 2}, {3, 2, 3}, {3, 3, 2}, {3, 3, 3}}, {
+          Null, {{1, 2}, {1, 3}, {1, 4}, {1, 8}, {1, 9}, {1, 11}, {2, 4}, {2, 
+           5}, {2, 9}, {2, 10}, {2, 12}, {3, 4}, {3, 6}, {3, 11}, {3, 12}, {3,
+            15}, {4, 5}, {4, 6}, {4, 7}, {4, 12}, {4, 13}, {4, 16}, {5, 7}, {
+           5, 13}, {5, 14}, {5, 17}, {6, 7}, {6, 16}, {6, 17}, {6, 19}, {7, 
+           17}, {7, 18}, {7, 20}, {8, 9}, {8, 11}, {8, 12}, {8, 21}, {8, 
+           23}, {9, 10}, {9, 12}, {9, 13}, {9, 21}, {9, 22}, {9, 24}, {10, 
+           13}, {10, 14}, {10, 22}, {10, 25}, {11, 12}, {11, 15}, {11, 16}, {
+           11, 23}, {11, 24}, {11, 27}, {12, 13}, {12, 16}, {12, 17}, {12, 
+           24}, {12, 25}, {12, 28}, {13, 14}, {13, 17}, {13, 18}, {13, 25}, {
+           13, 26}, {13, 29}, {14, 18}, {14, 26}, {14, 30}, {15, 16}, {15, 
+           19}, {15, 27}, {15, 28}, {16, 17}, {16, 19}, {16, 20}, {16, 28}, {
+           16, 29}, {16, 31}, {17, 18}, {17, 20}, {17, 29}, {17, 30}, {17, 
+           32}, {18, 30}, {18, 33}, {19, 20}, {19, 31}, {19, 32}, {20, 32}, {
+           20, 33}, {21, 22}, {21, 24}, {21, 25}, {21, 34}, {22, 25}, {22, 
+           26}, {22, 35}, {23, 24}, {23, 27}, {23, 28}, {23, 34}, {24, 25}, {
+           24, 28}, {24, 29}, {24, 34}, {24, 35}, {24, 36}, {25, 26}, {25, 
+           29}, {25, 30}, {25, 35}, {25, 37}, {26, 30}, {26, 38}, {27, 28}, {
+           27, 31}, {27, 36}, {28, 29}, {28, 31}, {28, 32}, {28, 36}, {28, 
+           37}, {29, 30}, {29, 32}, {29, 33}, {29, 37}, {29, 38}, {29, 39}, {
+           30, 33}, {30, 38}, {30, 40}, {31, 32}, {31, 39}, {32, 33}, {32, 
+           39}, {32, 40}, {33, 40}, {34, 35}, {34, 36}, {34, 37}, {35, 37}, {
+           35, 38}, {36, 37}, {36, 39}, {37, 38}, {37, 39}, {37, 40}, {38, 
+           40}, {39, 40}}}, {
+          GraphLayout -> "SpringElectricalEmbedding", ImageSize -> Large, 
+           VertexLabels -> {{2, 2, 2} -> Row[{2, 2, 2}, ","], {0, 1, 1} -> 
+             Row[{0, 1, 1}, ","], {2, 2, 3} -> Row[{2, 2, 3}, ","], {3, 1, 2} -> 
+             Row[{3, 1, 2}, ","], {0, 0, 1} -> Row[{0, 0, 1}, ","], {1, 0, 0} -> 
+             Row[{1, 0, 0}, ","], {1, 3, 2} -> Row[{1, 3, 2}, ","], {2, 3, 3} -> 
+             Row[{2, 3, 3}, ","], {0, 2, 2} -> Row[{0, 2, 2}, ","], {0, 1, 2} -> 
+             Row[{0, 1, 2}, ","], {2, 2, 1} -> Row[{2, 2, 1}, ","], {1, 2, 1} -> 
+             Row[{1, 2, 1}, ","], {2, 1, 3} -> Row[{2, 1, 3}, ","], {1, 2, 3} -> 
+             Row[{1, 2, 3}, ","], {3, 2, 2} -> Row[{3, 2, 2}, ","], {1, 1, 2} -> 
+             Row[{1, 1, 2}, ","], {3, 3, 2} -> Row[{3, 3, 2}, ","], {1, 1, 1} -> 
+             Row[{1, 1, 1}, ","], {2, 1, 2} -> Row[{2, 1, 2}, ","], {1, 2, 2} -> 
+             Row[{1, 2, 2}, ","], {0, 0, 0} -> Row[{0, 0, 0}, ","], {0, 1, 0} -> 
+             Row[{0, 1, 0}, ","], {1, 1, 3} -> Row[{1, 1, 3}, ","], {3, 1, 1} -> 
+             Row[{3, 1, 1}, ","], {2, 3, 1} -> Row[{2, 3, 1}, ","], {2, 1, 1} -> 
+             Row[{2, 1, 1}, ","], {2, 2, 0} -> Row[{2, 2, 0}, ","], {3, 3, 3} -> 
+             Row[{3, 3, 3}, ","], {3, 2, 3} -> Row[{3, 2, 3}, ","], {1, 0, 2} -> 
+             Row[{1, 0, 2}, ","], {2, 0, 2} -> Row[{2, 0, 2}, ","], {3, 2, 1} -> 
+             Row[{3, 2, 1}, ","], {1, 3, 1} -> Row[{1, 3, 1}, ","], {2, 0, 1} -> 
+             Row[{2, 0, 1}, ","], {1, 2, 0} -> Row[{1, 2, 0}, ","], {2, 3, 2} -> 
+             Row[{2, 3, 2}, ","], {2, 1, 0} -> Row[{2, 1, 0}, ","], {1, 1, 0} -> 
+             Row[{1, 1, 0}, ","], {0, 2, 1} -> Row[{0, 2, 1}, ","], {1, 0, 1} -> 
+             Row[{1, 0, 1}, ","]}, VertexSize -> {Small}}]]}, 
+      TagBox[
+       GraphicsGroupBox[{{
+          Directive[
+           Opacity[0.7], 
+           Hue[0.6, 0.7, 0.7], 
+           CapForm["Round"]], 
+          Arrowheads[0.], {
+           ArrowBox[CompressedData["
+1:eJyF1X9M1HUcx/Evdx7wnZguMZAVU3QsUhkl5kC3zyccZEYOWVmotNnCH5uN
+g7CBrGSpQXD9AAlN8WAE8xetxmod183NVSYnKLC4MYgf2wFxacKEHUgd1B+u
+P56fP75s99fjPu/3696fH6x+Kzczx6xpWs1/H9OjT+KNrpSs3l6R1KdfzWoL
+lUk5RcurX74ntrvDf/j6dIika4/+SmqiGmNOBCke2RMR9OK3g+LDK00ZM98v
+CPpm380t32RPCUdF+8WotMXK+l3xy+P9Z+ZEWbZrod+uK94e23rj0um74nHT
+2UTHOrOSl/3pH2lD3sjwCRE9PNH40vA/irM/va/oi1zXvCZbire+UrJSnddv
+xY7jja9Oi/0dM0capEmZF/PRE7aeD/W96xQl7e647dcnFefvpxv175w+GOb8
+Y1DIVOuJhwV+wTycD5356L0/xZcVT42IO0dD7NZtPsWZj/5G91+77E8FxL6J
+W44l0Zriz7jWNefsnxB7uxcl9yQ9UPKyP5316RFd/Xs2jQdJLTZ1R0F6QFnv
+drYdHizyi5b8yj9X6JPKPNifzvx0o/qPVdpSRgtHRVnM2bHb7k6lH9fTxfXU
+2ueuzovA8Y/vv+71Ke66NrehKW/q/3PH+8r7Qef5pHP/6en9nxzLzDJLq3V+
+hV65WPHy5sCR4KN/i9DEDWn1T1iUPLyfdPan83zQmY9+bFzbs7ElRNo/iM3w
+vKcr/mZ5R+Tl7iC588eRiJpys5KX/ek8n3T2pxdeGoqLf94iR2vnDx4uMCn7
+xfnQ+X7Qeb7p3D8650Mv/aXhVNVOvwg+NFY45nmovCecH5356Lw/dOajc770
+nPzbTWvMAfFktb/H5vUr7xH3l858dN5vOvPRy30V7pEEXdoHzrS9v1tT3Dzz
+e81Gr0nWZ7+wz133QHkv2Z/O+vTKr5p3P70+WDo9pRnnbk0KnjfuH53vI53n
+h879YT/On87+dL6vdKP+nD+90d/bWb1mVoTVfv7pydZ+JS/3h858dPanc//o
+LXXdd90VC2JVVNWhzdodJQ/X0x220tZtb5vl8Jfh1siBBmXezE/nfOjMx3pG
+znz8f8H3mc73hc77S3ctWppyoStEHuhKkn5pUfpxPZ33kz6w9tdzr20Jk7XN
+sfk3n1Xfc+an8/7Ref7p/H3sx99HZ306zzfdqD/nQ7clOHM70y3y2sn1O+6n
+zQnm5fzpzEfn/aEzH73+HdvPp5J12XPPE7c3b0Z5r1mfnry0L6Zu2RJZtVaf
+/G71tPLecv503k8658d6nA+d9em833Sj/pwf83B+dPan832hG/Xn/tDHo0VH
+wYJFjpfaLm6aGlLysj+d9ennZ70H8mZ1aV256rOSTI+yH/z9dObj95mPbrSe
++ViPzveA94vO80Pn/rGekXP+7Mf1dM6H32d9utF6zo/16KxH/xeVb9vt
+            "], 0.02123482587998527]}}, {
+          Directive[
+           Hue[0.6, 0.5, 1.], 
+           EdgeForm[
+            Directive[
+             GrayLevel[0], 
+             Opacity[0.7]]]], {
+           
+           DiskBox[{0.38820487523398417`, 3.098315559614346}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "0", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {0.3676291499238996, 3.1197733897717597`}, 
+            ImageScaled[{1.0190864314048689`, -0.04134025966240329}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{0.8842258816104397, 2.947108679124799}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "0", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {0.8839075005729378, 2.9768357304520907`}, 
+            ImageScaled[{0.5080321482763414, -0.24995698849605164`}], 
+            BaseStyle -> "Graphics"]}, {
+           DiskBox[{0., 2.189030916272543}, 0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "1", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {-0.029364837008146846`, 2.193668296414975}, 
+            ImageScaled[{1.2408190098588519`, 0.3830077155033277}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{0.47950911623714054`, 1.9819253111151345`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "1", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {0.45201541018832875`, 1.970616240649266}, 
+            ImageScaled[{1.1936139331125974`, 0.7853063472691647}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{0.9712032747847992, 1.804757732663354}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "1", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {0.9445831398600477, 1.791522651866907}, 
+            ImageScaled[{1.1715753944689777`, 0.8338959262162938}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{0.10333115062825082`, 1.0471879608637948`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "2", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {0.07548962053996972, 1.0367645185608034`}, 
+            ImageScaled[{1.2023888723521128`, 0.7629636324588013}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{0.6547219905679595, 0.7894824110514324}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "0", "2", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {0.6356772144370281, 0.7666548958729651}, 
+            ImageScaled[{0.9804634942256251, 1.0758948087250855`}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{1.2103721938461385`, 3.4092305287644784`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "0", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {1.2045852897941542`, 3.4383906160173243`}, 
+            ImageScaled[{0.6459925872821917, -0.23565356279885685`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{1.6621000098993088`, 3.2025680522307916`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "0", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {1.6638525158537831`, 3.2322451085197836`}, 
+            ImageScaled[{0.4557876065988312, -0.24869570872934776`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.1243828504077387`, 3.0124517473299983`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "0", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {2.1271921678233743`, 3.0420474680132097`}, 
+            ImageScaled[{0.42912626262311265`, -0.2466437660291767}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{0.8617748147309725, 2.396347437752646}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "1", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {0.8340644267691769, 2.4071146725929955`}, 
+            ImageScaled[{1.1990804058257418`, 0.22836313543534592`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{1.2706646908843497`, 2.281559802353215}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "1", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {1.2940066467522924`, 2.2999704526230853`}, 
+            ImageScaled[{-0.08887316927591993, 0.03553429566120403}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{1.819731063876267, 2.014674609874346}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "1", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {1.8023334604554293`, 2.038781089134323}, 
+            ImageScaled[{0.9389084583226597, -0.10816064095995737`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.2383830164273024`, 1.8311655903984274`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "1", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {2.255738591813626, 1.8553023455678799`}, 
+            ImageScaled[{0.06215182908524863, -0.10892444459604889`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{0.4828934785035246, 1.4035582670515652`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "2", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {0.45504220117716865`, 1.3931608972692182`}, 
+            ImageScaled[{1.2026347766374819`, 0.7623058723315129}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{0.9806393015586583, 1.1391193643913968`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "2", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {0.9572977533850006, 1.1207081972378112`}, 
+            ImageScaled[{1.0888628839242145`, 0.9644787443322427}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{1.4047531254142762`, 1.0022181666201218`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "2", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {1.3846931067793404`, 0.980277460171457}, 
+            ImageScaled[{1.0060761324423622`, 1.0535223104556677`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{1.9167963127511738`, 0.809001890080253}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "2", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {1.9028815246343869`, 0.7827306583092573}, 
+            ImageScaled[{0.8510436496621415, 1.1627732312276073`}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{0.6710077571665651, 0.2623784305474506}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "3", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {0.6519264218150925, 0.23958146609371042`}, 
+            ImageScaled[{0.9813858138541989, 1.0751240720226642`}], BaseStyle -> 
+            "Graphics"]}, {
+           DiskBox[{1.2152454181740913`, 0.}, 0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "1", "3", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {1.2090662556688847`, -0.02907949273688766}, 
+            ImageScaled[{0.6558885223028503, 1.2336203163859585`}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{2.4186143469372947`, 3.4458181112550434`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "0", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {2.424814171517052, 3.4748932057911013`}, 
+            ImageScaled[{0.3435902128385697, -0.23350935814079166`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.9620120078589567`, 3.18302595727421}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "0", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {2.9811065701687927`, 3.205811844074953}, 
+            ImageScaled[{0.018280495133133456`, -0.07484460389814995}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{1.716070581193693, 2.6360478861374794`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "1", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {1.7299986145986304`, 2.6623120981487203`}, 
+            ImageScaled[{0.1486221968995073, -0.16259613603481826`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.2278615892148954`, 2.442669092815243}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "1", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {2.2479130066497524`, 2.4646176601022796`}, 
+            ImageScaled[{-0.005859140516804473, -0.05372062446291426}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.6514552375202207`, 2.3068416714264566`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "1", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {2.6748019351066183`, 2.3252463083125723`}, 
+            ImageScaled[{-0.08899279381767256, 0.03568600190081217}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{3.1488738845775446`, 2.042232108065675}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "1", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {3.176719608622714, 2.0526443412315594`}, 
+            ImageScaled[{-0.2024946779109269, 0.23731915275981175`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{1.3941827030324434`, 1.6149658892304628`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "2", "0"}, "RowWithSeparators"], 
+             TraditionalForm], {1.3768337179328063`, 1.5908243966686302`}, 
+            ImageScaled[{0.937681910510978, 1.1090439599991615`}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{1.8132664181531706`, 1.4305542333543206`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "2", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {1.8306647238317708`, 1.4064482609280848`}, 
+            ImageScaled[{0.061073825049107466`, 1.1081478545082426`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.3609382425482877`, 1.164011345264818}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "2", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {2.3376252228205048`, 1.1455640674636771`}, 
+            ImageScaled[{1.0881431654725118`, 0.9653897473172068}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{2.771561314719698, 1.0497077127196648`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "2", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {2.799289028844278, 1.038985174935817}, 
+            ImageScaled[{-0.1995175119726168, 0.7705092428063038}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{1.5086868436914438`, 0.4331981079325835}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "3", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {1.5058646692190887`, 0.403603610498972}, 
+            ImageScaled[{0.5711980964743321, 1.246612905767394}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{1.971629067595114, 0.24219410520545726`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "3", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {1.9699016121473678`, 0.21251558022902853`}, 
+            ImageScaled[{0.5435804167419551, 1.248732760921143}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{2.423957299660824, 0.03684307449502788}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "2", "3", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {2.4297619546290767`, 0.007686515579408413}, 
+            ImageScaled[{0.35355959084804817`, 1.2355645495586427`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.9773507271607667`, 2.6567196862835543`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "1", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {2.996403257250831, 2.679540730174395}, 
+            ImageScaled[{0.01934088812714485, -0.07573155044134772}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{3.528971871569054, 2.3993081014683195`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "1", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {3.5568090849399594`, 2.409743066673972}, 
+            ImageScaled[{-0.20227996977956741`, 0.23674566661418484`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.662506935948903, 1.6423170945566166`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "2", "1"}, "RowWithSeparators"], 
+             TraditionalForm], {2.689121333091335, 1.655563709665593}, 
+            ImageScaled[{-0.17143064112961404`, 0.16581308500739372`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{3.1535754542689602`, 1.4651748308522674`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "2", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {3.1810646275469288`, 1.4764949147562978`}, 
+            ImageScaled[{-0.1934995799218301, 0.21441580462454635`}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{3.6331160280987236`, 1.2582291962046708`}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "2", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {3.662485791241946, 1.2536231176109556`}, 
+            ImageScaled[{-0.24094328688133015`, 0.6162026059324438}], 
+            BaseStyle -> "Graphics"]}, {
+           
+           DiskBox[{2.7497345003974836`, 0.4992193351955607}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "3", "2"}, "RowWithSeparators"], 
+             TraditionalForm], {2.750104371601945, 0.4694928799344206}, 
+            ImageScaled[{0.490668852703377, 1.2499419508802856`}], BaseStyle -> 
+            "Graphics"]}, {
+           
+           DiskBox[{3.2463100469895614`, 0.34878553368653}, 
+            0.02123482587998527], 
+           InsetBox[
+            FormBox[
+             TemplateBox[{",", "\",\"", "3", "3", "3"}, "RowWithSeparators"], 
+             TraditionalForm], {3.266911325855393, 0.32735223584898976`}, 
+            ImageScaled[{-0.019731099034435595`, 1.0407213558723734`}], 
+            BaseStyle -> "Graphics"]}}}], 
+       MouseAppearanceTag["NetworkGraphics"]], AllowKernelInitialization -> 
+      False]], {
+    FormatType -> TraditionalForm, FrameTicks -> None, ImageSize -> Large, 
+     DefaultBaseStyle -> "NetworkGraphics"}]},
+  "RowDefault"]], "Output",
+ CellChangeTimes->{3.96461307780861*^9, 3.964613398951353*^9},
+ CellLabel->"Out[86]=",ExpressionUUID->"444c81ab-2cd8-4591-ac73-4fae680fac8b"]
+}, Open  ]]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{4, Automatic}, {Automatic, 4}},
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (March 16, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"4a546d1c-a294-4ab1-9226-e2a795c61472"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 10420, 283, 887, "Input",ExpressionUUID->"7d071093-a1b5-4154-b90c-6e4fdd94f182"],
+Cell[10999, 307, 803, 19, 178, "Output",ExpressionUUID->"8df1059f-83dd-4549-8048-7c5fea0a7399"],
+Cell[11805, 328, 372, 7, 33, "Output",ExpressionUUID->"56fb19a3-f978-4945-97f6-6ed6b3b0735b"],
+Cell[12180, 337, 29536, 594, 615, "Output",ExpressionUUID->"444c81ab-2cd8-4591-ac73-4fae680fac8b"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
