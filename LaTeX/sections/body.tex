@@ -291,21 +291,37 @@ A final trading-relevant subject for prediction markets is arbitrage. Arbitrageu
 
 \subsection{Market Resolution}\label{wf:close}
 
+% UMA tokens negative feedback loop: attacks depress token price and makes attacking easier
+
 \textblue{To be finalized}
 
 \begin{enumerate}
-  \item \textbf{On-chain:} final authority is already on-chain and observable by the \depm smart contracts
-  \item \textbf{Designated arbiter:} final authority is a specific signing address; behind this address could be a trusted organization (\eg AP via Everipedia OraQles) or a GenAI (\eg Grok for Polymarket)  
+  \item \textbf{On-chain:} final authority is already on-chain and observable by the \depm smart contracts % JC
+  \item \textbf{Self-settlement (market-driven):} no single final authority; settlement emerges through merges or public acceptance as winning shares as equivalent to money % JC
+  \item \textbf{Auto-resolve:} final authority is a resolver contract that triggers on pre-set price conditions (\eg YES shares > \$0.99 for at least time $n$) 
+  \item \textbf{Designated arbiter:} final authority is a specific signing address; behind this address could be a trusted organization (\eg AP via Everipedia OraQles\footnote{Etherscan: \url{https://etherscan.io/address/0x0792724900B551d200D954a5Ed709d9514d73A9F}}) or a GenAI (\eg Grok for Polymarket)  or 
   \item \textbf{Reporter-network:} final authority is the on-chain aggregation from the median/mean of multiple reporters (\eg Chainlink)
   \item \textbf{Token-vote:} final authority is the arbitration contract determined by a token vote with staking/slashing (\eg Truthcoin, UMA's DVM, Augur's REP, Kleros) 
-  \item \textbf{Self-settlement (market-driven):} no single final authority; settlement emerges through merges or public acceptance as winning shares as equivalent to money
-  \item \textbf{Auto-resolve:} final authority is a resolver contract that triggers on pre-set price conditions (\eg YES shares > \$0.99 for at least time $n$) 
+
 \end{enumerate}
 
-You don't have to pick one method. Optimistic variants (UMA, Realitio) may allow people to propose answers, dispute, and then escalate to a method above only if there are disputes. After a method above decides, a timeout period could allow an Admin (or DAO) to override. The ultimate backstop is the law which would not stop resolution but could remunerate parties damaged by a bad outcome. 
+You don't have to pick one method. Optimistic variants (UMA, Realitio) may allow people to propose answers, dispute, and then escalate to a method above only if there are disputes. After a method above decides, a timeout period could allow an Admin (or DAO) to override. The ultimate backstop is the law which would not stop resolution but could remunerate parties damaged by a bad outcome. %JC
 
-Note that the term `oracle' is relevant but is too broad, and could apply to 2, 3 or 4. 
+Note that the term `oracle' is relevant but is too broad, and could apply to 2, 3 or 4. %JC
 
+% On-Chain JC - paragraph
+
+The first approach...
+
+% Self-settlement JC - paragraph
+
+% Auto-resolve JC - sentence
+
+% Designated arbiter JAC - half page
+
+% Reporter Network NR - paragraph - check Thales, Entropyfi (?), Augur Turbo
+
+% Token Vote JAC - full page
 
 
 
@@ -336,7 +352,8 @@ For example, Polymarket settles markets on the canonical ledger using the UMA Op
 
 \section{Discussion}
 
-
+% Does polymarket need uma?
+% Polymarket as infrastructure
 
 The design of DPMs involves inherent economic trade-offs affecting platform adoption, integrity, and resilience. This analysis examines these trade-offs across four dimensions: decentralization versus speed, liquidity versus capital efficiency, incentive robustness versus usability, and expressiveness versus composability, with agility noted as an additional consideration.
 
