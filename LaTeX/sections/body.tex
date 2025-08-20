@@ -293,6 +293,23 @@ A final trading-relevant subject for prediction markets is arbitrage. Arbitrageu
 
 \textblue{To be finalized}
 
+\begin{enumerate}
+  \item \textbf{On-chain:} final authority is already on-chain and observable by the \depm smart contracts
+  \item \textbf{Designated arbiter:} final authority is a specific signing address; behind this address could be a trusted organization (\eg AP via Everipedia OraQles) or a GenAI (\eg Grok for Polymarket)  
+  \item \textbf{Reporter-network:} final authority is the on-chain aggregation from the median/mean of multiple reporters (\eg Chainlink)
+  \item \textbf{Token-vote:} final authority is the arbitration contract determined by a token vote with staking/slashing (\eg Truthcoin, UMA's DVM, Augur's REP, Kleros) 
+  \item \textbf{Self-settlement (market-driven):} no single final authority; settlement emerges through merges or public acceptance as winning shares as equivalent to money
+  \item \textbf{Auto-resolve:} final authority is a resolver contract that triggers on pre-set price conditions (\eg YES shares > \$0.99 for at least time $n$) 
+\end{enumerate}
+
+You don't have to pick one method. Optimistic variants (UMA, Realitio) may allow people to propose answers, dispute, and then escalate to a method above only if there are disputes. After a method above decides, a timeout period could allow an Admin (or DAO) to override. The ultimate backstop is the law which would not stop resolution but could remunerate parties damaged by a bad outcome. 
+
+Note that the term `oracle' is relevant but is too broad, and could apply to 2, 3 or 4. 
+
+
+
+
+
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Settlement}\label{wf:clear}
