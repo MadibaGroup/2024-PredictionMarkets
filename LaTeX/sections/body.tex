@@ -126,7 +126,39 @@ Also of interest is how the prediction market did not seem to extract insider in
 
 \section{Modular Workflow}
 
-We now turn to the design landscape of \depms and step through our modular workflow, summarized in Figure~\ref{fig:flow}. Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to the decentralization and permissionlessness of prediction markets. 
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.5cm and 1cm,
+  show background rectangle,
+  background rectangle/.style={draw, rounded corners, inner sep=6pt}
+]
+
+% Top row
+\node (infra) {Underlying Infrastructure~\S\ref{wf:chain}};
+\node[right=of infra] (topic) {Market Topic~\S\ref{wf:topic}};
+
+% Middle row
+\node[below=of infra] (shares) {Share Structure and Pricing~\S\ref{wf:price}};
+\node[right=of shares] (trading) {Trading~\S\ref{wf:trade}};
+
+% Bottom row
+\node[below=of shares] (resolve) {Market Resolution~\S\ref{wf:close}};
+\node[right=of resolve] (settle) {Settlement~\S\ref{wf:clear}};
+\node[right=of settle] (archive) {Archiving~\S\ref{wf:archive}};
+
+% Arrows
+\draw[->] (infra) -- (topic);
+\draw[->] (topic) to[out=-90, in=90, looseness=0.2]  (shares.north);
+\draw[->] (shares) -- (trading);
+\draw[->] (trading) to[out=-90, in=90, looseness=0.2]  (resolve);
+\draw[->] (resolve) -- (settle);
+\draw[->] (settle) -- (archive);
+
+\end{tikzpicture}
+\end{center}
+
+
+We now turn to the design landscape of \depms and step through our modular workflow, summarized above. Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to the decentralization and permissionlessness of prediction markets. 
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
