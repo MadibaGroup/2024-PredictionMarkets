@@ -1,4 +1,94 @@
 % !TEX root = ../main.tex
+
+\section{List of \depms}
+
+ %Terminology used includes a central limit order book (CLOB) in which `central' refers to a single orderbook rather than one that is centralized from an operational standpoint. In other words, a decentralized on-chain orderbook can still be called a CLOB. Blockchains are sometimes called layer 1 (L1) chains. An L2 is a faster execution (and generally lower fee) layer that might operate as an optimistic rollup or zk-rollup. An L3... 
+
+\begin{enumerate}
+
+\item \textbf{Bets of Bitcoin} (2011--2014): Centralized event wagering system with BTC as numeraire. Promoted as a prediction market but mechanically it used parimutuel betting. Went offline unannounced with some user funds stuck.
+
+\item \textbf{BitBet} (2012--2020): Centralized event wagering system with BTC as numeraire. Promoted as a prediction market but mechanically it used parimutuel betting. Disruption in 2016 and winddown in 2020. 
+
+\item \textbf{Predictious} (2013--?): Centralized prediction market and CLOB with BTC as numeraire. Promoted as InTrade successor. Likely abandoned in late 2010s.
+
+\item \textbf{Fairlay} (2014--present): Centralized prediction market with BTC as numeraire. Traders were matched on a CLOB (back/lay mechanism). After ownership changes, still operating as Bitcoin Betting. 
+
+\item \textbf{BetMoose} (2014--present) Centralized event wagering system with BTC as numeraire. Promoted as a prediction market but mechanically it used parimutuel betting or back/lay. Still active. 
+
+\item \textbf{Truthcoin / Bitcoin Hivemind} (2014): Decentralized prediction market (\depm) design with follow-up refinements with some code artifacts. Inspired other \depms (particularly around automated book making and token vote market resolution) and sidechain technologies.
+
+\item \textbf{`Princeton' \depm} (2014): Decentralized prediction market (\depm) design as an academic paper only. Inspired other \depms (particularly around share splitting/merging), on-chain CLOBs (frequent batch auctions) and the concept of MEV.  
+
+\item \textbf{Augur} (2015--present): \depm whitepaper design, later deployed on Ethereum (live in 2018) and Polygon (2021). Numeraire is DAI and later USDC. Native token (REP) used in market resolution was one of Ethereum's first ICOs (2015). Still active.
+
+\item \textbf{BitShares Prediction Markets} (2015--present): \depm functionality was added to the BitShares 2.0 blockchain to support WTA markets and hybrid on/off-chain CLOBs. \depm functionality dormant. BitShares itself is still active but usage has heavily declined.
+ 
+\item \textbf{Gnosis} (2015--present): \depm whitepaper design for Ethereum. Pivoted to developing underlying infrastructure for \depms, including the widely used Conditional Tokens Framework (CTF). Also known for self-custody wallets (Gnosis Safe) and AMM-relevant research (proposing the constant product market maker). Still active. 
+
+\item \textbf{Stox} (2017--2018): Centralized prediction market and CLOB with custom ERC20 token STX as numeraire. Known for celebrity promotions. Abandoned around 2018 after legal issues. 
+
+\item \textbf{Delphy} (2017--?): Prediction aggregator deployed on Ethereum for mobile devices based on points/leaderboard (`play money') rather than money. Appears to have been abandoned within 2-3 years.
+
+\item \textbf{Bodhi} (2017--?): \depm deployed on Qtum blockchain and later Ethereum. Appears to have been abandoned within 2-3 years. 
+
+\item \textbf{BlitzPredict} (2018--2019): Prediction aggregator on Ethereum that appears to have been abandoned before being developed into a full \depm.
+
+\item \textbf{SportX} (2018--): Sports-centric \depm deployed on Ethereum, Polygon, and later its own EVM chain (SX Network). Still active.
+
+\item \textbf{BetProtocol} (2018): Toolkit for \depm infrastructure using custom ERC20 token BEPRO. Bepro Network pivoted in 2021 and no active development on toolkit since.
+
+\item \textbf{Sharpe Capital} (2017--2019): Prediction aggregator on Ethereum that appears to have been abandoned before being developed into a full \depm.
+
+\item \textbf{Amoveo} (\circa 2018--?): \depm functionality into state-channels on a custom PoW L1 chain. Sporadic ongoing development.
+
+\item \textbf{SEER} (2018--?): \depm deployed on custom Graphene-based DPoS L1 chain with custom SEER token as numeraire. Appear abandoned as of 2020.
+
+\item \textbf{Veil} (2019): \depm front-end built on Augur and 0x. Launched and shut down within 2019.
+
+\item \textbf{PredIQt} (2019--?): \depm deployed on EOSIO with IQ/EOS as numeraire. Project pivoted to encyclopedia IQ.wiki and PredIQt appears inactive.
+
+\item \textbf{Catnip.exchange} (2019): \depm front-end for Augur v1 that composed with Balancer AMMs for trading outcome shares. Discontinued after 2020 US presidential election.
+
+\item \textbf{Flux Protocol} (2019--2022): \depm deployed on Ethereum and later NEAR. Appears dormant after 2022. 
+
+\item \textbf{Thales} (2019--2022): Event wagering system deployed on Ethereum and later NEAR. Market resolution with Chainlink. Largely dormant after 2022.
+
+\item \textbf{Omen} (2020--present): \depm built with Gnosis CTF, deployed on Ethereum and later Gnosis Chain (xDai) and Polygon with any ERC20 as numeraire. Market resolution with Reality.eth and Kleros. Still active.
+
+\item \textbf{Polymarket} (2020--present): \depm built with Gnosis CTF, deployed on Polygon with USDC as numeraire. First \depm to receive wide mainstream coverage in the media. Market resolution with UMA. Still active but restricted in some jurisdictions (including the US). 
+
+\item \textbf{PlotX v1} (2020--2022): \depm deployed on Ethereum and later Polygon. Specialized for crypto price predictions. PlotX still active but 2022 pivot left \depm functionality dormant. 
+
+\item \textbf{Reality Cards} (2020--2022): \depm deployed on Ethereum and later Gnosis and Polygon. Outcomes shares are NFTs that can be rented with payouts based on how long a user held the winning NFT (time-weighted to compensate early traders more). Appears abandoned in 2022.
+
+\item \textbf{Zeitgeist} (2021--present): \depm deployed into the logic of a parachain (custom L1) in the Polkadot/Kusama ecosystem (L0). Still active.
+
+\item \textbf{Polkamarkets} (2021--present): \depm toolkit for EVM chains like Polygon and Moonriver with any ERC-20 as numeraire (and custom ERC20 POLK for governance). Still maintained.
+
+\item \textbf{Hedgehog Markets} (2021--?): Event wagering platform deployed on Solana with USDC as numeraire. Supports both no-loss contests and prediction markets. Appears dormant after 2022.
+
+\item \textbf{Unihedge} (2021): \depm design for EVM with an experimental prototype. Outcomes shares are structured different than a typical prediction market (lots implementing what is known as a Harberger-tax).
+
+\item \textbf{Moonopol} (2024--present): \depm deployed on Solana with USDC as numeraire. Still active.
+
+\item \textbf{Misc}: There are decentralized event wagering systems (or toolkits) that deploy betting structures different from prediction markets. For the very first systems using such an adjacent approach, we include them above, however we list the follow-up projects here: Wagerr, BetDEX, Monaco Protocol, Peerplays, DexWin, DuelDuck, BetterFan, Oriole Insights, Azuro. We also note here the most prominent \cepms: Kalshi, PredictIt, and Manifold. 
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Satoshi HBO Market}
 \label{app:hbo}
 
