@@ -321,6 +321,10 @@ The first approach...
 
 % Reporter Network NR - paragraph - check Thales, Entropyfi (?), Augur Turbo
 
+Reporter networks deliver fast, parameterizable, and auditable resolution for markets tied to structured external data (prices, scores). An aggregation contract (e.g., a Chainlink feed) acts as the definitive on-chain authority. Multiple independent reporters submit signed observations off-chain; an off‑chain consensus protocol (OCR) coalesces these into a single report whose value is typically the median (or a mean with outlier filtering) and whose metadata (round ID, timestamp) and quorum signatures are verified on-chain. Updates are emitted when deviation or heartbeat thresholds are met, giving explicit control over latency/recency and bounding staleness under network stress. Median aggregation is resilient to a minority of faulty or adversarial reporters (Byzantine tolerance < n/2), while source and operator diversity mitigate data‑correlation risk; compressing n submissions into one update reduces gas and surface area. The result is a deterministic, publicly auditable outcome primitive: DePM contracts read the aggregator at resolution time and settle without discretionary intervention.
+
+*optional* Use cases. Thales and its Overtime on‑chain sportsbook instantiate this model end‑to‑end: market predicates reference Chainlink sports feeds for scores and final results, odds can be parameterized from on‑chain feeds, and expiry reads the aggregator’s answer to resolve. Augur Turbo similarly relies on reporter‑network feeds for schedules, scores and stats, so sports markets settle immediately upon event close. Entropyfi resolves scalar price rounds by sampling Chainlink aggregator contracts at round start/end and uses on‑chain automation (Keepers) to trigger settlement, coupling reporter‑network data with deterministic payout logic. 
+
 % Token Vote JAC - full page
 
 
