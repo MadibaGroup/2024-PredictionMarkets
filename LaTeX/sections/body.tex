@@ -291,21 +291,20 @@ A final trading-relevant subject for prediction markets is arbitrage. Arbitrageu
 
 \subsection{Market Resolution}\label{wf:close}
 
+Smart contracts are only authoritative over on-chain events and typically, prediction market outcomes concern facts that are off-chain. Resolution is the process of finalizing a market outcome on-chain. Approaches include the following: self-settling markets, auto-resolve rules, using a designated arbiter, using a network of reporters, and crowdsourcing a vote. \depms do not have to use only a single approach. They may use a fast approach, such as an arbiter, optimistically while also allowing disputes. Then only markets that are disputed are escalated to a crowdsourced vote. A further escalation could allow an Admin account to overrule the decision in exceptional circumstances. The ultimate backstop is the law which would not stop a wrong outcome but could be used to remunerate parties damaged by it.
+
 % UMA tokens negative feedback loop: attacks depress token price and makes attacking easier
 
-\textblue{To be finalized}
 
-\begin{enumerate}
-  \item \textbf{On-chain:} final authority is already on-chain and observable by the \depm smart contracts % JC
-  \item \textbf{Self-settlement (market-driven):} no single final authority; settlement emerges through merges or public acceptance as winning shares as equivalent to money % JC
-  \item \textbf{Auto-resolve:} final authority is a resolver contract that triggers on pre-set price conditions (\eg YES shares > \$0.99 for at least time $n$) 
-  \item \textbf{Designated arbiter:} final authority is a specific signing address; behind this address could be a trusted organization (\eg AP via Everipedia OraQles\footnote{Etherscan: \url{https://etherscan.io/address/0x0792724900B551d200D954a5Ed709d9514d73A9F}}) or a GenAI (\eg Grok for Polymarket)  or 
-  \item \textbf{Reporter-network:} final authority is the on-chain aggregation from the median/mean of multiple reporters (\eg Chainlink)
-  \item \textbf{Token-vote:} final authority is the arbitration contract determined by a token vote with staking/slashing (\eg Truthcoin, UMA's DVM, Augur's REP, Kleros) 
+%\begin{enumerate}
+%  \item \textbf{On-chain:} final authority is already on-chain and observable by the \depm smart contracts % JC
+%  \item \textbf{Self-settlement (market-driven):} no single final authority; settlement emerges through merges or public acceptance as winning shares as equivalent to money % JC
+%  \item \textbf{Auto-resolve:} final authority is a resolver contract that triggers on pre-set price conditions (\eg YES shares > \$0.99 for at least time $n$) 
+%  \item \textbf{Designated arbiter:} final authority is a specific signing address; behind this address could be a trusted organization (\eg AP via Everipedia OraQles\footnote{Etherscan: \url{https://etherscan.io/address/0x0792724900B551d200D954a5Ed709d9514d73A9F}}) or a GenAI (\eg Grok for Polymarket)  or 
+%  \item \textbf{Reporter-network:} final authority is the on-chain aggregation from the median/mean of multiple reporters (\eg Chainlink)
+%  \item \textbf{Token-vote:} final authority is the arbitration contract determined by a token vote with staking/slashing (\eg Truthcoin, UMA's DVM, Augur's REP, Kleros) 
+%\end{enumerate}
 
-\end{enumerate}
-
-You don't have to pick one method. Optimistic variants (UMA, Realitio) may allow people to propose answers, dispute, and then escalate to a method above only if there are disputes. After a method above decides, a timeout period could allow an Admin (or DAO) to override. The ultimate backstop is the law which would not stop resolution but could remunerate parties damaged by a bad outcome. %JC
 
 Note that the term `oracle' is relevant but is too broad, and could apply to 2, 3 or 4. %JC
 
