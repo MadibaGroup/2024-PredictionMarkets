@@ -79,7 +79,7 @@
 
 \item \textbf{Moonopol} (2024--present): \depm deployed on Solana with USDC as numeraire. Still active.
 
-\item \textbf{Misc}: There are decentralized event wagering systems (or toolkits) that deploy betting structures different from prediction markets. For the earliest systems using such an adjacent approach, we have included them above. However we do not expand on every follow-up project. These include: \textbf{Wagerr}, \textbf{BetDEX}, \textbf{Monaco Protocol}, \textbf{Peerplays}, \textbf{DexWin}, \textbf{DuelDuck}, \textbf{BetterFan}, \textbf{Oriole Insights}, \textbf{BetSwag.gg} and \textbf{Azuro}. We also note here the most prominent \cepms: \textbf{Kalshi}, \textbf{PredictIt}, \textbf{Futuur}, and \textbf{Manifold}. 
+\item \textbf{Miscellaneous}: There are decentralized event wagering systems (or toolkits) that deploy betting structures different from prediction markets. For the earliest systems using such an adjacent approach, we have included them above. However we do not expand on every follow-up project. These include: \textbf{Wagerr}, \textbf{BetDEX}, \textbf{Monaco Protocol}, \textbf{Peerplays}, \textbf{DexWin}, \textbf{DuelDuck}, \textbf{BetterFan}, \textbf{Oriole Insights}, \textbf{BetSwag.gg} and \textbf{Azuro}. We also note here the most prominent \cepms: \textbf{Kalshi}, \textbf{PredictIt}, \textbf{Futuur}, and \textbf{Manifold}. 
 
 \end{enumerate}
 
@@ -106,7 +106,7 @@
   \label{fig:example}
 \end{figure}
 
-\section{Example instantiation of formal definitions}
+\section{Example instantiation of definition}
 \label{app:example}
 
 In section~\ref{sec:hbo}, we discussed an example market concerning who the HBO documentary `Money Electric' would name as Satoshi Nakamoto. In this section, we will see how this fits the definitions of a market, prediction market system, and the Arrow--Debreau special case. As discussed in Section~\ref{wf:mech}, Polymarket employs a market mechanism we call a yes/no bundle (YNB), as opposed to winner-take-all (WTA). YNB requires an extra step in the definitions so we will do a first pass with a simplified WTA submarket, and then add the full YNB market.
@@ -244,33 +244,33 @@ At the price level this couples the binaries so that, up to frictions,
 making the bundle trade \emph{as if} it were a single Arrow--Debreu book while remaining, in our abstraction, a family $\{M_c\}$ with distinct $(E_c,\Omega_c,J_c,R^{(c)})$ and registers $\mathrm{res}_{M_c}$.
 
 
-\section{Leverage}
-
-\paragraph{Edge, capital, and “leverage” in binary prediction shares.}
-Let a YES share pay \$1 if the event occurs and \$0 otherwise. If the market price is $v\in(0,1)$ and your subjective probability is $p^*$, then the expected profit per share is
-\[
-\mathbb{E}[\pi]=p^*-v.
-\]
-Although the dollar edge per share may look small (e.g., $p^*=0.60$ vs.\ $v=0.48$ gives $\mathbb{E}[\pi]=0.12$), the capital at risk is only the purchase cost $v$. The expected \emph{return on capital} for that trade is
-\[
-\mathrm{ROC}_{\text{EV}}=\frac{p^*-v}{v}=\frac{0.12}{0.48}\approx 25\%,
-\]
-which is large. If price moves toward your view before resolution, you can also exit early and realize gains without tying up capital to maturity.
-
-\paragraph{Sizing the position with Kelly (from first principles).}
-Suppose you invest a fraction $f$ of current wealth $W$ into the share at price $v$. You buy $fW/v$ shares. If the event occurs (probability $p^*$), post-settlement wealth is
-\[
-W^+=W - fW + \frac{fW}{v}=W\bigl[1 + f\,(v^{-1}-1)\bigr],
-\]
-and if it does not occur (probability $1-p^*$), wealth is $W^-=W(1-f)$. Kelly sizing chooses $f$ to maximize expected log-wealth:
-\[
-\max_{0\le f<1}\; p^* \ln\!\bigl(1+ f(v^{-1}-1)\bigr) + (1-p^*)\ln(1-f).
-\]
-Differentiating and setting the derivative to zero yields the closed-form optimal fraction
-\[
-f^* \;=\; \frac{p^*-v}{1-v}.
-\]
-Equivalently, writing the “net odds” on a \$1 stake as $b=(1-v)/v$, the familiar Kelly form is $f^*=(b\,p^*-(1-p^*))/b$. For the running example ($p^*=0.60$, $v=0.48$), $f^*\!=\!(0.60-0.48)/0.52\approx 0.231$, i.e., about $23\%$ of bankroll on the YES side.\footnote{For shorting a YES share priced at $v$ (i.e., taking NO), replace $v$ by $1-v$ and $p^*$ by $1-p^*$ in the formula, or derive symmetrically.}
-
-\paragraph{Practical notes.}
-Kelly is optimal for log-utility over \emph{repeated, independent} favorable bets with known $p^*$. In markets, $p^*$ is estimated, bets are correlated, capital is finite, and fees and liquidity matter. Practitioners therefore use fractional Kelly (e.g., $f=\lambda f^*$ with $\lambda\in[0,1]$, often $\lambda=\tfrac{1}{2}$) to reduce drawdowns and model-error risk. Time to resolution also matters: tying up $v$ until maturity lowers annualized return unless you recycle capital via interim exits.
+%\section{Leverage}
+%
+%\paragraph{Edge, capital, and “leverage” in binary prediction shares.}
+%Let a YES share pay \$1 if the event occurs and \$0 otherwise. If the market price is $v\in(0,1)$ and your subjective probability is $p^*$, then the expected profit per share is
+%\[
+%\mathbb{E}[\pi]=p^*-v.
+%\]
+%Although the dollar edge per share may look small (e.g., $p^*=0.60$ vs.\ $v=0.48$ gives $\mathbb{E}[\pi]=0.12$), the capital at risk is only the purchase cost $v$. The expected \emph{return on capital} for that trade is
+%\[
+%\mathrm{ROC}_{\text{EV}}=\frac{p^*-v}{v}=\frac{0.12}{0.48}\approx 25\%,
+%\]
+%which is large. If price moves toward your view before resolution, you can also exit early and realize gains without tying up capital to maturity.
+%
+%\paragraph{Sizing the position with Kelly (from first principles).}
+%Suppose you invest a fraction $f$ of current wealth $W$ into the share at price $v$. You buy $fW/v$ shares. If the event occurs (probability $p^*$), post-settlement wealth is
+%\[
+%W^+=W - fW + \frac{fW}{v}=W\bigl[1 + f\,(v^{-1}-1)\bigr],
+%\]
+%and if it does not occur (probability $1-p^*$), wealth is $W^-=W(1-f)$. Kelly sizing chooses $f$ to maximize expected log-wealth:
+%\[
+%\max_{0\le f<1}\; p^* \ln\!\bigl(1+ f(v^{-1}-1)\bigr) + (1-p^*)\ln(1-f).
+%\]
+%Differentiating and setting the derivative to zero yields the closed-form optimal fraction
+%\[
+%f^* \;=\; \frac{p^*-v}{1-v}.
+%\]
+%Equivalently, writing the “net odds” on a \$1 stake as $b=(1-v)/v$, the familiar Kelly form is $f^*=(b\,p^*-(1-p^*))/b$. For the running example ($p^*=0.60$, $v=0.48$), $f^*\!=\!(0.60-0.48)/0.52\approx 0.231$, i.e., about $23\%$ of bankroll on the YES side.\footnote{For shorting a YES share priced at $v$ (i.e., taking NO), replace $v$ by $1-v$ and $p^*$ by $1-p^*$ in the formula, or derive symmetrically.}
+%
+%\paragraph{Practical notes.}
+%Kelly is optimal for log-utility over \emph{repeated, independent} favorable bets with known $p^*$. In markets, $p^*$ is estimated, bets are correlated, capital is finite, and fees and liquidity matter. Practitioners therefore use fractional Kelly (e.g., $f=\lambda f^*$ with $\lambda\in[0,1]$, often $\lambda=\tfrac{1}{2}$) to reduce drawdowns and model-error risk. Time to resolution also matters: tying up $v$ until maturity lowers annualized return unless you recycle capital via interim exits.
