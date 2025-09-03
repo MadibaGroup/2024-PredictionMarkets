@@ -1,0 +1,48 @@
+
+\newcolumntype{C}{>{\Centering\arraybackslash}X}
+\newcommand{\rotheader}[1]{\rotatebox{90}{\textbf{#1}}}
+
+\begin{table}[!htbp]
+\centering
+\caption{DePM Design Decisions Across the Modular Workflow.}
+\begin{tabularx}{\textwidth}{|p{1.6cm}|C|C|C|C|C|C|C|C|C|C|}
+\hline
+\multicolumn{1}{|c|}{\rotheader{Platform}} & \multicolumn{1}{|c|}{\rotheader{Infrastucture}}  & \rotheader{Topic} & \rotheader{Share} & \rotheader{Initial Issuance} & \rotheader{Numeraire} & \rotheader{Trading} & \rotheader{Resolution} & \rotheader{Settle} & \rotheader{Archive} & \rotheader{Implementation} \\
+\hline
+Augur (v1) & ETH L1 & \Circle & WTA & Split & ETH & O-OB & REP & PL & L & P + S \\
+\hline
+Princeton PM (design) & ETH L1 & \Circle & WTA & Split & --- & O-OB & C & PL & L & P \\
+\hline
+Augur (v2) & ETH L1 & \Circle & WTA & Split & DAI & X & REP & PL & L & P + S \\
+\hline
+Gnosis / Omen & ETH L1/L2 & \LEFTcircle & CTF & Split + CF: FPMM & DAI, xDAI & A & R/K & RP & L & P + S \\
+\hline
+Polymarket & Polygon (L2) & \CIRCLE\ (+ Pilot) & YNB & Split & USDC & X + A & UMA & PL + XG & L & P + S \\
+\hline
+Hivemind (Truthcoin) & BTC-side & \Circle & Comb. & CF: LSMR & --- & A & VTC & PL & S & P \\
+\hline
+PlotX (v2) & Polygon (L2) & \Circle & B/S & CF: CFMM & USDC & A & Ext.O & PL & P & S \\
+\hline
+CePM: Kalshi & CEX Deri & \CIRCLE\ (Rulebook) & Binary & Admin & USD & C & C & PS & C & S \\
+\hline
+CePM: PredictIt & CEX Retail & \CIRCLE\ (Operator) & Binary & Admin & USD & C & C & PS & C & S \\
+\hline
+\end{tabularx}
+
+\vspace{0.30em}
+\begin{minipage}{\textwidth}
+\footnotesize
+\textbf{Legend:} \\
+\textbf{Infrastructure:} L1 = Ethereum L1; L2 = optimistic/zk-rollup or sidechain (Polygon); Side = dedicated sidechain; CEX = centralized infra.; Deri = Derivatives\\
+\textbf{Topic:} \Circle = Permissionless; \LEFTcircle = Supports permissionless framework; \CIRCLE = Permissioned. \\
+\textbf{Share:} WTA = Winner-Take-All; CTF = Conditional Tokens; YNB = Yes/No Bundle; Comb. = Combinatorial; B/S = Binary/Scalar. \\
+\textbf{Initial Issuance:} Split = complete-set minting; CF = Cost Function; LSMR = Logarithmic Market Scoring Rule ; FPMM = fixed-product MM; CF: CFMM = constant-function MM; Admin = centralized. \\
+\textbf{Trading:} A = AMM; O-OB = on-chain order book; X = off-chain order book; C = centralized. \\
+\textbf{Resolution:} REP = Augur REP; UMA = UMA optimistic; R/K = Realitio$\rightarrow$Kleros; VTC = VoteCoins; Ext.O = external oracle; C = centralized. \\
+\textbf{Settlement:} PL = pull; RP = redeemPositions; PL+XG = pull + gasless; PS = push. \\
+\textbf{Archive:} L = On-chain Logs + IPFS; S = Sidechain; P = On-chain + Proprietary; C = Off-chain. \\
+\textbf{Implementation:} P = Paper; S = System; P+S = Both.
+\end{minipage}
+\end{table}
+
+
