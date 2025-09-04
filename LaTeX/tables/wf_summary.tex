@@ -1,13 +1,15 @@
+% !TEX root = ../main.tex
 
-\newcolumntype{C}{>{\Centering\arraybackslash}X}
-\newcommand{\rotheader}[1]{\rotatebox{90}{\textbf{#1}}}
-
-\begin{table}[!htbp]
+\begin{table}[t]
 \centering
 \caption{DePM Design Decisions Across the Modular Workflow.}
-\begin{tabularx}{\textwidth}{|p{1.6cm}|C|C|C|C|C|C|C|C|C|C|}
-\hline
-\multicolumn{1}{|c|}{\rotheader{Platform}} & \multicolumn{1}{|c|}{\rotheader{Infrastucture}}  & \rotheader{Topic} & \rotheader{Share} & \rotheader{Initial Issuance} & \rotheader{Numeraire} & \rotheader{Trading} & \rotheader{Resolution} & \rotheader{Settle} & \rotheader{Archive} & \rotheader{Implementation} \\
+
+\adjustbox{max width=\textwidth}{
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+
+\flatrow{Platform} & \headrow{Infrastucture (\S\ref{wf:infra})} & \headrow{Topic} & \headrow{Share Structure} & \headrow{Initial Issuance} & \headrow{Numeraire} & \headrow{Trading} & \headrow{Resolution} & \headrow{Settle} & \headrow{Archive} & \headrow{Implementation}\\
+
+
 \hline
 Augur (v1) & ETH L1 & \Circle & WTA & Split & ETH & O-OB & REP & PL & L & P + S \\
 \hline
@@ -27,7 +29,9 @@ CePM: Kalshi & CEX Deri & \CIRCLE\ (Rulebook) & Binary & Admin & USD & C & C & P
 \hline
 CePM: PredictIt & CEX Retail & \CIRCLE\ (Operator) & Binary & Admin & USD & C & C & PS & C & S \\
 \hline
-\end{tabularx}
+
+\end{tabular}
+}
 
 \vspace{0.30em}
 \begin{minipage}{\textwidth}
