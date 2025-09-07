@@ -7,27 +7,29 @@
 \adjustbox{max width=\textwidth}{
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
 
-\flatrow{Platform} & \headrow{Infrastucture (\S\ref{wf:infra})} & \headrow{Topic} & \headrow{Share Structure} & \headrow{Initial Issuance} & \headrow{Numeraire} & \headrow{Trading} & \headrow{Resolution} & \headrow{Settle} & \headrow{Archive} & \headrow{Implementation}\\
+\flatrow{Platform} & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:chain})} & \headrow{Numeraire  (\S\ref{wf:price})} & \headrow{Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{Archiving  (\S\ref{wf:archive})} & \headrow{Implementation}\\
 
 
 \hline
 Augur (v1) & ETH L1 & \Circle & WTA & Split & ETH & O-OB & REP & PL & L & P + S \\
 \hline
-Princeton PM (design) & ETH L1 & \Circle & WTA & Split & --- & O-OB & C & PL & L & P \\
+Princeton PM & ETH L1 & \Circle & WTA & Split & --- & O-OB & C & PL & L & P \\
 \hline
 Augur (v2) & ETH L1 & \Circle & WTA & Split & DAI & X & REP & PL & L & P + S \\
 \hline
 Gnosis / Omen & ETH L1/L2 & \LEFTcircle & CTF & Split + CF: FPMM & DAI, xDAI & A & R/K & RP & L & P + S \\
 \hline
-Polymarket & Polygon (L2) & \CIRCLE\ (+ Pilot) & YNB & Split & USDC & X + A & UMA & PL + XG & L & P + S \\
+Polymarket & Polygon (L2) & \CIRCLE & YNB & Split & USDC & X + A & UMA & PL + XG & L & P + S \\
 \hline
-Hivemind (Truthcoin) & BTC-side & \Circle & Comb. & CF: LSMR & --- & A & VTC & PL & S & P \\
+Hivemind (Truthcoin) & BTC-side & \Circle & Comb. & CF: LSMR & CSH & A & VTC & PL & S & P \\
 \hline
 PlotX (v2) & Polygon (L2) & \Circle & B/S & CF: CFMM & USDC & A & Ext.O & PL & P & S \\
 \hline
-CePM: Kalshi & CEX Deri & \CIRCLE\ (Rulebook) & Binary & Admin & USD & C & C & PS & C & S \\
+Zeitgeist & Polkadot Parachain (L1) & \LEFTcircle & B/S & CF: CFMM & ZTG & A & Ext.O & PL & L & S \\
 \hline
-CePM: PredictIt & CEX Retail & \CIRCLE\ (Operator) & Binary & Admin & USD & C & C & PS & C & S \\
+Thales & ETH L1 / NEAR & \CIRCLE & Binary & CF: CFMM & Multi & A & Ext.O & PL & L & S \\
+\hline
+CePM: Kalshi,PredictIt & CEX & \CIRCLE\ & Binary & Admin & USD & C & C & PS & C & S \\
 \hline
 
 \end{tabular}
@@ -38,9 +40,10 @@ CePM: PredictIt & CEX Retail & \CIRCLE\ (Operator) & Binary & Admin & USD & C & 
 \footnotesize
 \textbf{Legend:} \\
 \textbf{Infrastructure:} L1 = Ethereum L1; L2 = optimistic/zk-rollup or sidechain (Polygon); Side = dedicated sidechain; CEX = centralized infra.; Deri = Derivatives\\
-\textbf{Topic:} \Circle = Permissionless; \LEFTcircle = Supports permissionless framework; \CIRCLE = Permissioned. \\
+\textbf{Topic:} \Circle = Permissionless; \LEFTcircle = Supports permissionless framework; \CIRCLE = Permissioned. Note: Thales uses Sportsbook model, Kalshi uses a CFTC-compliant Rulebook and Polymarket is piloting a hybrid approach with user suggested topics\\
 \textbf{Share:} WTA = Winner-Take-All; CTF = Conditional Tokens; YNB = Yes/No Bundle; Comb. = Combinatorial; B/S = Binary/Scalar. \\
 \textbf{Initial Issuance:} Split = complete-set minting; CF = Cost Function; LSMR = Logarithmic Market Scoring Rule ; FPMM = fixed-product MM; CF: CFMM = constant-function MM; Admin = centralized. \\
+\textbf{Numeraire:} CSH = CashCoin (1:1 redeemable to BTC); ZTG = Zeitgeist parachain native token; Multi = USDC, ETH, THALES \\
 \textbf{Trading:} A = AMM; O-OB = on-chain order book; X = off-chain order book; C = centralized. \\
 \textbf{Resolution:} REP = Augur REP; UMA = UMA optimistic; R/K = Realitio$\rightarrow$Kleros; VTC = VoteCoins; Ext.O = external oracle; C = centralized. \\
 \textbf{Settlement:} PL = pull; RP = redeemPositions; PL+XG = pull + gasless; PS = push. \\
@@ -48,5 +51,3 @@ CePM: PredictIt & CEX Retail & \CIRCLE\ (Operator) & Binary & Admin & USD & C & 
 \textbf{Implementation:} P = Paper; S = System; P+S = Both.
 \end{minipage}
 \end{table}
-
-
