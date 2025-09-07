@@ -86,9 +86,6 @@ The term \textit{decentralized prediction market} originates from the Ethereum w
 
  % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
-\subsection{An Example of a Market}
-\label{sec:hbo}
-
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % Fixed-width column
 
 \begin{table}[t!]
@@ -125,11 +122,14 @@ The term \textit{decentralized prediction market} originates from the Ethereum w
 \end{tabularx}
 \end{table}
 
-Before diving deep on the mechanics of decentralized prediction markets, we illustrate how markets work and provide value with a lighthearted example. On 3 Oct 2024, a trailer was released with press coverage of a new HBO documentary on Bitcoin to air about a week later on 8 Oct 2024. In an interview, the director stated, the film would question Satoshi's anonymous identity and, `who we land on is unexpected and is going to result in a fair amount of controversy.' The next day, Polymarket setup a market for speculating on who the documentary would name, providing 15 names plus an `other/multiple' option. A benefit of a decentralized prediction market is allowing niche topics for markets, unlikely to attract mainstream betting websites---in this case, attracting \$44M USD in trading volume. Having an `other' option is also critical after many markets have failed to fully articulate every eventuality and in this case, the winner, was not one of the original 15 names (see Section~\ref{wf:topic}).
+\subsection{An Example of a Market}
+\label{sec:hbo}
 
-In game theory, cheap talk describes strategic misinformation or signalling aimed at shaping beliefs or prices, provided the cost of deception is outweighed by the potential payoff. This is well illustrated by what followed in the HBO Satoshi market as new pieces of evidence emerged, some real and some fake, with some fakes relatively elaborate (professional appearing end-credits or hijacking a target's X.com account) as summarized in Table~\ref{tab:hbo}. Further details are provided in Appendix~\ref{app:hbo}.
+Before diving deep on the mechanics of decentralized prediction markets, we illustrate how markets work with a lighthearted example. On 3 Oct 2024, a trailer was released with press coverage of a new HBO documentary on Bitcoin to air about a week later on 8 Oct 2024. In an interview, the director stated, the film would question Satoshi's anonymous identity and, `who we land on is unexpected and is going to result in a fair amount of controversy.~\cite{Bec24}' The next day, Polymarket setup a market for speculating on who the documentary would name, providing 15 names plus an `other/multiple' option.\footnote{\polyurl{Who will HBO doc identify as Satoshi?}{https://polymarket.com/event/who-will-hbo-doc-identify-as-satoshi}} A benefit of a decentralized prediction market is allowing niche topics for markets, unlikely to attract mainstream betting websites---in this case, attracting \$44M USD in trading volume. Having an `other' option is also critical after many markets have failed to fully articulate every eventuality and in this case, the winner, was not one of the original 15 names (see Section~\ref{wf:topic}).
 
-Also of interest is how the prediction market did not seem to extract insider information which is in violation of what the theory would predict. The director did state he did not participate in the market and advised his team working on the film not to either. Friction for novice users is also perhaps high---web3 apps have a learning curve and if insiders were based in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market.
+In game theory, cheap talk describes strategic misinformation or signalling aimed at shaping beliefs or prices, provided the cost of deception is outweighed by the potential payoff~\cite{CrSo82}. This is well illustrated by what followed in the HBO Satoshi market as new pieces of evidence emerged, some real and some fake, with some fakes relatively elaborate (professional appearing end-credits or hijacking a target's X.com account) as summarized in Table~\ref{tab:hbo}. Further details are provided in Appendix~\ref{app:hbo}.
+
+Also of interest is how the prediction market did not obviously extract insider information which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also perhaps high---web3 apps have a learning curve and if insiders were based in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market.
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -192,6 +192,7 @@ Generally, there are no strong qualitative differences between the named blockch
 By contrast, \depms like Augur, Gnosis, and PlotX enable \textit{permissionless} market creation by any user without centralized review. This removes the regulatory hook, enables niche topics that might not attract mainstream interest, and allows markets to be created without delay after real world events. However it can also lead to a greater incidence of malformed (or even malicious) market definitions, and unlawful topics, such as the `assassination markets' which appeared on Augur in 2018. \depms are generally web3 applications which means that a web-based user interface mediates transactions between the user and the underlying smart contracts. Market topic moderation could be implemented at the web3 layer (\eg Predictions.Global unlisted assignations markets from Augur's smart contracts) but this does not prevent users from building an alternative UI or directly transacting with the smart contracts. While \depms have the option to operate permissionlessly, they may also choose to permission market creation while leaving other aspects permissionless. At the time of writing, Polymarket is considered a \depm and while market topics can be suggested by users, final approval is made by a Market Integrity Committee~\cite{ClEsGS21}.
 
 A \textit{hybrid model} puts some controls on topic creation without centralizing it fully. For example, proposers may have to stake tokens to propose a market, and while the market is optimistically published, a review (either centralized or via an on-chain voting mechanism) could remove the market and/or slash the proposer.  
+
 
 \input{tables/topics.tex}
 

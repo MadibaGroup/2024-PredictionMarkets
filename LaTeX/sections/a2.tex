@@ -149,6 +149,8 @@ and $\mathsf{Res}=\{\mathrm{res}_M\}_{M\in\mathcal{M}}$ assigns to each market $
 $\bot$ and flips exactly once to some $\omega_M\in\Omega_M$.
 When $\mathrm{res}_M\neq\bot$, we set $\omega_M:=\mathrm{res}_M$ and each unit of label $j\in J$ settles for $R_j(\omega_M)$ units of $\mathcal{N}$.
 
+This market is a winner--take--all (Arrow--Debreu) special case: there is a bijection $\iota:J\to\Omega$ as follows: $\textsf{YES}\rightarrow\mathsf{True}$ and $\textsf{NO}\rightarrow\mathsf{False}$. Payoffs are $R_j(\omega)=\mathbf{1}\{\omega=\iota(j)\}$. Hence, for each $\omega\in\Omega$, exactly one label pays $1$ and all others pay $0$. 
+
 The market tuple $M=(E,\Omega,J,R)$ specifies \emph{what} to pay \emph{given} an outcome (via $R$).
 The register $\mathrm{res}_M$ is the system’s single source of truth for \emph{which} outcome actually occurred:
 before resolution $\mathrm{res}_M=\bot$ (no settlement), after resolution $\mathrm{res}_M=\omega_M\in\Omega_M$ (settlement applies).
@@ -181,96 +183,19 @@ and each unit settles as
 
 % = = = 
 
-This market is a winner--take--all (Arrow--Debreu) special case: there is a bijection $\iota:J\to\Omega$ and payoffs
-$R_j(\omega)=\mathbf{1}\{\omega=\iota(j)\}$. Hence, for each $\omega\in\Omega$, exactly one label pays $1$ and all others pay $0$.
-In the prediction--market system, the resolution register $\mathrm{res}_M\in\{\bot\}\cup\Omega$ is initially $\bot$ and flips exactly once to $\omega_M\in\Omega$; one unit of label $j\in J$ then settles for $R_j(\omega_M)$ units of the numeraire $\mathcal{N}$.
+\subsection{Pass 2: YNB Market}
+
+We define a \textit{family} of markets $\{M_c\}_{c\in C}$ where each $c\in C$ names one market in the family. For the HBO film, $C$ is the set of candidates including $\mathsf{Finney}$, $\mathsf{Szabo}$,  $\mathsf{Sassaman}$,  $\mathsf{Back}$, and $\mathsf{Other/Multiple}$. The event $E_c$ for a particular $\{M_c\}$ is: the documentary identifies $c$ as Satoshi. For each candidate's market, the relevant market outcomes are $\Omega_c=\tuple{\mathsf{True},\mathsf{False}}$. As a YNB market, Polymarket creates a yes share and a no share for each candidate $J_c=\tuple{\textsf{YES},\textsf{NO}}$ called a yes/no bundle (YNB). The payoffs are as follows: $R^{(c)}_{\textsf{YES}}(\mathsf{True})=1$, $R^{(c)}_{\textsf{YES}}(\mathsf{False})=0$, $R^{(c)}_{\textsf{NO}}(\mathsf{True})=0$, and $R^{(c)}_{\textsf{NO}}(\mathsf{False})=1$. Each $\{M_c\}$ has its own volume of outstanding shares, its own pricing, and its own orderbook or AMM. 
+
+For settling, $\mathsf{Res}=\{\mathrm{res}_{M}\}_{M\in\mathcal{M}}$ gives each $M_c$ a register $\mathrm{res}_{M_c}\in\{\bot\}\cup\Omega_c$, initially $\bot$, that flips exactly once to $\omega_{M_c}\in\Omega_c$. The documentary named Peter Todd, who was not one of the named candidates and thus fell under \textsf{Other/Multiple}: $\omega_{M_{\textsf{Other/Multiple}}}=\mathsf{True}$ while $\omega_{M_c}=\mathsf{False}$ for all other $c\neq\textsf{Other/Multiple}$. 
+
+The $R^{(c)}_j(\omega_{M_c})$ for \textsf{Other/Multiple: YES} was $1$ USDC, \textsf{Other/Multiple: NO} was $0$ USDC, every other named candidate’s \textsf{NO} paid $1$ USDC and their corresponding \textsf{YES} paid $0$ USDC. 
 
 % = = = 
 
-\subsection{Pass 2: YNB Market}
+\subsection{Axioms}
 
-\paragraph{Families.}
-Given an index set $C$, a \emph{family of markets} indexed by $C$ is a map $c\mapsto M_c$; we write $\{M_c\}_{c\in C}$. Each $c\in C$ names one market in the family.
+Polymarket works through \textit{splitting} (see \S\ref{wf:trade}) as follows. Any trader can receive 1 yes share and 1 no share for a specified candidate's market $\{M_c\}$  by depositing 1 USDC into the treasury for the market. When the market resolves, one share will resolve for 1 USDC and one will resolve for 0 USDC. Thus in both cases, Polymarket has exactly the correct amount in the treasury to complete its payout and is solvent. Every split increases the number of shares (yes and no) by 1 share and increase the treasury by 1 USDC. After the market resolves, the winning shares can be redeemed for 1 USDC which decreases the outstanding winning shares by 1 and reduces the treasury by 1 USDC. Shares are fungible as the payout for each share of the same type is identical. Polymarket allows shares to withdrawn as ERC20 tokens and traded using any compatible marketplace. It also provides a CLOB and an AMM for each share.
 
-\paragraph{Instantiation for the HBO event.}
-Let $C$ be the set of candidates (e.g., $\{\textsf{Szabo},\textsf{Sassaman},\textsf{Back},\dots,\textsf{Other/Multiple}\}$).
-Polymarket lists a family $\{M_c\}_{c\in C}$, one binary market per candidate:
-\[
-  M_c=(E_c,\Omega_c,J_c,R^{(c)}),\quad
-  E_c=\text{``The documentary identifies $c$ as Satoshi''},\ 
-  \Omega_c=\{\mathsf{True},\mathsf{False}\},\
-  J_c=\{\textsf{YES},\textsf{NO}\},
-\]
-with indicator payoffs
-\[
-  R^{(c)}_{\textsf{YES}}(\mathsf{True})=1,\ R^{(c)}_{\textsf{YES}}(\mathsf{False})=0,\qquad
-  R^{(c)}_{\textsf{NO}}(\mathsf{True})=0,\ R^{(c)}_{\textsf{NO}}(\mathsf{False})=1.
-\]
+The HBO documentary market is a special case, called negative risk (NR), in which each candidate's yes/no bundle is a complete set of outcomes (either the candidate is named or the candidate is not named) and additionally the set of yes shares for each candidate is complete (one and only one of the candidates will be declared the winner). Thus it is WTA across each yes/no bundle and it is also WTA across all yes shares.
 
-\paragraph{System-level mapping to Polymarket.}
-Polymarket instantiates the prediction–market system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{Res})$ as follows:
-\begin{itemize}
-  \item $\mathcal{M}$ contains all candidate markets $\{M_c\}_{c\in C}$ under the HBO event (plus all other site markets).
-  \item $\mathcal{N}$ is USDC (USD–denominated stablecoin). Each unit share settles to $0$ or $1$ USDC according to $R^{(c)}$.
-  \item $\mathsf{Res}=\{\mathrm{res}_{M}\}_{M\in\mathcal{M}}$ gives each $M_c$ a register $\mathrm{res}_{M_c}\in\{\bot\}\cup\Omega_c$,
-        initially $\bot$, that flips exactly once to $\omega_{M_c}\in\Omega_c$ when the platform’s oracle process (e.g., UMA’s optimistic oracle) writes the outcome on-chain.
-\end{itemize}
-Settlement in our notation is $R^{(c)}_j(\omega_{M_c})$ USDC for each unit of label $j\in J_c$.
-
-\paragraph{What resolved in the HBO case.}
-The documentary focused on \emph{Peter Todd}, which Polymarket grouped under \textsf{Other/Multiple}. Hence
-\[
-  \omega_{M_{\textsf{Other/Multiple}}}=\mathsf{True}
-  \quad\text{and}\quad
-  \omega_{M_c}=\mathsf{False}\ \text{ for all named }c\neq\textsf{Other/Multiple}.
-\]
-Equivalently: \textsf{Other/Multiple: YES} paid $1$ USDC; every named candidate’s \textsf{NO} paid $1$ USDC; the corresponding \textsf{YES} paid $0$ USDC.
-
-\paragraph{Relation to Arrow--Debreu (single book) vs.\ Polymarket (bundle).}
-A single winner–take–all (Arrow--Debreu) market would model the event as one market $M^\star=(E^\star,\Omega^\star,J^\star,R^\star)$ with
-$\Omega^\star=C$ and $J^\star$ in bijection with $\Omega^\star$, so exactly one label pays $1$ at resolution.
-Polymarket instead uses a \emph{bundle of binaries} $\{M_c\}_{c\in C}$ (one YES/NO pair per candidate). This is a different microstructure:
-prices live in separate order books, and each market $M_c$ resolves independently via its own register $\mathrm{res}_{M_c}$.
-
-\paragraph{Negative risk (Polymarket’s cross-market linkage).}
-When the parent event is configured as \emph{negative risk}, Polymarket enables a conversion that links prices across the family:
-informally, a \textsf{NO} on candidate $i$ is convertible into the basket of \textsf{YES} on all $j\neq i$.
-At the price level this couples the binaries so that, up to frictions,
-\[
-\mathrm{price}(\textsf{NO}_i)\ \approx\ \sum_{j\neq i}\mathrm{price}(\textsf{YES}_j)
-\quad\Longrightarrow\quad
-\sum_{j\in C}\mathrm{price}(\textsf{YES}_j)\ \approx\ 1,
-\]
-making the bundle trade \emph{as if} it were a single Arrow--Debreu book while remaining, in our abstraction, a family $\{M_c\}$ with distinct $(E_c,\Omega_c,J_c,R^{(c)})$ and registers $\mathrm{res}_{M_c}$.
-
-
-%\section{Leverage}
-%
-%\paragraph{Edge, capital, and “leverage” in binary prediction shares.}
-%Let a YES share pay \$1 if the event occurs and \$0 otherwise. If the market price is $v\in(0,1)$ and your subjective probability is $p^*$, then the expected profit per share is
-%\[
-%\mathbb{E}[\pi]=p^*-v.
-%\]
-%Although the dollar edge per share may look small (e.g., $p^*=0.60$ vs.\ $v=0.48$ gives $\mathbb{E}[\pi]=0.12$), the capital at risk is only the purchase cost $v$. The expected \emph{return on capital} for that trade is
-%\[
-%\mathrm{ROC}_{\text{EV}}=\frac{p^*-v}{v}=\frac{0.12}{0.48}\approx 25\%,
-%\]
-%which is large. If price moves toward your view before resolution, you can also exit early and realize gains without tying up capital to maturity.
-%
-%\paragraph{Sizing the position with Kelly (from first principles).}
-%Suppose you invest a fraction $f$ of current wealth $W$ into the share at price $v$. You buy $fW/v$ shares. If the event occurs (probability $p^*$), post-settlement wealth is
-%\[
-%W^+=W - fW + \frac{fW}{v}=W\bigl[1 + f\,(v^{-1}-1)\bigr],
-%\]
-%and if it does not occur (probability $1-p^*$), wealth is $W^-=W(1-f)$. Kelly sizing chooses $f$ to maximize expected log-wealth:
-%\[
-%\max_{0\le f<1}\; p^* \ln\!\bigl(1+ f(v^{-1}-1)\bigr) + (1-p^*)\ln(1-f).
-%\]
-%Differentiating and setting the derivative to zero yields the closed-form optimal fraction
-%\[
-%f^* \;=\; \frac{p^*-v}{1-v}.
-%\]
-%Equivalently, writing the “net odds” on a \$1 stake as $b=(1-v)/v$, the familiar Kelly form is $f^*=(b\,p^*-(1-p^*))/b$. For the running example ($p^*=0.60$, $v=0.48$), $f^*\!=\!(0.60-0.48)/0.52\approx 0.231$, i.e., about $23\%$ of bankroll on the YES side.\footnote{For shorting a YES share priced at $v$ (i.e., taking NO), replace $v$ by $1-v$ and $p^*$ by $1-p^*$ in the formula, or derive symmetrically.}
-%
-%\paragraph{Practical notes.}
-%Kelly is optimal for log-utility over \emph{repeated, independent} favorable bets with known $p^*$. In markets, $p^*$ is estimated, bets are correlated, capital is finite, and fees and liquidity matter. Practitioners therefore use fractional Kelly (e.g., $f=\lambda f^*$ with $\lambda\in[0,1]$, often $\lambda=\tfrac{1}{2}$) to reduce drawdowns and model-error risk. Time to resolution also matters: tying up $v$ until maturity lowers annualized return unless you recycle capital via interim exits.
