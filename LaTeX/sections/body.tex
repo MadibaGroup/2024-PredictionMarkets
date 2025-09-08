@@ -379,9 +379,9 @@ For example, Polymarket settles markets on the canonical ledger using the UMA Op
 
 \section{Discussion and Research Agenda}
 
-\input{tables/wf_summary.tex}
-
 \paragraph{Composability.} Perhaps the biggest evolution in \depm design is modularity. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which glues together nicely because of standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-20 and ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
+
+\input{tables/wf_summary.tex}
 
 \paragraph{Regulation.} In jurisdictions like the United States, both \cepms and \depms are tightly controlled and not always legal to operate. The paramount concerns of regulators are not specific to prediction markets or the difference in their microstructure from other forms of wagering (although market integrity is always a concern); rather, regulators control any kind of wagering on political events (a stance disputed by leading economists), as well as any kind of financial service offered to unaccredited consumers. For advocates of liberal markets, \depms are seen as a way to side-step regulation, particularly when the \depm is decentralized in most or all dimensions of our taxonomy. 
 
