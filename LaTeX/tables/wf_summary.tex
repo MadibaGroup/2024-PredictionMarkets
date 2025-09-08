@@ -1,35 +1,35 @@
 % !TEX root = ../main.tex
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
 \caption{DePM Design Decisions Across the Modular Workflow.}
 
 \adjustbox{max width=\textwidth}{
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|}
 
-\flatrow{Platform} & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:chain})} & \headrow{Numeraire  (\S\ref{wf:price})} & \headrow{Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{Archiving  (\S\ref{wf:archive})} & \headrow{Implementation}\\
+\flatrow{Platform} & \headrow{Implementation} & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Platform (\S\ref{wf:chain})} & \headrow{Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:price})} & \headrow{Numeraire  (\S\ref{wf:price})} & \headrow{Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{Archiving  (\S\ref{wf:archive})} \\
 
 
 \hline
-Augur (v1) & ETH L1 & \Circle & WTA & Split & ETH & O-OB & REP & PL & L & P + S \\
+Augur (v1)~\cite{AKPWZ15} & \Circle & \Circle & ETH & \CIRCLE & WTA & Split & ETH & \CIRCLE & REP & PL & $\blacklozenge$ \\
 \hline
-Princeton PM & ETH L1 & \Circle & WTA & Split & --- & O-OB & C & PL & L & P \\
+Princeton PM~\cite{BCFKMN14} & \Circle & \Circle & ETH & \CIRCLE & WTA & Split & Custom & \CIRCLE & C & PL & $\blacklozenge$ \\
 \hline
-Augur (v2) & ETH L1 & \Circle & WTA & Split & DAI & X & REP & PL & L & P + S \\
+Augur (v2)~\cite{AKPWZ19} & \CIRCLE & \Circle & ETH &\CIRCLE & WTA & Split & DAI & X & REP & PL & $\blacklozenge$ \\
 \hline
-Gnosis / Omen & ETH L1/L2 & \LEFTcircle & CTF & Split + CF: FPMM & DAI, xDAI & A & R/K & RP & L & P + S \\
+Omen~\cite{Omen_docs} & \CIRCLE & \Circle\ + \CIRCLE & ETH+Gnosis~\cite{Gn17} & \LEFTcircle & CTF & Split+FPMM & DAI, xDAI & \Circle & R/K & RP & $\blacklozenge$\\
 \hline
-Polymarket & Polygon (L2) & \CIRCLE & YNB & Split & USDC & X + A & UMA & PL + XG & L & P + S \\
+Polymarket~\cite{poly} & \CIRCLE & \CIRCLE & Polygon PoS & \Circle & YNB-NR & Split & USDC & DEX & UMA & PL+XG & $\blacklozenge$ \\
 \hline
-Hivemind (Truthcoin) & BTC-side & \Circle & Comb. & CF: LSMR & CSH & A & VTC & PL & S & P \\
+Hivemind (Truthcoin)~\cite{Sz14} & \Circle & $\blacklozenge$ & BTC-sidechain & \CIRCLE & Comb. & LSMR & CSH & \Circle & VTC & PL & $\blacklozenge$ \\
 \hline
-PlotX (v2) & Polygon (L2) & \Circle & B/S & CF: CFMM & USDC & A & Ext.O & PL & P & S \\
+PlotX (v2)~\cite{plotx_docs} & \CIRCLE & \CIRCLE & Polygon PoS & \CIRCLE & B/S & CFMM & USDC & \Circle & Ext.O & PL & $\lozenge$ \\
 \hline
-Zeitgeist & Polkadot Parachain (L1) & \LEFTcircle & B/S & CF: CFMM & ZTG & A & Ext.O & PL & L & S \\
+Zeitgeist~\cite{zeitgeist_docs}  & \CIRCLE & $\blacklozenge$ & Parachain & \LEFTcircle & B/S & CFMM & ZTG & \Circle & Ext.O & PL & $\blacklozenge$ \\
 \hline
-Thales & ETH L1 / NEAR & \CIRCLE & Binary & CF: CFMM & Multi & A & Ext.O & PL & L & S \\
+Thales~\cite{thalesmarket_docs} & \CIRCLE  & \LEFTcircle & Optimism & \Circle & Binary & CFMM & Multi & \Circle & Ext.O & PL & $\blacklozenge$\\
 \hline
-CePM: Kalshi,PredictIt & CEX & \CIRCLE\ & Binary & Admin & USD & C & C & PS & C & S \\
+Kalshi~\cite{kalshi_docs}, PredictIt~\cite{predictit_faq} & \CIRCLE & CePM & Proprietary  & \Circle & Binary & Matching & USD & CLOB & C & PS & \Circle \\
 \hline
 
 \end{tabular}
@@ -39,15 +39,15 @@ CePM: Kalshi,PredictIt & CEX & \CIRCLE\ & Binary & Admin & USD & C & C & PS & C 
 \begin{minipage}{\textwidth}
 \footnotesize
 \textbf{Legend:} \\
-\textbf{Infrastructure:} L1 = Ethereum L1; L2 = optimistic/zk-rollup or sidechain (Polygon); Side = dedicated sidechain; CEX = centralized infra.; Deri = Derivatives\\
-\textbf{Topic:} \Circle = Permissionless; \LEFTcircle = Supports permissionless framework; \CIRCLE = Permissioned. Note: Thales uses Sportsbook model, Kalshi uses a CFTC-compliant Rulebook and Polymarket is piloting a hybrid approach with user suggested topics\\
-\textbf{Share:} WTA = Winner-Take-All; CTF = Conditional Tokens; YNB = Yes/No Bundle; Comb. = Combinatorial; B/S = Binary/Scalar. \\
-\textbf{Initial Issuance:} Split = complete-set minting; CF = Cost Function; LSMR = Logarithmic Market Scoring Rule ; FPMM = fixed-product MM; CF: CFMM = constant-function MM; Admin = centralized. \\
+\textbf{Implementation:} \Circle = Paper only; \CIRCLE = System Implemented
+\textbf{Infrastructure:} \Circle = Smart contract on Layer 1; \LEFTcircle = Smart  contract on Layer 2; \CIRCLE = Smart contract on sidechain (EVM altchain); $\blacklozenge$= Custom Layer 1\\
+\textbf{Topic:} \CIRCLE = Permissionless; \LEFTcircle = Supports permissionless framework; \Circle = Permissioned. Note: Thales uses a Sportsbook model, Kalshi uses a CFTC-compliant Rulebook, and Polymarket is piloting a hybrid approach with user-suggested topics.\\
+\textbf{Share Structure:} WTA = Winner-Take-All; CTF = Conditional Tokens; YNB-NR = Yes/No Bundle and Negative-Risk; Comb. = Combinatorial; B/S = Binary/Scalar; \\
+\textbf{Initial Issuance:} Split = complete-set minting; LSMR = Logarithmic Market Scoring Rule ; FPMM = fixed-product MM; CF: CFMM = constant-function MM; Matching = Matching CLOB \\
 \textbf{Numeraire:} CSH = CashCoin (1:1 redeemable to BTC); ZTG = Zeitgeist parachain native token; Multi = USDC, ETH, THALES \\
-\textbf{Trading:} A = AMM; O-OB = on-chain order book; X = off-chain order book; C = centralized. \\
+\textbf{Trading:} \CIRCLE = decentralized CLOB (proposal only); DEX =  DEX (hybrid: off-chain matching + on-chain settlement); \Circle = AMM;  \\
 \textbf{Resolution:} REP = Augur REP; UMA = UMA optimistic; R/K = Realitio$\rightarrow$Kleros; VTC = VoteCoins; Ext.O = external oracle; C = centralized. \\
 \textbf{Settlement:} PL = pull; RP = redeemPositions; PL+XG = pull + gasless; PS = push. \\
-\textbf{Archive:} L = On-chain Logs + IPFS; S = Sidechain; P = On-chain + Proprietary; C = Off-chain. \\
-\textbf{Implementation:} P = Paper; S = System; P+S = Both.
+\textbf{Archive:} $\blacklozenge$ = archived on-chain (L1/L2/sidechain) and/or IPFS/Arweave; $\lozenge$ = mixed (partial on‑chain/IPFS + partial proprietary/off‑chain); \Circle = off-chain, Proprietary\\
 \end{minipage}
-\end{table}
+\end{table} 
