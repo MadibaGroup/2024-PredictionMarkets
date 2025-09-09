@@ -1,7 +1,7 @@
 % !TEX root = ../main.tex
 \section{Introduction}
 
-In late 2024, the United States was in the midst of a presidential election when the decentralized prediction market, Polymarket~\cite{poly}, broke through mainstream news coverage~\cite{YBG24,Cha24}. Stories focused, in particular, on the fact that it offered odds more favourable to eventual winner Donald Trump than those reflected in conventional polls and forecasts. Polymarket's odds are not set by experts or pundits, instead it is a specific type of betting market where odds are extrapolated from the prices of trades made in an open market (or somewhat open, as Polymarket was banned at the time in many countries including the US). 
+In late 2024, the United States was in the midst of a presidential election when the decentralized prediction market, Polymarket~\cite{poly}, broke through mainstream news coverage~\cite{Cha24,YBG24b,YBG24a}. Stories focused, in particular, on the fact that it offered odds more favourable to eventual winner Donald Trump than those reflected in conventional polls and forecasts. Polymarket's odds are not set by experts or pundits, instead it is a specific type of betting market where odds are extrapolated from the prices of trades made in an open market (or somewhat open, as Polymarket was banned at the time in many countries including the US). 
 
 As with traditional betting, whether online or through a bookie, prediction markets allow speculators to profit from correct forecasts~\cite{AFGH+08,WoZi06}. However the structure of a prediction market is different than traditional betting. One key difference is that prediction markets ease the process of moving in and out of bets before the event resolves, encouraging traders to place bets if they think the odds are over- or under-stated, and withdrawing profits if the odds realign.
 
@@ -54,6 +54,7 @@ We obtained a collection of academic works on decentralized prediction markets, 
 
 Consider the following taxonomy of wagering systems:
 
+\adjustbox{max width=\textwidth}{
 \begin{tikzpicture}[
   font=\footnotesize,
   grow=right,                    % horizontal (left -> right)
@@ -68,6 +69,7 @@ Consider the following taxonomy of wagering systems:
     child { node[]{Decentralized (\depms)} }
   };
 \end{tikzpicture}
+}
 
 \paragraph{Bookmakers versus prediction markets.}
 
@@ -137,6 +139,7 @@ Also of interest is how the prediction market did not obviously extract \textit{
 \label{sec:wf}
 
 \begin{center}
+\adjustbox{max width=0.8\textwidth}{
 \begin{tikzpicture}[
   node distance=0.5cm and 1cm,
   show background rectangle,
@@ -165,6 +168,7 @@ Also of interest is how the prediction market did not obviously extract \textit{
 \draw[->] (settle) -- (archive);
 
 \end{tikzpicture}
+}
 \end{center}
 
 
@@ -185,22 +189,21 @@ In theory, a decentralized and permissionless system might run on something othe
 
 \subsection{Market Topic}\label{wf:topic}
 
-\cepms include the Iowa Electronic Markets~\cite{iem}, Kalshi~\cite{kalshi_docs}, and PredictIt~\cite{predictit_faq}, as well as InTrade historically~\cite{intrade}. These systems exercise control over what topics may form a market and thus are \textit{permissioned} with respect to market topics. They also operate under regulations that may restrict markets to certain topics or fully ban operations in regulated jurisdictions~\cite{Du19,Ma24}. 
-
-By contrast, \depms like Augur~\cite{AKPWZ15,AKPWZ19}, the original Gnosis~\cite{Gn17}, and PlotX~\cite{plotx_docs} enable \textit{permissionless} market creation by any user without centralized review. This removes the regulatory hook, enables niche topics that might not attract mainstream interest, and allows markets to be created without delay after real world events. However it can also lead to a greater incidence of malformed (or even malicious) market definitions, and unlawful topics, such as the `assassination markets' which appeared on Augur in 2018. \depms are generally web3 applications which means that a web-based user interface mediates transactions between the user and the underlying smart contracts. Market topic moderation could be implemented at the web3 layer (\eg Predictions.Global unlisted assignations markets from Augur's smart contracts) but this does not prevent users from building an alternative UI or directly transacting with the smart contracts. While \depms have the option to operate permissionlessly, they may also choose to permission market creation while leaving other aspects permissionless. At the time of writing, Polymarket is considered a \depm and while market topics can be suggested by users, final approval is made by a Market Integrity Committee.
-
-A \textit{hybrid model} puts some controls on topic creation without centralizing it fully. For example, proposers may have to stake tokens to propose a market, and while the market is optimistically published, a review (either centralized or via an on-chain voting mechanism) could remove the market and/or slash the proposer.  
-
-
 \input{tables/topics.tex}
 
-Careful attention must be paid to both the general topic of the market and the `fine-print' or exact predicate that decides the market. Table~\ref{tab:pitfalls} provides several examples of pitfalls. A pitfall in the predicate means the market topic is acceptable but there is an issue with its exact specification (\eg a market about wearing a suit needs to define a suit). A pitfall in the topic means the topic itself is problematic, even if it is worded impeccably (\eg a Polymarket market about whether Polymarket will shut down is problematic because winners will not be paid if it does). The first pitfall, borderline categories, is very prominent with many other disputes, including whether enforcement against TikTok in the US constitutes a ban,\footnote{\polyurl{TikTok banned in the US before May 2025?}{https://polymarket.com/event/tiktok-banned-in-the-us-before-may-2025}} or if finding debris from the Titan submersible constitutes it being found.\footnote{\polyurl{Will the missing submarine be found by June 23?}{https://polymarket.com/event/will-the-missing-submarine-be-found-by-june-23}} 
+\cepms include the Iowa Electronic Markets~\cite{iem}, Kalshi~\cite{kalshi_docs}, and PredictIt~\cite{predictit_faq}, as well as InTrade historically~\cite{intrade}. These systems exercise control over what topics may form a market and thus are \textit{permissioned} with respect to market topics. They also operate under regulations that may restrict markets to certain topics or fully ban operations in regulated jurisdictions~\cite{Du19,Ma24}. 
 
-These issues are not limited to \depms and apply to event wagering in general, however some issues are more pronounced in \depms. If market creation is permissionless, market creators may be amateurs and error-prone; may draft adversarial markets to trick traders; or duplicate existing markets, thinning out liquidity. \cepms have the latitude to organize, pause, or revise markets or ban users. \depms may give themselves this latitude at the risk of appearing less permissionless. Further it seems inevitable that some markets will fall into a pitfall and \depms have to carefully consider how dispute resolution will work while also appealing to blockchain enthusiasts.
+By contrast, \depms like Augur~\cite{AKPWZ15,AKPWZ19}, the original Gnosis~\cite{Gn17}, and PlotX~\cite{plotx_docs} enable \textit{permissionless} market creation by any user without centralized review. This removes the regulatory hook, enables niche topics that might not attract mainstream interest~\cite{WZ24}, and allows markets to be created without delay after real world events. However it can also lead to a greater incidence of malformed (or even malicious) market definitions, spam duplicates of existing markets, and unlawful topics, such as the `assassination markets' which appeared on Augur in 2018~\cite{Du19}. \depms are generally web3 applications which means that a web-based user interface mediates transactions between the user and the underlying smart contracts. Market topic moderation could be implemented at the web3 layer (\eg Predictions.Global unlisted assignations markets from Augur's smart contracts~\cite{Du19}) but this does not prevent users from building an alternative UI or directly transacting with the smart contracts. 
 
-Dealing with definitional pitfalls has been, to date, a trial and error process where market creators learn from past mistakes and ad hoc `legalese' (e.g., a `consensus of credible reporting' may be used to resolve markets) is copied from market to market. Future research could develop machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes) and verify they are well-defined with model checking. 
+%While \depms have the option to operate permissionlessly, they may also choose to permission market creation while leaving other aspects permissionless. At the time of writing, Polymarket is considered a \depm and while market topics can be suggested by users, final approval is made by a Market Integrity Committee.
 
-If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting.
+These systems are not all purely permissionless. A \textit{hybrid model} puts some controls on topic creation without centralizing it fully~\cite{AKPWZ19}. For example, proposers may have to stake tokens to propose a market, and while the market is optimistically published, a review (either centralized or via an on-chain voting mechanism) could remove the market and/or slash the proposer.  
+
+Careful attention must be paid to both the general topic of the market and the `fine-print' or exact predicate that decides the market. Table~\ref{tab:pitfalls} provides several examples of pitfalls. The first pitfall, borderline categories, is very prominent with many other disputes, including  
+
+Dealing with definitional pitfalls has been, to date, a trial and error process where market creators learn from past mistakes and ad hoc `legalese' (e.g., a `consensus of credible reporting' may be used to resolve markets) is copied from market to market~\cite{Ad24}. Future research could develop machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes) and verify they are well-defined with model checking (\cf~\cite{Cla21}). 
+
+If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting~\cite{poly}.
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -290,6 +293,8 @@ Once outcome shares are in wide circulation, they can be traded any way fungible
 
 Of interest, AMMs were born out of Gnosis' research into automated bookmarking for prediction markets. They first developed alternatives to the LMSR rule, including the constant product rule. Initially, it was proposed that a trader holding two kinds of tokens could set up an automated market maker using this, or other, rules. This is precisely what the prediction market operator does in automated bookmaking. In parallel, Bancor worked on exchanges where multiple traders could contribute tokens to a common liquidity pool. Uniswap v1 merged these two ideas to create the basic template of an AMM that is common today.
 
+% https://www.bayesianinvestor.com/amm/
+
 Despite the direct lineage between prediction markets and AMMs, AMMs are problematic for prediction market trading. \depm outcome shares behave in specific ways that differ from typical crypto-assets and tokens. The price is strictly bounded between \$0 and \$1, the value of a share can jump to \$0 or \$1 near-instantly when an event outcome is finalized, and once finalized, the price is permanent. When real world events occur, AMMs can be drained faster than liquidity providers can withdraw liquidity. Adapting AMMs to these constraints is an interesting open problem. Paradigm’s pm-AMM tapers liquidity as a scheduled expiry approaches, which helps for events with a known horizon; but many markets jump or resolve unexpectedly, so pre-expiry shocks can still hurt liquidity providers.
 
 When trading on-chain, miners and other users can front-run transactions, an area of study called maximum extracted value (MEV). Although the term MEV did not exist at the time, the Princeton \depm describes the MEV problem extensively and proposes a mitigation now called a frequent batch auction (FBA) (again, the term FBA was not popularized until later) to be conducted at the blockchain-level (adaptable to a layer 3 chain). On-chain FBAs have been studied and while linear time operations in the size of the orderbook are still infeasible for Ethereum or even layer 2 roll-ups, succinct proofs that auctions were closed correctly could be used.  
@@ -307,6 +312,7 @@ Oracle-less approaches are largely academic. A \textit{self-settling market} ass
 
 
 % https://augur.mystrikingly.com/blog/scaling-augur-part-2-a-roadmap#:~:text=An%20interesting%20idea%20would%20be,for%20resolving%20without%20your%20aid
+% https://www.lesswrong.com/posts/tJmpsEevCcEfL6a7Z/self-resolving-prediction-markets
 
 
 The \textit{designated arbiter} space is evolving, with platforms exploring a shift from centralized human arbiters to AI councils. Kalshi exemplifies centralized resolution: staff settle markets per published rules/sources; as a CFTC-regulated DCM and for platform credibility, team is incentivized to resolve accurately.[https://www.cftc.gov/PressRoom/PressReleases/8302-20], [https://help.kalshi.com/markets/markets-101/market-rules]
