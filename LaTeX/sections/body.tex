@@ -17,7 +17,7 @@ Early systems, like Augur~\cite{AKPWZ15} and Gnosis~\cite{Gn17} closely resemble
 \item From \S\ref{wf:close}, in Truthcoin, the blockchain decides event outcomes (\eg who won the election) through a reputation-based on-chain vote with slashing~\cite{Sz14}. In the Princeton paper, they are resolved through trusted arbiters acting as oracles~\cite{BCFKMN14}. The Ethereum whitepaper suggests both~\cite{But13}. In Polymarket, the third party oracle, UMA, operates under the hood through on-chain voting with slashing, but only when outcomes are disputed~\cite{poly,uma}.
 \end{enumerate}
 
-Noticing these points of differences inspired us to ask what are all the design decisions involved in creating a \depm?  We reviewed over a hundred designs, distilled into the 35+ notable \depms listed in Appendix~\ref{app:list}. We break the \depm design space into a `modular workflow' (the method used in an SoK at AFT 2021 on oracles~\cite{ClEsGS21}) with seven stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs. 
+Noticing these points of differences inspired us to ask what are all the design decisions involved in creating a \depm?  We reviewed over a hundred projects, distilled into the 35+ notable \depms listed in Appendix~\ref{app:list}. From these, we break the \depm design space into a `modular workflow' (the method used in an SoK at AFT 2021 on oracles~\cite{ClEsGS21}) with seven stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs. 
 
 % ChatGPT generated timeline so cross-validate everything before believing any of it:
 %	•	1988 — Iowa Electronic Markets (IEM) launch as an academic, real-money prediction market at the University of Iowa.  ￼ ￼
@@ -179,7 +179,7 @@ We now turn to the design landscape of \depms and step through our modular workf
 \subsection{Underlying Infrastructure}
 \label{subsec:blockchain_infra}\label{wf:chain}
 
-In theory, a decentralized and permissionless system might run on something other than a blockchain, but blockchain technology underlays all known \depms. The earliest (pre-Ethereum) research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a separate chain (perhaps integrated with Bitcoin as a sidechain~\cite{BCD+14}) would be required~\cite{Sz14,BCFKMN14}. Today, projects tend to run as \textit{smart contracts} on an Ethereum competitor (\eg Polygon~\cite{AKN21} or Solana~\cite{Yak18}) or an Ethereum L2 (\eg Arbitrum~\cite{KGCWF18} or Optimism~\cite{op}). There are no strong qualitative differences between the underlying blockchain---it is a choice driven by fees, user base, and supporting infrastructure. One other approach (\eg Zeitgeist~\cite{zeit} or SX Network~\cite{sx}) is to put the prediction market logic into the blockchain rules themselves on a custom \textit{app-chain}.
+In theory, a decentralized and permissionless system might run on something other than a blockchain, but blockchain technology underlays all known \depms. The earliest (pre-Ethereum) research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a \textit{sidechain}~\cite{BCD+14} would be required~\cite{Sz14,BCFKMN14}. Today, projects tend to run as \textit{smart contracts} on an Ethereum competitor (\eg Polygon~\cite{AKN21} or Solana~\cite{Yak18}) or an Ethereum L2 (\eg Arbitrum~\cite{KGCWF18} or Optimism~\cite{op}). There are no strong qualitative differences between the underlying blockchain---it is a choice driven by fees, user base, and supporting infrastructure. One other approach (\eg Zeitgeist~\cite{zeit} or SX Network~\cite{sx}) is to put the prediction market logic into the blockchain rules themselves on a custom \textit{app-chain}.
 
 %MEV?
 
@@ -209,21 +209,27 @@ If issues in a market's topic or definition are uncovered while the market is st
 
 \subsection{Share Structure and Pricing}\label{wf:mech}\label{wf:price}
 
-The core requirement of a prediction market is that wagers are represented by fungible outcome shares. The structure of outcome shares typically falls into one of three categories and two variants (although more exotic structures are possible and explored in research). Consider a market with three possible outcomes: $\Omega=\{\mathsf{A}, \mathsf{B}, \mathsf{C}\}$. 
+The core requirement of a prediction market is that wagers are represented by fungible outcome shares. The structure of outcome shares typically falls into one of three categories and two variants (although more exotic structures are possible and explored in research). 
 
-The first structure we term \textit{winner-take-all (WTA)} and is prominent on Iowa Electronic Markets and supported by Augur and Gnosis. A WTA market issues a outcome share for each outcome $J=\{j_\mathsf{A}, j_\mathsf{B}, j_\mathsf{C}\}$. If the outcome is $\mathsf{B}$, the share $j_\mathsf{B}$ pays \$1 (or one unit of numeraire $\mathcal{N}$) and the other shares pay \$0. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
+\subsubsection{WTA.}
 
-\[R_{j_{\mathsf{k}}}(\omega)=\begin{cases}1, & \text{if } \omega=\mathsf{k},\\0, & \text{otherwise.}\end{cases}\]
+The first structure we term \textit{winner-take-all (WTA)} (\aka \textit{categorical}) and was popularized by Iowa Electronic Markets~\cite{iem}. Consider a market with three possible outcomes: $\Omega=\{\mathsf{A}, \mathsf{B}, \mathsf{C}\}$.  A WTA market issues an outcome share for each outcome $J=\{j_\mathsf{A}, j_\mathsf{B}, j_\mathsf{C}\}$. If there are only two outcomes, it is called a \textit{binary market}. If the outcome $\omega$ is $\mathsf{B}$, the share $j_\mathsf{B}$ pays \$1 (or one unit of numeraire $\mathcal{N}$) and the other shares pay \$0.  For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
 
-For a WTA market to be well-functioning, conditions must hold on outcome shares. (i) They should be \textit{mutually exclusive} so no more than one share wins: $R_{j_{\mathsf{k}}}(\omega)R_{j_{\mathsf{\ell}}}(\omega)=0 \quad \forall\omega\in\Omega, \forall\mathsf{k}\neq\mathsf{\ell} $; and (ii) they should be \textit{complete} so at least one share wins: $\sum_{\mathsf{k}\in\Omega} R_{j_{\mathsf{k}}}(\omega)=1\quad \forall \omega\in\Omega$. If they are not mutually exclusive, the operator could be undercollateralized for making all payments. If they are incomplete, a deficient market might end with all participants receiving \$0. A consequence is that holding one share for each outcome is equivalent to holding \$1, a fact we will return to in the next section on trading. 
+\begin{equation}
+R_{j_{\mathsf{k}}}(\omega)=\begin{cases}1, & \text{if } \omega=\mathsf{k},\\0, & \text{otherwise.}\end{cases}
+\end{equation}
 
-In a WTA market, the price of a outcome share (\eg $p(j_\mathsf{A})=\$0.54$) is a proxy for the probability that the outcome will occur (\eg $\mathrm{Pr}[\omega=\mathsf{A}]=54\%$). A common adage is the prices of each share sum to \$1.00 ignoring fees and discounting (\eg $p(j_\mathsf{A})=\$0.54$, $p(j_\mathsf{B})=\$0.23$, $p(j_\mathsf{C})=\$0.23$) but this is imprecise. Outcome shares (like anything) have two prices: a bid price (what a trader is willing to buy for) and an ask price (willing to sell for). If the sum of the bid prices exceeds \$1.00 or if the sum of ask prices are below \$1.00, arbitrageurs have an opportunity to secure risk-free profit through a trade that will erase the condition when fully extracted. This means the sum of bids and sum of asks should result in the bid-ask spread straddling \$1.00 but the amount of the spread could be arbitrarily large. So in user interfaces that display a single `price' (\eg the last sale price or the midpoint between the best bid and the best ask), prices may indeed not sum to \$1.00---this is not a market failure, just a misunderstanding.  
+For a WTA market to be well-functioning, two conditions must hold on outcome shares. (i) They should be \textit{mutually exclusive} so no more than one share wins: $R_{j_{\mathsf{k}}}(\omega)R_{j_{\mathsf{\ell}}}(\omega)=0 \quad \forall\omega\in\Omega, \forall\mathsf{k}\neq\mathsf{\ell} $; and (ii) they should be \textit{complete} so at least one share wins: $\sum_{\mathsf{k}\in\Omega} R_{j_{\mathsf{k}}}(\omega)=1\quad \forall \omega\in\Omega$. If they are not mutually exclusive, the operator could be under-collateralized for making all payments (in violation of solvency in Definition~\ref{def:axioms}). If they are incomplete, a deficient market might end with all participants receiving \$0. A consequence is that holding one share for each outcome is equivalent to holding \$1, a fact we will return to in \S\ref{wf:trade}. 
+
+In a WTA market, the price of a outcome share (\eg $p(j_\mathsf{A})=\$0.54$) is a proxy for the probability that the outcome will occur (\eg $\mathrm{Pr}[\omega=\mathsf{A}]=54\%$). A common adage is the prices of each share sum to \$1.00 ignoring fees and discounting (\eg $p(j_\mathsf{A})=\$0.54$, $p(j_\mathsf{B})=\$0.23$, $p(j_\mathsf{C})=\$0.23$) but this is imprecise~\cite{BCFKMN14}. Outcome shares (like anything) have two prices: a bid price (what a trader is willing to buy for) and an ask price (willing to sell for). If the sum of the bid prices exceeds \$1.00 or if the sum of ask prices are below \$1.00, arbitrageurs have an opportunity to secure risk-free profit through a trade that will erase the condition when fully extracted. This means the sum of bids and sum of asks should result in the bid-ask spread straddling \$1.00 but the amount of the spread could be arbitrarily large. So in user interfaces that display a single `price' (\eg the last sale price or the midpoint between the best bid and the best ask), prices may indeed not sum to \$1.00---this is not a market failure, just a misunderstanding.  
 
  % = = =
  
-The second structure we term a \textit{yes-no bundle (YNB)}. YNB markets were prominent on InTrade and are currently prominent on Polymarket. A YNB market issues two outcome shares for each outcome, a `yes' and a `no:'  $J=\{j_{\mathsf{A_Y}}, j_{\mathsf{A_N}}, j_{\mathsf{B_Y}}, j_{\mathsf{B_N}}, j_{\mathsf{C_Y}},j_{\mathsf{C_N}} \}$. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
+ \subsubsection{YNB.}
+ 
+The second structure we term a \textit{yes-no bundle (YNB)}. YNB markets were popularized by InTrade~\cite{intrade}. A YNB market issues two outcome shares for each outcome, a `yes' and a `no:'  $J=\{j_{\mathsf{A_Y}}, j_{\mathsf{A_N}}, j_{\mathsf{B_Y}}, j_{\mathsf{B_N}}, j_{\mathsf{C_Y}},j_{\mathsf{C_N}} \}$. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
 
-\[
+\begin{equation}
 R_{j_{\mathsf{k_Y}}}(\omega)=
 \begin{cases}
 1, & \text{if } \omega=\mathsf{k},\\
@@ -235,42 +241,48 @@ R_{j_{\mathsf{k_N}}}(\omega)=
 1, & \text{if } \omega\neq\mathsf{k},\\
 0, & \text{otherwise.}
 \end{cases}
-\]
+\end{equation}
 
-Each outcome-specific pair $\{j_{\mathsf{k_Y}}, j_{\mathsf{k_N}}\}$ constitutes a two-outcome WTA market ($\mathsf{k}$ vs.\ not-$\mathsf{k}$). A YNB market is the union of these pairs, so the WTA exclusivity and completeness properties hold per pair. However exclusivity and completeness do not necessarily hold across all bundles, allowing more flexible markets. For example, a market on what words Trump will say in a congressional address included Bitcoin (no), beautiful at least 10 times (yes), and Canada (yes).\footnote{\polyurl{What will Trump say during address to Congress?}{https://polymarket.com/event/what-will-trump-say-during-state-of-the-union?tid=1755462445353}} Multiple words can resolve to yes (not exclusive) and it is possible he says none of the listed words (not complete). If a YNB market is established and being actively traded, because it is not complete, new outcomes can be added fairly to the market mid-flight. 
+Each outcome-specific pair $\{j_{\mathsf{k_Y}}, j_{\mathsf{k_N}}\}$ constitutes a binary WTA market ($\mathsf{k}$ vs.\ not-$\mathsf{k}$). A YNB market is the union of these pairs, so the WTA exclusivity and completeness properties hold per pair. However exclusivity and completeness do not necessarily hold across all bundles, allowing more flexible markets. For example, a market on what words Trump will say in a congressional address included Bitcoin (no), beautiful at least 10 times (yes), and Canada (yes).\footnote{\polyurl{What will Trump say during address to Congress?}{https://polymarket.com/event/what-will-trump-say-during-state-of-the-union?tid=1755462445353}} Multiple words can resolve to yes (not exclusive) and it is possible he says none of the listed words (not complete). An established YNB market that is being actively traded, because it is not complete, can have new outcomes added to it fairly, whereas WTA markets must account for every possible outcome at the start of the market (perhaps utilizing an `other' outcome).
 
-A variant of the YNB market is one where, even though it is not necessary, the yes share outcomes are in fact complete and exclusive. In other words, each yes/no bundle is a WTA market and the set of all yes shares is also a WTA market. We term this variant as \textit{YNB negative risk (YNB-NR)}, a term introduced by Polymarket. Recall that in a WTA market, roughly speaking, the share prices sum to \$1 (modulo the fine print about bid/ask spreads above). For a YNB-NR market, the Yes shares are the same as a WTA share and sum to \$1, while the No shares will sum to $|\Omega|-1$. The Satoshi/HBO YNB market from Section~\ref{sec:hbo} was made exclusive and complete across bundles by including a bundle for the outcome: `other/multiple.' 
+\subsubsection{YNB-NR.}
 
-Further, in a YNB market, holding a No outcome share for Hal Finney has the same payoff as holding a Yes share for every other candidate. Polymarket introduced a \textit{negRisk} gadget that allows a trader to convert any No share into a portfolio of Yes shares for every other outcome. This enables traders to adjust their positions with less buying/selling on the markets, and also aligns prices between Yes and No markets with low friction arbitrage opportunities. Formally, a single No share has the equivalence (\ie same payoff ignoring fees and discounting):
+A variant of the YNB market is one where, even though it is not necessary, the yes share outcomes are in fact complete and exclusive. In other words, each yes/no bundle is a WTA market and the set of all yes shares is also a WTA market. We term this variant as \textit{YNB negative risk (YNB-NR)}, a term introduced by Polymarket~\cite{poly}. Recall that in a WTA market, roughly speaking, the share prices sum to \$1 (modulo the fine print about bid/ask spreads above). For a YNB-NR market, the Yes shares sum to \$1, while the No shares will sum to $|\Omega|-1$. 
 
-\[
+The HBO documentary market from Section~\ref{sec:hbo} is an example of a YNB-NR market (Polymarket markets are either YNB or YNB-NR\footnote{Dune Analytics: `\href{https://dune.com/filarm/polymarket-activity}{Polymarket - Activity and Volume}' compares YNB (called CTF there) and YNB-NR (called negrisk there) statistics.}). This market was intended to be exclusive and complete across bundles by including a bundle for the outcome: `other/multiple.' Holding a No outcome share for Hal Finney has the same payoff as holding a Yes share for every other candidate. Polymarket introduced a \textit{negRisk} gadget that allows a trader to convert any No share into a portfolio of Yes shares for every other outcome. This enables traders to adjust their positions with less buying/selling on the markets, and also aligns prices between Yes and No markets with low friction arbitrage opportunities. Formally, a single No share has the equivalence (\ie same payoff ignoring fees and discounting):
+
+\begin{equation}
 j_{\mathsf{k_N}} \equiv \sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} j_{\mathsf{\ell_Y}} \quad\text{for any }\mathsf{k}\in\Omega.
-\]
+\end{equation}
 
 And multiple No outcome shares can be converted into Yes shares plus cash:
 
-\[
+\begin{equation}
 \sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} j_{\mathsf{\ell_N}}
 \equiv
 j_{\mathsf{k_Y}} + \$1\cdot(|\Omega|-2)
-\]
+\end{equation}
+
+
 
 % = = = 
+
+\subsubsection{Scalar.}
 
 The third structure is a market where the outcome is a quantity of interest (\eg popular vote, temperature, price level, \etc) observed at a cutoff time. Termed a \textit{linear} or \textit{scalar} market, there is only one share and its payout is what value the quantity takes on (perhaps normalized to the range $[0,1]$ with rounding). As an example, in a market on Trump's popular vote, if the quantity is 49.8\%, the share will pay \$0.498. Shares can also be sold in bundles with `long' receiving \$0.498 and `short' receiving (\$1-\$0.498).
 
 Formally, if we let $X:\Omega\to\mathbb{R}$ be the observed quantity, and $[a,b]$ be an interval of values, then the linear outcome share $j_{\mathrm{lin}}$ pays:
 
-\[
+\begin{equation}
 R_{j_{\mathrm{lin}}}(\omega)=
 \begin{cases}
-0, & X(\omega)\le a,\\[3pt]
-\dfrac{X(\omega)-a}{\,b-a\,}, & a< X(\omega) < b,\\[6pt]
+0, & X(\omega)\le a,\\
+\dfrac{X(\omega)-a}{\,b-a\,}, & a< X(\omega) < b,\\
 1, & X(\omega)\ge b.
 \end{cases}
-\]
+\end{equation}
 
-While linear markets are supported by \depms like Augur, Gnosis, and Omen, they are not frequently used. Even though Polymarket uses the Gnosis Conditional Tokens Framework (CTF) which supports linear markets, it instead approximates one by splitting the quantity into `buckets' and running a YNB market for each bucket. This allows greater code-reuse and possibly avoids small edge cases over the exact resolution of the quantity (\eg off by 0.1 percentage disputes). However a problem with buckets is as follows: Alice estimates correctly that Trump will win the election with 49--51\% of the popular vote. If there is a bucket for 45--49.9\% and a bucket for 50--54.9\%, Alice's forecast does not fit into a single bucket. Generally, an unfortunate cutpoint between boundaries can dilute expected return on capital (as investors buy more than one bucket) and can lead to volatile market jumps when the market forecast switches between buckets.\footnote{\polyurl{April 2025 Temperature Increase (ºC)}{https://polymarket.com/event/april-2025-temperature-increase-c4}} 
+While scalar markets are supported by \depms like Augur or those based on Gnosis' Conditional Tokens Framework (CTF), including Polymarket and Omen, they are not frequently used. For Polymarket, markets instead approximate a scalar market with a YNB-NR market by splitting the quantity into `buckets' and running a YNB market for each bucket. This avoids a less-vetted codebase within CTF, unifies the user interface across market types, and possibly avoids small edge cases over the exact resolution of the quantity (\eg off by 0.1 percentage disputes). However a problem with buckets is as follows: Alice estimates correctly that Trump will win the election with 49--51\% of the popular vote. If there is a bucket for 45--49.9\% and a bucket for 50--54.9\%, Alice's forecast does not fit into a single bucket. Alice buys both buckets, knowing only one will win, diluting her expected return on capital. A second consequence of bucketization is volatile market jumps when the market consensus crosses from one expected bucket into a neighbouring bucket.\footnote{\polyurl{April 2025 Temperature Increase (ºC)}{https://polymarket.com/event/april-2025-temperature-increase-c4}} 
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -363,10 +375,8 @@ Kleros addresses several of these challenges by using commit–reveal to prevent
 
 The slogan `sweat the game, not the payout' is used to differentiate regulated sportsbook operators from `neighbourhood bookies,' however even legitimate operators in the US have allegedly denied payouts using a legal loophole.\footnote{A law protects sports books from obvious errors, like a `fat finger' when setting odds, but can be misused to claim long-shot bets were `obvious mistakes' after the fact.} The advantage of a \depm in this context is two-fold: (i) payouts are fully (or largely) autonomous, not subject to human discretion, and (ii) the share structure ensures the operator has zero risk (or predetermined bounded risk, in the case of automated bookmaking) and is therefore financially indifferent to making any fair payout (see Axioms in Section~\ref{sec:defn}).
 
-%	5.	Collateral \& solvency.
-%Prove on-chain that total liabilities ≤ locked collateral; prefer stable collateral for event risk.
-%• Polymarket/Omen: USDC-style stablecoins; CTF algebra guarantees solvency on split/merge.
-%• Augur: historically ETH/DAI; solvency via complete-set mint/burn.
+
+% Split payouts possible in Truthcoin: 0.5/0.5
 
 Once the market is resolved, a \depm will enable each winning share to be converted into 1 unit of the numeraire (\eg 1 USD in a stablecoin) and transferred into the user's self-custody. While a \depm in theory could \textit{push} payouts to users, it is common to wait for the user to initiate the redemption. Augur, CTF, and Omen implement such a \textit{pull} mechanism. In this case, users pay the gas cost of the redemption which requires users to hold the native currency of the underlying blockchain. Polymarket offers gasless withdrawals (using OpenGSN relayers), however users can bypass this at their choice. In a pull model, some users may not redeem their shares in a timely manner---a \depm may opt to sweep this surplus into its own capital or burn it, but \depms generally hold it on-chain in perpetuity. As with any smart contract allowing withdraws based account balances, hardening against reentrancy attacks is critical.
 
