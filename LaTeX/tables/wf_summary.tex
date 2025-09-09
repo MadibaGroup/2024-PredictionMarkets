@@ -5,31 +5,31 @@
 \caption{DePM Design Decisions Across the Modular Workflow.}
 
 \adjustbox{max width=\textwidth}{
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
 
-\flatrow{Platform} & \headrow{Implementation} & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Platform (\S\ref{wf:chain})} & \headrow{Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:price})} & \headrow{Numeraire  (\S\ref{wf:price})} & \headrow{Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{Archiving  (\S\ref{wf:archive})} \\
+\flatrow{Platform}  & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Permissionless Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:price})} & \headrow{Numeraire  (\S\ref{wf:price})} & \headrow{Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{Archiving  (\S\ref{wf:archive})} \\
 
 
 \hline
-Augur (v1)~\cite{AKPWZ15} & \Circle & \Circle & ETH & \CIRCLE & WTA & Split & ETH & \CIRCLE & REP & PL & $\blacklozenge$ \\
+Truthcoin~\cite{Sz14} & AppChain & \CIRCLE & Comb. & LSMR & CSH & \Circle & VTC & PL & $\blacklozenge$ \\
 \hline
-Princeton PM~\cite{BCFKMN14} & \Circle & \Circle & ETH & \CIRCLE & WTA & Split & Custom & \CIRCLE & C & PL & $\blacklozenge$ \\
+Princeton PM~\cite{BCFKMN14} & Contract & \CIRCLE & WTA & Splitting & Custom & \CIRCLE & C & PL & $\blacklozenge$ \\
 \hline
-Augur (v2)~\cite{AKPWZ19} & \CIRCLE & \Circle & ETH &\CIRCLE & WTA & Split & DAI & X & REP & PL & $\blacklozenge$ \\
+Augur (v1)~\cite{AKPWZ15}  & Contract & \CIRCLE & WTA & LMSR & ETH & \CIRCLE & REP & PL & $\blacklozenge$ \\
 \hline
-Omen~\cite{Omen_docs} & \CIRCLE & \Circle\ + \CIRCLE & ETH+Gnosis~\cite{Gn17} & \LEFTcircle & CTF & Split+FPMM & DAI, xDAI & \Circle & R/K & RP & $\blacklozenge$\\
+Augur (v2)~\cite{AKPWZ19}  & Contract &\CIRCLE & WTA & Splitting & DAI & X & REP & PL & $\blacklozenge$ \\
 \hline
-Polymarket~\cite{poly} & \CIRCLE & \CIRCLE & Polygon PoS & \Circle & YNB-NR & Split & USDC & DEX & UMA & PL+XG & $\blacklozenge$ \\
+Omen~\cite{Omen_docs}  & Contract-SideChain & \LEFTcircle & CTF & Splitting+FPMM & DAI, xDAI & \Circle & R/K & RP & $\blacklozenge$\\
 \hline
-Hivemind (Truthcoin)~\cite{Sz14} & \Circle & $\blacklozenge$ & BTC-sidechain & \CIRCLE & Comb. & LSMR & CSH & \Circle & VTC & PL & $\blacklozenge$ \\
+Polymarket~\cite{poly}  & SideChain & \Circle & YNB-NR & Splitting & USDC & DEX & UMA & PL+XG & $\blacklozenge$ \\
 \hline
-PlotX (v2)~\cite{plotx_docs} & \CIRCLE & \CIRCLE & Polygon PoS & \CIRCLE & B/S & CFMM & USDC & \Circle & Ext.O & PL & $\lozenge$ \\
+PlotX (v2)~\cite{plotx_docs}  & SideChain & \CIRCLE & B/S & CFMM & USDC & \Circle & Ext.O & PL & $\lozenge$ \\
 \hline
-Zeitgeist~\cite{zeitgeist_docs}  & \CIRCLE & $\blacklozenge$ & Parachain & \LEFTcircle & B/S & CFMM & ZTG & \Circle & Ext.O & PL & $\blacklozenge$ \\
+Zeitgeist~\cite{zeitgeist_docs} & AppChain & \LEFTcircle & B/S & CFMM & ZTG & \Circle & Ext.O & PL & $\blacklozenge$ \\
 \hline
-Thales~\cite{thalesmarket_docs} & \CIRCLE  & \LEFTcircle & Optimism & \Circle & Binary & CFMM & Multi & \Circle & Ext.O & PL & $\blacklozenge$\\
+Thales~\cite{thalesmarket_docs} & Contract & \Circle & Binary & CFMM & Multi & \Circle & Ext.O & PL & $\blacklozenge$\\
 \hline
-Kalshi~\cite{kalshi_docs}, PredictIt~\cite{predictit_faq} & \CIRCLE & CePM & Proprietary  & \Circle & Binary & Matching & USD & CLOB & C & PS & \Circle \\
+Kalshi~\cite{kalshi_docs} & DB  & \Circle & Binary & Matching & USD & CLOB & C & PS & \Circle \\
 \hline
 
 \end{tabular}
@@ -38,9 +38,9 @@ Kalshi~\cite{kalshi_docs}, PredictIt~\cite{predictit_faq} & \CIRCLE & CePM & Pro
 \vspace{0.30em}
 \begin{minipage}{\textwidth}
 \textbf{Legend:} \\
-\textbf{Implementation:} \Circle = Paper only; \CIRCLE = System Implemented
-\textbf{Infrastructure:} \Circle = Smart contract on Layer 1; \LEFTcircle = Smart  contract on Layer 2; \CIRCLE = Smart contract on sidechain (EVM altchain); $\blacklozenge$= Custom Layer 1\\
-\textbf{Topic:} \CIRCLE = Permissionless; \LEFTcircle = Supports permissionless framework; \Circle = Permissioned. Note: Thales uses a Sportsbook model, Kalshi uses a CFTC-compliant Rulebook, and Polymarket is piloting a hybrid approach with user-suggested topics.\\
+%\textbf{Implementation:} \Circle = Paper only; \CIRCLE = System Implemented
+\textbf{Infrastructure:} Contract = Smart contract on Layer 1 or Layer 2; SideChain = Smart contract on sidechain (EVM altchain); AppChain= Custom Layer 1; DB = Database\\
+\textbf{Permissionless Topic:} \CIRCLE = Permissionless; \LEFTcircle = Supports permissionless framework; \Circle = Permissioned. Note: Thales uses a Sportsbook model, Kalshi uses a CFTC-compliant Rulebook, and Polymarket is piloting a hybrid approach with user-suggested topics.\\
 \textbf{Share Structure:} WTA = Winner-Take-All; CTF = Conditional Tokens; YNB-NR = Yes/No Bundle and Negative-Risk; Comb. = Combinatorial; B/S = Binary/Scalar; \\
 \textbf{Initial Issuance:} Split = complete-set minting; LSMR = Logarithmic Market Scoring Rule ; FPMM = fixed-product MM; CF: CFMM = constant-function MM; Matching = Matching CLOB \\
 \textbf{Numeraire:} CSH = CashCoin (1:1 redeemable to BTC); ZTG = Zeitgeist parachain native token; Multi = USDC, ETH, THALES \\
