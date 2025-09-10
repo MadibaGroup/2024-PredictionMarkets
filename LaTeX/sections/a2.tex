@@ -128,7 +128,7 @@ When $M$ resolves to $\omega_M\in\Omega$, one unit of share $j\in J$ pays $R_j(\
 
 Event $E$ is whether or not Hal Finney is named as Satoshi in the documentary.
 
-$\Omega$ is the set of resolution outcomes the market recognizes for $E$—the labels the system can publish at settlement. For this Hal-only binary market the outcome space is $\Omega=\{\mathsf{True},\mathsf{False}\}$. Here $\mathsf{True}$ means the documentary (per the market’s stated criteria) identifies Hal Finney as Satoshi; $\mathsf{False}$ aggregates all other possibilities (Hal not named, someone else named, no one named, the film does not air, or the identification is not verifiable by the resolution deadline).
+$\Omega$ is the set of resolution outcomes the market recognizes for $E$, the labels the system can publish at settlement. For this Hal-only binary market the outcome space is $\Omega=\{\mathsf{True},\mathsf{False}\}$. Here $\mathsf{True}$ means the documentary (per the market’s stated criteria) identifies Hal Finney as Satoshi; $\mathsf{False}$ aggregates all other possibilities (Hal not named, someone else named, no one named, the film does not air, or the identification is not verifiable by the resolution deadline).
 
 %Once some $\omega\in\Omega$ is published, all payoffs $R_j(\omega)$ are determined.
 
@@ -139,7 +139,7 @@ We require that $\Omega$ contain no redundant labels. A label is redundant if it
 
 In a prediction market, there are a set of shares. If we label them and add them all to an index set, that set is $J$. For this example, $J=\{\textsf{YES},\textsf{NO}\}$: Hal Finney is named (yes) and else (no). This is a normal case where each share in $J$ corresponds to an outcome in $\Omega$ but it is possible that the number of shares could exceed the number of outcomes.\footnote{For example, consider a market of where Newcastle United (NUFC) finishes in the 2024-35 English Premier League season. Since there are 20 teams, the outcome has 20 possible labels: positions 1 to 20. Shares could exist for each of the 20 positions. But the outcome could also settle shares for whether NUFC finishes in the top 5 (which is relevant to champions league admittance), or shares on finishing in the bottom 3 (which is relevant to relegation).}
 
-$J$ is the index set of contract labels—the names of the tradeable shares. In this binary market we take $J=\{\textsf{YES},\textsf{NO}\}$. 
+$J$ is the index set of contract labels, the names of the tradeable shares. In this binary market we take $J=\{\textsf{YES},\textsf{NO}\}$. 
 
 The labels get their meaning from the component payoff functions $R_j:\Omega\to\mathbb{R}_{\ge 0}$. In this example, a payoff of 1 is given for shares that correctly predict the outcome and 0 otherwise. This means $R_{\textsf{YES}}(\mathsf{True})=1$, $R_{\textsf{YES}}(\mathsf{False})=0$, $R_{\textsf{NO}}(\mathsf{True})=0$, $R_{\textsf{NO}}(\mathsf{False})=1$.
 
