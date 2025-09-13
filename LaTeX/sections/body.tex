@@ -52,7 +52,7 @@ We obtained a collection of academic works on decentralized prediction markets, 
 
 \subsection{Taxonomy}
 
-Consider the following taxonomy of wagering systems:
+Consider the following taxonomy of a few wagering systems:
 
 \adjustbox{max width=\textwidth}{
 \begin{tikzpicture}[
@@ -99,25 +99,25 @@ The term \textit{decentralized prediction market} originates from the Ethereum w
 \hline
 05 Oct & Partially redacted leaked email from an HBO executive implies Len Sassaman. & Immaterial & Fake \\
 \hline
-06 Oct & A long-dormant X account belonging to someone who had corrosponded with Sassaman on Twitter posted a new message stating they were interviewed for the documentary. & Immaterial & Fake\\
+06 Oct & A long-dormant X account belonging to someone who had corresponded with Sassaman on Twitter posts a new message stating they were interviewed for the documentary. & Immaterial & Fake\\
 \hline
 07 Oct & Widow of Sassaman states she was not interviewed. & Moderate & Truthful\\
 \hline
 07 Oct & CNN piece states director `confronts' Satoshi suspect `face-to-face' ruling out Sassaman, David Klieman, and Hal Finney. & Material & Truthful\\
 \hline
-07 Oct & Samson Mow, featured in the trailer, speculates it will name Adam Back, also featured heavily in the trailer & Material & Wrong but factual basis \\
+07 Oct & Samson Mow, featured in the trailer, speculates it will name Adam Back. & Material & Wrong but factual basis \\
 \hline
-07 Oct & End credits of documentary leaked featuring a tribute to Klieman. & Immaterial & Fake \\
+07 Oct & End credits of documentary leak featuring a tribute to Klieman. & Immaterial & Fake \\
 \hline
 07 Oct & Mow states Nick Szabo refused to discuss with director implying he was not `confronted'. & Material & Truthful \\
 \hline
 08 Oct & Peter Todd confirms being confronted for documentary but unsure if he will be named. & Material & Truthful \\
 \hline
-08 Oct & Scene with Todd leaked but inconclusive if it is film's thesis. & Material & Truthful \\
+08 Oct & A scene with Todd leaked but inconclusive if it is film's thesis. & Material & Truthful \\
 \hline
-08 Oct & Commenter on Polymarket claims to screen test and names Nick Szabo. & Immaterial & Fake \\
+08 Oct & Polymarket commenter claims screen test names Nick Szabo. & Immaterial & Fake \\
 \hline
-08 Oct & Fortune publishes movie review disclosing Todd is named & Very Significant & Truthful \\
+08 Oct & Fortune movie review discloses Todd is named & Very Significant & Truthful \\
 \hline
 08 Oct & Documentary airs and names Todd & Very Significant & Conclusive \\
 \hline
@@ -323,50 +323,75 @@ A final trading-relevant subject for prediction markets is arbitrage. Arbitrageu
 
 \subsection{Market Resolution}\label{wf:close}
 
-It is possible that a market topic can be determined on-chain (\eg total value locked in a DeFi service) in which case resolution is simple, however typically, prediction market outcomes concern facts that are off-chain. In these cases, resolution is the process of finalizing an off-chain outcome in an on-chain market. The predominate approaches are the following: self-settling markets, auto-resolve rules, using a designated arbiter, using a network of reporters, and crowdsourcing a vote. The term \textit{oracle} is commonly used for any of the latter three approaches (while the first two could be considered oracle-less). A \depm may use a hybrid approach. For example, an arbiter might optimistically resolve a market outcome while also allowing disputes. If an outcome is disputed, it is escalated to a crowdsourced vote. If the vote is considered defective, a further escalation could allow an Admin account to overrule the decision. The ultimate backstop is the law which would not stop a wrong outcome but could be used to remunerate parties damaged by it.
+It is possible that a market topic can be determined on-chain (\eg total value locked in a DeFi service) in which case resolution is simple, however typically, prediction market outcomes concern facts that are off-chain. In these cases, resolution is the process of finalizing an off-chain outcome in an on-chain market. The predominate approaches are the following: self-settling markets, auto-resolve rules, using a designated arbiter, using a network of reporters, and crowdsourcing a vote. The term \textit{oracle} is commonly used for any of the latter three approaches (while the first two could be considered oracle-less). 
+
+A \depm will probably use a \textit{hybrid} or \textit{chained approach} that does not rely on a single method. For example, an arbiter from an allowlist might be able to propose a market outcome while also allowing disputes from anyone. If an outcome is disputed, it is escalated to a crowdsourced vote. If the vote is considered defective, a further escalation could allow an Admin account to overrule the decision. The ultimate backstop is the law which would not stop a wrong outcome but could be used to remunerate parties damaged by it.
 
 \subsubsection{Oracle-less approaches.}
 
-A \textit{self-settling market} is based \textit{splitting} and \textit{merging} (see \S\ref{wf:trade}) of shares and relies on participants with winning shares to purchase the losing shares (for close to \$0) and redeem \$1 by merging them~\cite{BMR17}. If losing shares do not trade near \$0 or become illiquid, the broader market might accept winning shares as a substitute for dollars. If a market outcome is contentious with no recognized winner (\eg a poorly defined market in \S\ref{wf:topic}), the market will not settle. An \textit{auto-resolve rule} could also be used such that outcomes are finalized when, say, their token trades above \$0.99 for at least $t$ time. Auto-resolve rules are subject to market manipulation (losing shares are wash traded near \$1 long enough to finalize, in which case they are worth \$1) or griefing attacks (yes shares are traded below \$0.99 to prevent finalization). However in an optimistic system, the auto-resolve rule could offer an initial settlement that could be escalated to an oracle only when disputed~\cite{Aug15}. 
+A \textit{self-settling market} is based \textit{splitting} and \textit{merging} (see \S\ref{wf:trade}) of shares and relies on participants with winning shares to purchase the losing shares (for close to \$0) and redeem \$1 by merging them~\cite{BMR17}. If losing shares do not trade near \$0 or become illiquid, the broader market might accept winning shares as a substitute for dollars. If a market outcome is contentious with no recognized winner (\eg a poorly defined market in \S\ref{wf:topic}), the market will not settle. An \textit{auto-resolve rule} could also be used such that outcomes are finalized when, say, their token trades above \$0.99 for at least $t$ time. Auto-resolve rules are subject to market manipulation (losing shares are wash traded near \$1 long enough to finalize, in which case they are worth \$1) or griefing attacks (yes shares are traded below \$0.99 to prevent finalization). While an auto-resolve rule is too fragile to rely on solely, it could be used optimistically to provide an initial settlement; only disputed cases would be escalated to an oracle~\cite{Aug15}. 
 
-\subsubsection{Designated arbiter.}
+\subsubsection{Designated arbiters.}
 
 Typically a \cepm will decide events within the platform~\cite{kalshi}. A \depm might outsource decisions to a trusted organization, such as the Associate Press (AP) which experimented with writing US election results into Ethereum.\footnote{Etherscan: \url{https://etherscan.io/address/0x0792724900B551d200D954a5Ed709d9514d73A9F}} From a trust perspective, this is equivalent to using an AP \cepm, but from a logistics perspective, it is simpler to AP to be an oracle than to run an entire \cepm. Further, it allows \textit{trust agility} where AP can be replaced by a competing source with minimal disruption~\cite{BCFKMN14}. A \depm might also used a designated party only as a last resort if other methods lead to a contentious result~\cite{Rey24}. 
 
-Recently interest is in evaluating arbitration through an AI system~\cite{chaos}. A 2025 Chainlink study poses 1,660 Polymarket questions to LLMs and reports ~89.3\% accuracy (sports 99.7\%, politics 84.3\%)  with temporal-reasoning challenges~\cite{ZVW25}. AI oracles are potentially vulnerable to adversarial manipulation and poisoning attacks~\cite{ZGWJ25}, and may recall incorrect facts that are incorrectly stated in the training data. AI agents can also be tasked with actively gathering evidence and reporting if resolution can be reached~\cite{chaos}. 
+Recently interest is in evaluating arbitration through an AI system~\cite{chaos}. A 2025 Chainlink study poses 1,660 Polymarket questions to LLMs and reports ~89.3\% accuracy (sports 99.7\%, politics 84.3\%)  with temporal-reasoning challenges~\cite{ZVW25}. AI can also be used in agent-mode, tasked with actively gathering evidence and reporting if resolution can be reached~\cite{chaos}. AI oracles are potentially vulnerable to adversarial manipulation and poisoning attacks~\cite{ZGWJ25}, and may recall incorrect facts that are incorrectly stated in the training data. 
 
-\subsubsection{Reporter Networks.}
+\subsubsection{Reporter networks.}
 
-\textit{Reporter networks} deliver fast, parameterizable, and auditable resolution for markets tied to structured external data (prices, scores). An aggregation contract (e.g., a Chainlink feed) acts as the definitive on-chain authority. Multiple independent reporters submit signed observations off-chain; an off‑chain consensus protocol (OCR) coalesces these into a single report whose value is typically the median (or a mean with outlier filtering) and whose metadata (round ID, timestamp) and quorum signatures are verified on-chain. Updates are emitted when deviation or heartbeat thresholds are met, giving explicit control over latency/recency and bounding staleness under network stress. Median aggregation is resilient to a minority of faulty or adversarial reporters (Byzantine tolerance), while source and operator diversity mitigate data‑correlation risk; compressing n submissions into one update reduces gas and surface area. The result is a deterministic, publicly auditable outcome primitive: DePM contracts read the aggregator at resolution time and settle without discretionary intervention.
-
-Thales and its Overtime on‑chain sportsbook instantiate this model end‑to‑end: market predicates reference Chainlink sports feeds for scores and final results, odds can be parameterized from on‑chain feeds, and expiry reads the aggregator’s answer to resolve. Augur Turbo similarly relies on reporter‑network feeds for schedules, scores and stats, so sports markets settle immediately upon event close. Entropyfi resolves scalar price rounds by sampling Chainlink aggregator contracts at round start/end and uses on‑chain automation (Keepers) to trigger settlement, coupling reporter‑network data with deterministic payout logic. 
-
-% SKC paper:  Srinivasan, Karger, and Chen (2023) 
+Some oracle systems focus on quickly reporting on updating values~\cite{BCCJM21}, such as an asset price or a sports score which could naturally settle some types of prediction markets. Generally a set (or network) of arbiters (or reporters) will report the value and an aggregation method (\eg median value or a mean value after outlier filtering for quantitative data, mode for qualitative) will update the value on-chain~\cite{ClEsGS21}. Updates are emitted when deviation or heartbeat thresholds are met, giving explicit control over latency/recency and bounding staleness under network stress. A \depm can read the aggregator at a fixed resolution time and settle without discretionary intervention~\cite{aug25,thalesmarket_docs}. 
 
 
-\subsubsection{Crowdsource Voting.}
+
+
+
+
+
+
+\subsubsection{Crowdsourced vote.}
+
+This procedure is defined by four design choices~\cite{But13,Sz14,AKPWZ15,AKPWZ19,uma,kleros}:
+
+\begin{enumerate}
+\item \textit{Electorate}: participants stake a pre-determined number tokens to enrol and votes are either held with all participants, or with a randomly selected subset of all participants.
+\item \textit{Ballots:} may be visible to other participants or may be hidden (typically with commit-reveal but more sophisticated methods could be used~\cite{GSZB23}).
+\item \textit{Aggregation:} categorical questions are decided by plurality (perhaps with minimum quorum) while quantities with a median or smoothed mean. 
+\item \textit{Incentives:} participants who affirmed the final result in their individual votes receive rewards, while those who did not will at least forgo rewards, but might also have their participation tokens slashed. 
+\end{enumerate}
+
+Extracts a coordination value (called a Schelling point), not necessarily a truthful value. 
+
+These choices determine who can influence the decision, how resistant the process is to copycatting and bribery, how the final label is computed, and what economic consequences attach to incorrect votes. The outcome is written once and does not alter the originally defined payoff rule.
 
 In \textit{crowdsource voting} systems, final authority rests with an on-chain arbitrator whose outcome is chosen by stake-weighted voting; the system finalizes to the majority of stake, which does not guarantee resolution to the real outcome. There are two designs: (i) Schelling/always-vote (e.g., Augur/REP), where token holders stake and vote on every market and repeated disputes can escalate to a fork lasting up to 60 days—effectively pausing other non-finalized markets while REP holders migrate to a “true” universe—making this approach slow and operationally heavy, [https://ar5iv.labs.arxiv.org/html/1501.01042] and (ii) optimistic, dispute-driven, where anyone proposes an answer with a bond, the market resolves if unchallenged during liveness, and only disputed cases go to a vote— UMA is the canonical version (on Polymarket: ~2-hour challenge window, ~\$750 bond, and a DVM commit–reveal vote if challenged). This optimistic pattern is faster and more cost-effective because unchallenged proposals finalize after a short liveness period and only disputes are escalated to the DVM, avoiding the cost and delay of global voting.
 [https://docs.uma.xyz/protocol-overview/how-does-umas-oracle-work]
 [https://docs.polymarket.com/developers/resolution/UMA]
 A closely related optimistic stack is Reality.eth + Kleros, where disputed questions go to a randomly drawn, staked juror court that uses commit–reveal; jurors in the majority are rewarded while those in the minority are penalized. [https://kleros.io/whitepaper.pdf]
-Token-voted decentralizes market resolution but inherits governance voting’s flaws and adds carrot/stick incentives that reward the eventual majority while penalizing minorities and non-participants Token-voted dispute resolution decentralizes market resolution but inherits governance voting’s flaws and adds carrot/stick incentives that reward the eventual majority while penalizing minorities and non-participants. In practice, stake can centralize, enabling whale capture: a coordinated or whale-tilted majority can settle a market incorrectly with no penalty to itself—only the minority is slashed—mirroring patterns seen in governance (e.g., Uniswap, where 11 wallets can determine a majority; a16z’s influence on a proposal) [https://www.sciencedirect.com/science/article/pii/S2096720924000216], [https://cointelegraph.com/news/a16z-votes-against-proposal-to-deploy-uniswap-v3-on-bnb-chain] A similar concentration risk surfaced on Polymarket/UMA during a governance attack [https://www.coindesk.com/markets/2025/03/26/polymarket-suffers-uma-governance-attack-after-rouge-actor-becomes-top-5-token-staker]. For UMA specifically, the top five wallets control ~45.6\% of votes and the top 13 exceed 65\%, enough to meet the passing threshold
+Token-voted decentralizes market resolution but inherits governance voting’s flaws and adds carrot/stick incentives that reward the eventual majority while penalizing minorities and non-participants Token-voted dispute resolution decentralizes market resolution but inherits governance voting’s flaws and adds carrot/stick incentives that reward the eventual majority while penalizing minorities and non-participants. 
+
+In practice, stake can centralize, enabling whale capture: a coordinated or whale-tilted majority can settle a market incorrectly with no penalty to itself—only the minority is slashed—mirroring patterns seen in governance (e.g., Uniswap, where 11 wallets can determine a majority; a16z’s influence on a proposal) [https://www.sciencedirect.com/science/article/pii/S2096720924000216], [https://cointelegraph.com/news/a16z-votes-against-proposal-to-deploy-uniswap-v3-on-bnb-chain] A similar concentration risk surfaced on Polymarket/UMA during a governance attack [https://www.coindesk.com/markets/2025/03/26/polymarket-suffers-uma-governance-attack-after-rouge-actor-becomes-top-5-token-staker]. For UMA specifically, the top five wallets control ~45.6\% of votes and the top 13 exceed 65\%, enough to meet the passing threshold
 [https://dune.com/uma\_protocol/uma-protocol]
+
 These payoff asymmetries induce “beauty-contest” behavior: because minorities are slashed and majorities paid, rational voters may try to forecast the majority rather than report private information, permitting majority-wrong outcomes when expectations align or large holders coordinate. Finally, bribery and vote-buying (the $p+\epsilon $ attack) can flip results whenever an attacker’s external payoff from a wrong resolution exceeds the system’s economic security [https://blog.ethereum.org/2015/01/28/p-epsilon-attack]
+
 Beyond capture and bribery, token voting can impose real costs when platform policy diverges from oracle outcomes. In June 2024, UMA voters resolved “No” on a high-profile Polymarket market, while Polymarket publicly deemed the opposite “conclusive” and refunded users—an unusual split that highlights governance/interpretation friction between platform administrators and token-vote results
 [https://www.coindesk.com/markets/2024/06/27/polymarket-contradicts-its-oracle-service-in-rarity-for-prediction-market?](https://www.coindesk.com/markets/2024/06/27/polymarket-contradicts-its-oracle-service-in-rarity-for-prediction-market)]
 As a possible mitigation, platforms like Polymarket that rely on UMA’s token-vote oracle could, in theory, replace it with a native dispute token, leveraging their scale to increase economic security and align incentives for truthful voting and platform integrity by directing a share of platform revenues to voters.
 Kleros addresses several of these challenges by using commit–reveal to prevent mid-round copycatting, an appeal ladder that roughly doubles the jury (+1) and increases fees at each step to make capture and bribery costlier, and topical subcourts so disputes are heard by more knowledgeable jurors.
 
-A similar concentration risk surfaced on Polymarket/UMA during a governance attack [7].
-
-For UMA specifically, the top five wallets control ~45.6\% of votes and the top 13 exceed 65\%, enough to meet the passing threshold [8]
-These payoff asymmetries induce “beauty-contest” behavior: because minorities are slashed and majorities paid, rational voters may try to forecast the majority rather than report private information, permitting majority-wrong outcomes when expectations align or large holders coordinate. Finally, bribery and vote-buying (the p+$\epsilon$ attack) can flip results whenever an attacker’s external payoff from a wrong resolution exceeds the system’s economic security [9]
-Beyond capture and bribery, token voting can impose real costs when platform policy diverges from oracle outcomes. In June 2024, UMA voters resolved “No” on a high-profile Polymarket market, while Polymarket publicly deemed the opposite “conclusive” and refunded users, an unusual split that highlights governance/interpretation friction between platform administrators and token-vote results [10]
-As a possible mitigation, platforms like Polymarket that rely on UMA’s token-vote oracle could, in theory, replace it with a native dispute token, leveraging their scale to increase economic security and align incentives for truthful voting and platform integrity by directing a share of platform revenues to voters.
-Kleros addresses several of these challenges by using commit–reveal to prevent mid-round copycatting, an appeal ladder that roughly doubles the jury (+1) and increases fees at each step to make capture and bribery costlier, and topical subcourts so disputes are heard by more knowledgeable jurors.
 
 
+
+
+
+
+\subsubsection{Related Concepts.}
+
+All of the mechanisms above assume there is a ground truth outcome, while another line of research considers eliciting truthful reports  peer-prediction mechnaims
+
+% SKC paper:  Srinivasan, Karger, and Chen (2023) 
+%  Bayesian Truth Serum (BTS) 
+% Independent judgements, no reliance on common sources
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -377,7 +402,7 @@ The slogan `sweat the game, not the payout~\cite{Fu24}' is used to differentiate
 
 % Split payouts possible in Truthcoin: 0.5/0.5
 
-Once the market is resolved, a \depm will enable each winning share to be converted into 1 unit of the numeraire (\eg 1 USD in a stablecoin) and transferred into the user's self-custody. While a \depm in theory could \textit{push} payouts to users, it is common to wait for the user to initiate the redemption. Augur, CTF, and Omen implement such a \textit{pull} mechanism. In this case, users pay the gas cost of the redemption which requires users to hold the native currency of the underlying blockchain. Polymarket offers gasless withdrawals (using OpenGSN relayers~\cite{gsn}), however users can bypass this at their choice. In a pull model, some users may not redeem their shares in a timely manner---a \depm may opt to sweep this surplus into its own capital or burn it, but \depms generally hold it on-chain in perpetuity. As with any smart contract allowing withdraws based account balances, hardening against reentrancy attacks is critical.
+Once the market is resolved, a \depm will enable each winning share to be converted into 1 unit of the numeraire (\eg 1 USD in a stablecoin) and transferred into the user's self-custody. While a \depm in theory could \textit{push} payouts to users, it is common to wait for the user to initiate the redemption---a \textit{pull} mechanism~\cite{ctf}. In this case, users pay the gas cost of the redemption which requires users to hold the native currency of the underlying blockchain. Polymarket offers gasless withdrawals (using OpenGSN relayers~\cite{gsn}), however users can bypass this at their choice. In a pull model, some users may not redeem their shares in a timely manner---a \depm may opt to sweep this surplus into its own capital or burn it, but \depms generally hold it on-chain in perpetuity. As with any smart contract allowing withdraws based account balances, hardening against reentrancy attacks is critical.
 
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
@@ -403,8 +428,6 @@ For example, Polymarket settles markets on the canonical ledger using the UMA Op
 
 
 % Does polymarket need uma?
-% Polymarket as infrastructure
-% Trust agility
 % Optimistic works - who has time ? 
 
 
