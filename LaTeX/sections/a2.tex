@@ -106,6 +106,13 @@
   \label{fig:example}
 \end{figure}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/graph2.pdf}
+  \caption{A variation of Figure~\ref{fig:example} with smoothing and super-imposed with the events (e1--e12) listed in Table~\ref{tab:hbo}.}
+  \label{fig:example2}
+\end{figure}
+
 \section{Example instantiation of definition}
 \label{app:example}
 
@@ -191,11 +198,13 @@ For settling, $\mathsf{Res}=\{\mathrm{res}_{M}\}_{M\in\mathcal{M}}$ gives each $
 
 The $R^{(c)}_j(\omega_{M_c})$ for \textsf{Other/Multiple: YES} was $1$ USDC, \textsf{Other/Multiple: NO} was $0$ USDC, every other named candidate’s \textsf{NO} paid $1$ USDC and their corresponding \textsf{YES} paid $0$ USDC. 
 
-% = = = 
+%% = = = 
+%
+%\subsection{Axioms}
+%
+%Polymarket works through \textit{splitting} (see \S\ref{wf:trade}) as follows. Any trader can receive 1 yes share and 1 no share for a specified candidate's market $\{M_c\}$  by depositing 1 USDC into the treasury for the market. When the market resolves, one share will resolve for 1 USDC and one will resolve for 0 USDC. Thus in both cases, Polymarket has exactly the correct amount in the treasury to complete its payout and is solvent. Every split increases the number of shares (yes and no) by 1 share and increase the treasury by 1 USDC. After the market resolves, the winning shares can be redeemed for 1 USDC which decreases the outstanding winning shares by 1 and reduces the treasury by 1 USDC. Shares are fungible as the payout for each share of the same type is identical. Polymarket allows shares to withdrawn as ERC20 tokens and traded using any compatible marketplace. It also provides a CLOB and an AMM for each share.
+%
+%The HBO documentary market is a special case, called negative risk (NR), in which each candidate's yes/no bundle is a complete set of outcomes (either the candidate is named or the candidate is not named) and additionally the set of yes shares for each candidate is complete (one and only one of the candidates will be declared the winner). Thus it is WTA across each yes/no bundle and it is also WTA across all yes shares.
 
-\subsection{Axioms}
 
-Polymarket works through \textit{splitting} (see \S\ref{wf:trade}) as follows. Any trader can receive 1 yes share and 1 no share for a specified candidate's market $\{M_c\}$  by depositing 1 USDC into the treasury for the market. When the market resolves, one share will resolve for 1 USDC and one will resolve for 0 USDC. Thus in both cases, Polymarket has exactly the correct amount in the treasury to complete its payout and is solvent. Every split increases the number of shares (yes and no) by 1 share and increase the treasury by 1 USDC. After the market resolves, the winning shares can be redeemed for 1 USDC which decreases the outstanding winning shares by 1 and reduces the treasury by 1 USDC. Shares are fungible as the payout for each share of the same type is identical. Polymarket allows shares to withdrawn as ERC20 tokens and traded using any compatible marketplace. It also provides a CLOB and an AMM for each share.
-
-The HBO documentary market is a special case, called negative risk (NR), in which each candidate's yes/no bundle is a complete set of outcomes (either the candidate is named or the candidate is not named) and additionally the set of yes shares for each candidate is complete (one and only one of the candidates will be declared the winner). Thus it is WTA across each yes/no bundle and it is also WTA across all yes shares.
 

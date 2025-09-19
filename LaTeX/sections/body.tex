@@ -95,32 +95,19 @@ The term \textit{decentralized prediction market} originates from the Ethereum w
 \caption{Over a few days, truthful and untruthful (`cheap talk') evidence was presented to traders. The market reacted to correct signals and effectively filtered out fake signals, demonstrating a beneficial feature of prediction markets.\label{tab:hbo}}
 \begin{tabularx}{\textwidth}{|X|L{7cm}|L{1.7cm}|L{1.7cm}|}
 \hline
-\textbf{Date} & \textbf{Information} & \textbf{Market Impact} & \textbf{Hindsight Verdict} \\
-\hline
-05 Oct & Partially redacted leaked email from an HBO executive implies Len Sassaman. & Immaterial & Fake \\
-\hline
-06 Oct & A long-dormant X account belonging to someone who had corresponded with Sassaman on Twitter posts a new message stating they were interviewed for the documentary. & Immaterial & Fake\\
-\hline
-07 Oct & Widow of Sassaman states she was not interviewed. & Moderate & Truthful\\
-\hline
-07 Oct & CNN piece states director `confronts' Satoshi suspect `face-to-face' ruling out Sassaman, David Klieman, and Hal Finney. & Material & Truthful\\
-\hline
-07 Oct & Samson Mow, featured in the trailer, speculates it will name Adam Back. & Material & Wrong but factual basis \\
-\hline
-07 Oct & End credits of documentary leak featuring a tribute to Klieman. & Immaterial & Fake \\
-\hline
-07 Oct & Mow states Nick Szabo refused to discuss with director implying he was not `confronted'. & Material & Truthful \\
-\hline
-08 Oct & Peter Todd confirms being confronted for documentary but unsure if he will be named. & Material & Truthful \\
-\hline
-08 Oct & A scene with Todd leaked but inconclusive if it is film's thesis. & Material & Truthful \\
-\hline
-08 Oct & Polymarket commenter claims screen test names Nick Szabo. & Immaterial & Fake \\
-\hline
-08 Oct & Fortune movie review discloses Todd is named & Very Significant & Truthful \\
-\hline
-08 Oct & Documentary airs and names Todd & Very Significant & Conclusive \\
-\hline
+\textbf{Date} & \textbf{Information} & \textbf{Market Impact} & \textbf{Hindsight Verdict} \\ \hline
+05 Oct & A long-dormant X account belonging to someone who had corresponded with Sassaman on Twitter posts a new message stating they were interviewed for the documentary. & Immaterial & Fake\\ \hline
+05 Oct & Partially redacted leaked email from an HBO executive implies Len Sassaman. & Immaterial & Fake \\ \hline
+07 Oct & CNN piece states director `confronts' Satoshi suspect `face-to-face' ruling out Sassaman, David Klieman, and Hal Finney. & Material & Truthful\\ \hline
+07 Oct & Samson Mow, featured in the trailer, speculates it will name Adam Back. & Material & Wrong but factual basis \\ \hline
+07 Oct & End credits of documentary leak featuring a tribute to Klieman. & Immaterial & Fake \\ \hline
+07 Oct & Mow states Nick Szabo refused to discuss with director implying he was not `confronted'. & Material & Truthful \\ \hline
+07 Oct & Widow of Sassaman states she was not interviewed. & Moderate & Truthful\\ \hline
+08 Oct & A scene with Todd leaked but inconclusive if it is film's thesis. & Material & Truthful \\ \hline
+08 Oct & Peter Todd confirms being confronted for documentary but unsure if he will be named. & Material & Truthful \\ \hline
+08 Oct & Polymarket commenter claims screen test names Nick Szabo. & Immaterial & Fake \\ \hline
+08 Oct & Fortune movie review discloses Todd is named & Very Significant & Truthful \\ \hline
+08 Oct & Documentary airs and names Todd & Very Significant & Conclusive \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -131,7 +118,7 @@ Before diving deep on the mechanics of decentralized prediction markets, we illu
 
 In game theory, \textit{cheap talk} describes strategic misinformation or signalling aimed at shaping beliefs or prices, provided the cost of deception is outweighed by the potential payoff~\cite{CrSo82}. This is well illustrated by what followed in the HBO Satoshi market as new pieces of evidence emerged, some real and some fake, with some fakes relatively elaborate (professional appearing end-credits or hijacking a target's X.com account) as summarized in Table~\ref{tab:hbo}. Further details are provided in Appendix~\ref{app:hbo}.
 
-Also of interest is how the prediction market did not obviously extract \textit{insider information} which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also high: web3 apps have a learning curve and if insiders were based at HBO in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market for the 5 days it ran.
+Also of interest is how the prediction market did not obviously extract \textit{insider information} which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also high: web3 apps have a learning curve and if insiders were based at HBO in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market for the 5 days it ran. %By contrast, allegations of insider trading have be levelled in other markets concerning video productions.\footnote{\polyurl{}{}}
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -319,6 +306,8 @@ When trading on-chain, miners and other users can front-run transactions, an are
 
 A final trading-relevant subject for prediction markets is arbitrage. Arbitrageurs ensure market prices are consistent, for example across all shares in a WTA market or between Yes/No bundles in a YNB market. A recent paper studies combinatorial arbitrage on Polymarket between markets with logically related predicates (\eg Republicans win the presidency; Trump wins the presidency) and measures roughly \$40M USD of realized arbitrage profits over the measurement period~\cite{SGKS25}. 
 
+%\textblue{Add cross \depm arbitrage as well. https://x.com/MovieTimeDev/status/1966515883355848889}
+
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Market Resolution}\label{wf:close}
@@ -335,7 +324,7 @@ A \textit{self-settling market} is based \textit{splitting} and \textit{merging}
 
 Typically a \cepm will decide events within the platform~\cite{kalshi}. A \depm might outsource decisions to a trusted organization, such as the Associate Press (AP) which experimented with writing US election results into Ethereum.\footnote{Etherscan: \url{https://etherscan.io/address/0x0792724900B551d200D954a5Ed709d9514d73A9F}} From a trust perspective, this is equivalent to using an AP \cepm, but from a logistics perspective, it is simpler to AP to be an oracle than to run an entire \cepm. Further, it allows \textit{trust agility} where AP can be replaced by a competing source with minimal disruption~\cite{BCFKMN14}. A \depm might also used a designated party only as a last resort if other methods lead to a contentious result~\cite{Rey24}. 
 
-Recently interest is in evaluating arbitration through an AI system~\cite{chaos}. A 2025 Chainlink study poses 1,660 Polymarket questions to LLMs and reports ~89.3\% accuracy (sports 99.7\%, politics 84.3\%)  with temporal-reasoning challenges~\cite{ZVW25}. AI can also be used in agent-mode, tasked with actively gathering evidence and reporting if resolution can be reached~\cite{chaos}. AI oracles are potentially vulnerable to adversarial manipulation and poisoning attacks~\cite{ZGWJ25}, and may recall incorrect facts that are incorrectly stated in the training data. 
+Recently interest is in evaluating arbitration through an AI system~\cite{chaos}. A 2025 Chainlink study poses 1,660 Polymarket questions to LLMs and reports ~89.3\% accuracy (sports 99.7\%, politics 84.3\%)  with temporal-reasoning challenges~\cite{ZVW25}. AI can also be used in agent-mode, tasked with actively gathering evidence and reporting if resolution can be reached~\cite{chaos}. AI oracles are potentially vulnerable to adversarial manipulation and poisoning attacks~\cite{ZGWJ25}, and may recall incorrect facts that are incorrectly stated in the training data. An over-reliance on AI systems in generating news, trading in markets based on news, and settling markets based on news could result in bad interactions or negative feedback loops. 
 
 \subsubsection{Reporter networks.}
 
@@ -405,7 +394,8 @@ For example, Polymarket settles markets on the canonical ledger using the UMA Op
 % Recursive markets (market topic is about another market)
 % Insurance / hedging 
 % Futurarchy
-% Insider trading, asymmetric info, example: betting on software delays
+% Insider trading, asymmetric info, example: betting on software delays -> no surprises any more if PMs extract insider info and build it into prices
+% Polymarket as news source (also circular feedback through LLMs, AI trained on market data, AI agents, AI generated news, AI oracles)
 
 \paragraph{Research Agenda.}
 
