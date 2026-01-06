@@ -2,38 +2,47 @@
 
 We start with an abstract definition of a prediction market. Our definition generalizes on recent computer science-based definitions~\cite{BMR17,FPW23,SGKS25} which each presume specific sub-types of a prediction market (\eg \cite{BMR17,SGKS25} use \textit{merging/splitting} while \cite{FPW23} presumes \textit{automated bookmaking} from \S\ref{wf:trade}). If our definitions are not clear, we refer the reader to Appendix~\ref{app:example} where we describe a specific market offered by Polymarket and map each part of definitions to this real world example.
 
+% = = = 
+
+
 \begin{definition}[Market]\label{def:market}
-A (single) market is a tuple $M=(E,\Omega,J,R)$, where $E$ is a well-defined uncertain event, $\Omega$ is a nonempty outcome space for $E$, $J$ is a finite index set of contract labels (“shares”), and $R=(R_j)_{j\in J}$ are nonnegative payoff functions with $R_j:\Omega\to\mathbb{R}_{\ge 0}$. When $M$ resolves to $\omega_M\in\Omega$, one unit of share $j\in J$ pays $R_j(\omega_M)$ units of $\mathcal{N}$ (see Def. \ref{def:system}).
+A (single) market is a tuple $M=(\Omega,J,R)$, where $\Omega$ is a nonempty outcome space, $J$ is a finite index set of contract labels (“shares”), and $R:\Omega\to\mathbb{R}_{\ge 0}^{J}$ is a nonnegative payoff map. Intuitively, $M$ is associated with an underlying uncertain event, whose possible resolutions are represented by $\Omega$. When $M$ resolves to $\omega\in\Omega$, one unit of share $j\in J$ pays $R(\omega)_j$ units of the numeraire $\mathcal{N}$ (Def.~\ref{def:system}).
 \end{definition}
 
 \paragraph{Remark: WTA special-case.}
-For a market $M=(E,\Omega,J,R)$, suppose there exists a bijection $\iota:J\to\Omega$ and
-$R_j(\omega)\in\{0,1\}$ with $\sum_{j\in J} R_j(\omega)=1$ for all $\omega\in\Omega$.
+For a market $M=(\Omega,J,R)$, suppose there exists a bijection $\iota:J\to\Omega$ and
+$R(\omega)_j\in\{0,1\}$ with $\sum_{j\in J} R(\omega)_j=1$ for all $\omega\in\Omega$.
 Then $M$ is a winner-take-all (WTA) or Arrow--Debreu market: a unit claim of label $j$ pays $1$ iff the realized outcome equals $\iota(j)$, and $0$ otherwise.
 
 \begin{definition}[Prediction Market System]\label{def:system}
-A prediction--market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{Res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of account), and $\mathsf{Res}=\{\mathrm{res}_M\}_{M\in\mathcal{M}}$ is a family of resolution registers such that, for each $M$ with outcome space $\Omega_M$, we have $\mathrm{res}_M\in\{\bot\}\cup\Omega_M$, $\mathrm{res}_M$ is initially $\bot$, and $\mathrm{res}_M$ transitions exactly once to some $\omega_M\in\Omega_M$.
+A prediction--market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of account), and $\mathsf{res}$ is a resolution function such that, for each $M=(\Omega,J,R)\in\mathcal{M}$, we have $\mathsf{res}(M)\in\{\bot\}\cup\Omega$, $\mathsf{res}(M)$ is initially $\bot$, and $\mathsf{res}(M)$ transitions exactly once to some $\omega\in\Omega$.
 \end{definition}
 
-% = = = 
 
-\begin{definition}[System Axioms]\label{def:axioms} For every market $M=(E,\Omega,J,R)\in\mathcal{M}$ operating in system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{Res})$, the following axioms hold.
+\begin{definition}[System Axioms]\label{def:axioms} For every market $M=(\Omega,J,R)\in\mathcal{M}$ operating in system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{res})$, the following axioms hold. In what follows, all quantities are for this fixed market $M$, and we write $\mathsf{Treas}:=\mathsf{Treas}_M$ and $L:=L_M$.
 
 \begin{enumerate}
 
 \item \textbf{Issuance and Solvency.}
-Let $S_j(M)\ge 0$ be the outstanding supply of label $j\in J$, and let $\mathsf{Treas}_M\ge 0$ be the market’s treasury (in the numeraire $\mathcal{N}$). The system maintains, at all times,
+Let $S=(S_j)_{j\in J}\in\mathbb{R}_{\ge 0}^{J}$ be the outstanding supply vector, and let $\mathsf{Treas}\ge 0$ be the market’s treasury (in the numeraire $\mathcal{N}$).
+Define the worst-case liability
 \begin{equation}
-  \mathsf{Treas}_M \;\ge\; \sup_{\omega\in\Omega_M}\; \sum_{j\in J} S_j(M)\,R_j(\omega).
+  L(S) \;:=\; \sup_{\omega\in\Omega}\; \sum_{j\in J} S_j\,R(\omega)_j.
 \end{equation}
-Thus when $q\ge 0$ new shares of any $j\in J$ are issued, treasury is increased sufficiently:
+The system maintains, at all times,
 \begin{equation}
-  \Delta \mathsf{Treas}_M \;\ge\; \sup_{\omega\in\Omega_M}\; q\,R_j(\omega).
+  \mathsf{Treas} \;\ge\; L(S).
+\end{equation}
+Any operation that changes supplies (including issuance) must preserve solvency. In particular, if issuance changes supplies from $S$ to $S'$, then treasury increases sufficiently:
+\begin{equation}
+  \Delta \mathsf{Treas} \;\ge\; L(S') - L(S).
 \end{equation}
 
-\item \textbf{Transfer and Fungibility.} Holdings of each label $j\in J$ are transferable between accounts and transfers conserve per–label totals $S_j(M)$. For each $j\in J$, shares are indistinguishable: for any $\omega\in\Omega_M$ and $q\ge 0$, redeeming $q$ units yields $q\,R_j(\omega)$.
-  
-\item \textbf{Settlement and redemption.} The resolution register satisfies $\mathrm{res}_M\in\{\bot\}\cup\Omega$, is initially $\bot$, and transitions exactly once\footnote{Real world \depms like Polymarket might resolve a market, receive a dispute of over the outcome, and resolve it differently after a process (see Section~\ref{wf:close}). In the definition, resolution refers to the final outcome only. An outcome is final when shares can be redeemed for payouts.} to a realized outcome $\omega_M\in\Omega$. Afterward, any holder of $q\ge 0$ units of label $j\in J$ may redeem them for $q\,R_j(\omega_M)$ units of $\mathcal{N}$. Redemption decreases outstanding shares $S_j(M)'\leftarrow S_j(M)-q$ and debits the treasury $\mathsf{Treas}_M'\leftarrow \mathsf{Treas}_M - q\,R_j(\omega_M)$, preserving the solvency invariant above.
+\item \textbf{Transfer and Fungibility.}
+Holdings are transferable between accounts and transfers conserve per--label totals $S_j$. Shares are fungible within each label: for all $j\in J$, any $\omega\in\Omega$, and any $q\ge 0$, redeeming $q$ units pays $q\,R(\omega)_j$ units of $\mathcal{N}$.
+
+\item \textbf{Settlement and redemption.}
+If $\mathsf{res}(M)=\omega\in\Omega$, then any holder may redeem: for all $j\in J$ and $q\ge 0$, redeeming $q$ units of label $j$ pays $q\,R(\omega)_j$ units of $\mathcal{N}$. Redemption burns the redeemed shares and debits the treasury by the corresponding payout, preserving the solvency invariant above.
  
  \end{enumerate}
  \end{definition}
