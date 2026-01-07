@@ -17,7 +17,20 @@ Early systems, like Augur~\cite{AKPWZ15} and Gnosis~\cite{Gn17} closely resemble
 \item From \S\ref{wf:close}, in Truthcoin, the blockchain decides event outcomes (\eg who won the election) through a reputation-based on-chain vote with slashing~\cite{Sz14}. In the Princeton paper, they are resolved through trusted arbiters acting as oracles~\cite{BCFKMN14}. The Ethereum whitepaper suggests both~\cite{But13}. In Polymarket, the third party oracle, UMA, operates under the hood through on-chain voting with slashing, but only when outcomes are disputed~\cite{poly,uma}.
 \end{enumerate}
 
-Noticing these points of differences inspired us to ask what are all the design decisions involved in creating a \depm?  We reviewed over a hundred projects, distilled into the 35+ notable \depms listed in Appendix~\ref{app:list}. From these, we break the \depm design space into a `modular workflow' (the method used in an SoK at AFT 2021 on oracles~\cite{ClEsGS21}) with seven stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs. 
+Noticing these points of differences inspired us to ask what are all the design decisions involved in creating a \depm?  We reviewed over a hundred projects, distilled into the 35+ notable \depms listed in Appendix~\ref{app:list}. From these, we break the \depm design space into a `modular workflow~\cite{ClEsGS21}' with seven stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs. 
+
+\paragraph{Systemization of Knowledge Papers (SoKs).} Within the blockchain literature, a variety of SoKs have been published with a variety of methodologies and deliverables, making it difficult to establish what constitutes an SoK paper. We review several SoKs from \textit{FC} and \textit{AFT} that, like us, consider a blockchain technology: oracles~\cite{ClEsGS21}, stablecoins~\cite{MSS20}, DeFi services~\cite{WPG+22}, light clients~\cite{CBC22}, layer 2s~\cite{GMR+20}, privacy technologies~\cite{BCDF23}, and MEV mitigations~\cite{HW22}. Like us, every one of these papers compares/contrasts a set of technologies~\cite{ClEsGS21,MSS20,WPG+22,GMR+20} or theoretical models~\cite{CBC22,BCDF23,HW22} from academia and industry. Like us, the main deliverable is a taxonomy or classification system for comparison and evaluation~\cite{ClEsGS21,MSS20,WPG+22,GMR+20,CBC22,BCDF23,HW22}. Like us, some distill the technology into a single model into layers or abstractions before classifying~\cite{ClEsGS21}, others offer definitions~\cite{CBC22,WPG+22}. Only one of these papers does quantitative experiments~\cite{WPG+22}, a welcome but unnecessary requirement for SoKs. Unlike a literature review---which primarily summarizes prior work paper-by-paper---an SoK imposes a common set of concepts, abstractions, and evaluation criteria so that disparate systems can be compared on a level playing field rather than merely described.
+
+
+
+% Stablecoins: review types, classify designs (taxonomy), no quantitative experiments
+% L2s: review types, classify designs (taxonomy), no quantitative experiments
+% Light clients: review types (papers), classification, formal definitions, no quantitative experiments, (also: insights / gaps are enumerated) 
+% Decentralization: "Layers"
+% Oracles: review types, classify designs (taxonomy), lessons learned, modular workflow 
+% DeFi: definitions, review techniqes for doing something
+% Transaction reordering mitigations: review models, taxonomy (spider diagrams)
+% PETs: Taxonomy/classification, models (toolbox)
 
 % ChatGPT generated timeline so cross-validate everything before believing any of it:
 %	•	1988 — Iowa Electronic Markets (IEM) launch as an academic, real-money prediction market at the University of Iowa.  ￼ ￼
@@ -45,8 +58,9 @@ Noticing these points of differences inspired us to ask what are all the design 
 \section{Preliminaries}
 
 \subsection{Methodology}
+\label{sec:meth}
 
-We obtained a collection of academic works on decentralized prediction markets, as well as various intersecting topics including (centralized) prediction markets, oracles, DeFi, and AMMs. We used our knowledge of the field, Google Scholar (search and cited by features), and citations within papers. Our library is available, sorted by topic, on Zotero.\footnote{Zotero: \textblue{Link withheld for anonymity.}} We also identified projects without white-papers or academic papers, reviewing the 97 current projects listed on a recently released online dashboard~\cite{Sal25} (noting that some listed are \depm-adjacent rather than true \depms) and by studying 20+ historical systems that are no longer active. We also searched news sources for opinions and issues on leading decentralized prediction markets, such as Polymarket. We used affinity diagrams to cluster design decisions into the seven stages of our final modular framework. Relevant artifacts and data are available on GitHub.\footnote{GitHub: \textblue{Link withheld for anonymity.}}   
+We obtained a collection of academic works on decentralized prediction markets, as well as various intersecting topics including (centralized) prediction markets, oracles, DeFi, and AMMs. We used our knowledge of the field, Google Scholar (search and cited by features), and citations within papers. Our library is available, sorted by topic, on Zotero.\footnote{Zotero: \textblue{Link withheld for anonymity.}} We also identified projects without white-papers or academic papers, reviewing the 97 current projects listed on a recently released online dashboard~\cite{Sal25} (noting that some listed are \depm-adjacent rather than true \depms) and by studying 20+ historical systems that are no longer active. We also searched news sources for opinions and issues on leading decentralized prediction markets, such as Polymarket. 
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -125,41 +139,42 @@ Also of interest is how the prediction market did not obviously extract \textit{
 \section{Modular Workflow}
 \label{sec:wf}
 
-\begin{center}
-\adjustbox{max width=0.8\textwidth}{
-\begin{tikzpicture}[
-  node distance=0.5cm and 1cm,
-  show background rectangle,
-  background rectangle/.style={draw, rounded corners, inner sep=6pt}
-]
+%\begin{center}
+%\adjustbox{max width=0.8\textwidth}{
+%\begin{tikzpicture}[
+%  node distance=0.5cm and 1cm,
+%  show background rectangle,
+%  background rectangle/.style={draw, rounded corners, inner sep=6pt}
+%]
+%
+%% Top row
+%\node (infra) {Underlying Infrastructure~\S\ref{wf:chain}};
+%\node[right=of infra] (topic) {Market Topic~\S\ref{wf:topic}};
+%
+%% Middle row
+%\node[below=of infra] (shares) {Share Structure and Pricing~\S\ref{wf:price}};
+%\node[right=of shares] (trading) {Trading~\S\ref{wf:trade}};
+%
+%% Bottom row
+%\node[below=of shares] (resolve) {Market Resolution~\S\ref{wf:close}};
+%\node[right=of resolve] (settle) {Settlement~\S\ref{wf:clear}};
+%\node[right=of settle] (archive) {Archiving~\S\ref{wf:archive}};
+%
+%% Arrows
+%\draw[->] (infra) -- (topic);
+%\draw[->] (topic) to[out=-90, in=90, looseness=0.2]  (shares.north);
+%\draw[->] (shares) -- (trading);
+%\draw[->] (trading) to[out=-90, in=90, looseness=0.2]  (resolve);
+%\draw[->] (resolve) -- (settle);
+%\draw[->] (settle) -- (archive);
+%
+%\end{tikzpicture}
+%}
+%\end{center}
 
-% Top row
-\node (infra) {Underlying Infrastructure~\S\ref{wf:chain}};
-\node[right=of infra] (topic) {Market Topic~\S\ref{wf:topic}};
+\input{tables/wf_summary.tex}
 
-% Middle row
-\node[below=of infra] (shares) {Share Structure and Pricing~\S\ref{wf:price}};
-\node[right=of shares] (trading) {Trading~\S\ref{wf:trade}};
-
-% Bottom row
-\node[below=of shares] (resolve) {Market Resolution~\S\ref{wf:close}};
-\node[right=of resolve] (settle) {Settlement~\S\ref{wf:clear}};
-\node[right=of settle] (archive) {Archiving~\S\ref{wf:archive}};
-
-% Arrows
-\draw[->] (infra) -- (topic);
-\draw[->] (topic) to[out=-90, in=90, looseness=0.2]  (shares.north);
-\draw[->] (shares) -- (trading);
-\draw[->] (trading) to[out=-90, in=90, looseness=0.2]  (resolve);
-\draw[->] (resolve) -- (settle);
-\draw[->] (settle) -- (archive);
-
-\end{tikzpicture}
-}
-\end{center}
-
-
-We now turn to the design landscape of \depms and step through our modular workflow (\cf~\cite{ClEsGS21}), summarized above. Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to decentralization and permissionlessness.
+We now turn to the design landscape of \depms and step through our modular workflow (\cf~\cite{ClEsGS21}), summarized as the columns of Table~\ref{tab:class}. The columns were developed after reviewing the materials (\S\ref{sec:meth}) and clustering through rounds of affinity diagraming by the authors. Relevant artifacts and data are available on GitHub.\footnote{GitHub: \textblue{Link withheld for anonymity.}}   Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to decentralization and permissionlessness. 
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -272,7 +287,7 @@ While scalar markets are supported by \depms like Augur~\cite{AKPWZ15,AKPWZ19} o
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
-\subsection{Trading}\label{wf:trade}
+\subsection{Market Initialization}\label{wf:init}
 % JC
 
 A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-20 or the more efficient ERC-1155~\cite{LDBR24}. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services, including on-chain trading, lending, and leverage~\cite{WPG+22}. Options for trading outcome shares can be broken into two steps: (i) how does the first outcome share come into existence and how does the first trader trade, and (ii) how do traders trade once a market has been established? 
@@ -292,7 +307,7 @@ In YNB markets, each outcome’s YES/NO pair is its own two-outcome WTA market. 
 The third approach, \textit{matching}, was used by InTrade~\cite{intrade} and a variant by Fairlay~\cite{fairlay}. Briefly, it mirrors a futures market, where Alice posts a desired short/long position at a chosen price on an orderbook with a margin account holding enough cash to cover her maximum loss if she obtains the position. If Bob is willing to take the other side, also with sufficient margin for his maximum loss, the operator matches them, creates two shares and gives them to Alice and Bob. Alice and Bob are not counterparties, both settle with the operator once the shares are created, however their coincidence of wants (COW) is necessary for the operator to create shares at no risk to itself. Matching is operationally more complex and effectively requires a central limit order book or batch auction, which excludes is too expensive to run on-chain~\cite{MoCl23}. 
 
 
-\subsubsection{Trading in established markets.}
+\subsection{Trading}\label{wf:trade}
 
 Once outcome shares are in circulation, they can be traded any way fungible blockchain tokens can be traded. This includes \textit{centralized exchanges} that custody the tokens and use central order book (CLOBs); \textit{partially decentralized exchanges} where CLOB matching is done off-chain and settlement is done on-chain; or \textit{fully on-chain exchanges}, of which automated market makers (AMMs) are the most common. 
 
@@ -383,7 +398,6 @@ For example, Polymarket settles markets on the canonical ledger using the UMA Op
 
 \paragraph{Composability.} Perhaps the biggest evolution in \depm design is infrastructure~\cite{Gun24}. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which composes through highly standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework~\cite{ctf}. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle~\cite{uma}. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
 
-\input{tables/wf_summary.tex}
 
 \paragraph{Regulation.} In jurisdictions like the United States, both \cepms and \depms are tightly controlled and not always legal to operate~\cite{Du19,Ma24}. The paramount concerns of regulators are not specific to prediction markets or the difference in their microstructure from other forms of wagering (although market integrity is always a concern); rather, regulators control any kind of wagering on political events (a stance challenged by leading economists~\cite{AFGH+08}), as well as any kind of financial service offered to unaccredited consumers. For advocates of liberal markets, \depms are seen as a way to side-step regulation, particularly when the \depm is decentralized in most or all dimensions of our taxonomy. 
 
