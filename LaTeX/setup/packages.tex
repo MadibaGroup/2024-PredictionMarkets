@@ -2,3 +2,69 @@
 
 \usepackage{wrapfig}
 \usepackage{tabularx}
+
+
+\usepackage[T1]{fontenc}
+\usepackage[misc]{ifsym}
+\usepackage{graphicx}
+\usepackage{array}
+%\usepackage{fullpage}
+
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{positioning,backgrounds}
+\usetikzlibrary{trees}
+\usepackage{hyperref}
+\usepackage{tablefootnote}
+
+%\usepackage{tabularx}
+%\usepackage{array}
+\usepackage{wasysym} 
+\usepackage{ragged2e}
+\usepackage{float}
+
+\usepackage{adjustbox}
+\newcommand{\headrow}[1]{\multicolumn{1}{c}{\adjustbox{angle=45,lap=\width-0.5em}{#1}}}
+\newcommand{\flatrow}[1]{\multicolumn{1}{c}{{#1}}}
+
+% Preamble
+\newcounter{rq}
+\renewcommand{\therq}{\arabic{rq}}
+
+\newcommand{\RQ}[1]{%
+  \refstepcounter{rq}%
+  \par\smallskip
+  \noindent\fbox{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+      \textbf{Insight \therq.} #1
+    \end{minipage}}%
+  \par\smallskip
+}
+
+% Preamble
+\newcounter{gap}
+\renewcommand{\thegap}{\arabic{gap}}
+
+\newcommand{\gap}[1]{%
+  \refstepcounter{gap}%
+  \par\smallskip
+  \noindent\fbox{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+      \textbf{Research Gap \thegap.} #1
+    \end{minipage}}%
+  \par\smallskip
+}
+
+
+% Options for helping if floats are weird
+%\renewcommand{\topfraction}{0.9}
+%\renewcommand{\bottomfraction}{0.9}
+%\renewcommand{\textfraction}{0.05}
+%\renewcommand{\floatpagefraction}{0.8}
+%\setcounter{topnumber}{2}
+%\setcounter{bottomnumber}{2}
+%\setcounter{totalnumber}{4}
