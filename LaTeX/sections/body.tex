@@ -137,6 +137,8 @@ In game theory, \textit{cheap talk} describes strategic misinformation or signal
 
 Also of interest is how the prediction market did not obviously extract \textit{insider information} which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also high: web3 apps have a learning curve and if insiders were based at HBO in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market for the 5 days it ran. %By contrast, allegations of insider trading have be levelled in other markets concerning video productions.\footnote{\polyurl{}{}}
 
+\gap{Id insider trading? Differences between markets? Difference in accuracy? Metrics (prime impact, liquidity, etc) execution?}
+
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \section{Modular Workflow}
@@ -179,12 +181,19 @@ Also of interest is how the prediction market did not obviously extract \textit{
 
 We now turn to the design landscape of \depms and step through our modular workflow (\cf~\cite{ClEsGS21}) of eight stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs, summarized as the columns of Table~\ref{tab:class}. The columns were developed after reviewing the materials (\S\ref{sec:meth}) and clustering through rounds of affinity diagraming by the authors. Relevant artifacts and data are available on GitHub.\footnote{GitHub: \textblue{Link withheld for anonymity.}}   Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to decentralization and permissionlessness. 
 
+\gap{Accuracy. Correlations between. }
+
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Underlying Infrastructure}
 \label{subsec:blockchain_infra}\label{wf:chain}
 
 In theory, a decentralized and permissionless system might run on something other than a blockchain, but blockchain technology underlays all known \depms. The earliest (pre-Ethereum) research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a \textit{sidechain}~\cite{BCD+14} would be required~\cite{Sz14,BCFKMN14}. Today, projects tend to run as \textit{smart contracts} on an Ethereum competitor (\eg Polygon~\cite{AKN21} or Solana~\cite{Yak18}) or an Ethereum L2 (\eg Arbitrum~\cite{KGCWF18} or Optimism~\cite{op}). There are no strong qualitative differences between the underlying blockchain---it is a choice driven by fees, user base, and supporting infrastructure. One other approach (\eg Zeitgeist~\cite{zeit} or SX Network~\cite{sx}) is to put the prediction market logic into the blockchain rules themselves on a custom \textit{app-chain}.
+
+\gap{Transparency \depm, dyanmics from transparency (herding) }
+
+\gap{Leverage, conditional markets}
+
 
 %MEV?
 
@@ -206,7 +215,7 @@ These systems are not all purely permissionless. A \textit{hybrid model} puts so
 
 Careful attention must be paid to both the general topic of the market and the `fine-print' or exact predicate that decides the market. Table~\ref{tab:pitfalls} provides several examples of pitfalls. Dealing with definitional pitfalls has been, to date, a trial and error process where market creators learn from past mistakes and ad hoc `legalese' (e.g., a `consensus of credible reporting' may be used to resolve markets) is copied from market to market~\cite{Ad24}. 
 
-\gap{Future research could develop machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes) and verify they are well-defined with model checking (\cf~\cite{Cla21}). }
+\gap{Future research could develop machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes) and verify they are well-defined with model checking (\cf~\cite{Cla21}). Safety measures.}
 
 If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting~\cite{poly}.
 
@@ -380,7 +389,7 @@ These concerns affirm design decisions like a secret ballot, using subsets of pa
 
 The slogan `sweat the game, not the payout~\cite{Fu24}' is used to differentiate regulated sportsbook operators from `neighbourhood bookies,' however even legitimate operators in the US have allegedly denied payouts using a legal loophole.\footnote{A law protects sports books from obvious errors, like a `fat finger' when setting odds, but can be misused to claim long-shot bets were `obvious mistakes' after the fact~\cite{Fu24}.} The advantage of a \depm in this context is two-fold: (i) payouts are fully (or largely) autonomous, not subject to human discretion, and (ii) the share structure ensures the operator has zero risk (or predetermined bounded risk, in the case of automated bookmaking) and is therefore financially indifferent to making any fair payout (see the solvency axiom in Definition~\ref{def:axioms}). \textblue{and you can see it.}
 
-\RQ{A prediction market has no need to fight against paying out a bet the way bookmakers have in practice~\cite{}. On-chain can see it}
+\RQ{A prediction market has no need to fight against paying out a bet the way bookmakers have in practice~\cite{}. On-chain can see it. Add parlay and fun bets.}
 
 
 % Split payouts possible in Truthcoin: 0.5/0.5
@@ -398,7 +407,7 @@ Two kinds of artifacts matter most. First, the market semantics: the market topi
 
 For example, Polymarket settles markets on the canonical ledger using the UMA Optimistic Oracle (the dispute game) and writes the final payout vector into the Gnosis Conditional Tokens Framework (CTF) (the settlement contract); outcome shares are ERC-1155 tokens (a multi-token standard), so transfers, mints, and redemptions are visible in logs. Trades are matched off-chain on a central limit order book (CLOB) but settle on-chain, while detailed order-book depth, quotes, and liquidity metrics are exposed via Polymarket’s API (called Gamma). For reproducible research, the same on-chain events are also mirrored by deterministic chain indexers (subgraphs run by services such as Goldsky/The Graph), and API time series can be cross-checked against transaction hashes on the ledger.
 
-
+\gap{Replay the market. Augment with external data (news, social media). See Satoshi. }
 % = = = = =
 
 \section{Discussion and Research Agenda}
