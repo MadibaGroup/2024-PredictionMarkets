@@ -83,9 +83,9 @@ Consider the following taxonomy of a few wagering systems:
 
 \paragraph{Bookmakers versus prediction markets.}
 
-A wager is a two-party contract with payouts based on the outcome of a future event. Consider Alice and Bob who wager on the same outcome of an event. With a fixed-odds bookmaker (or online betting), Alice's contract is different from Bob's contract in at least two regards: (i) it specifically names Alice as the counterparty and (ii) the payouts could be different if the odds changed between Alice's wager and Bob's. By contrast, in a prediction market contract (called a outcome share), Alice and Bob hold identical contracts: (i) all contracts are between the market operator and whoever redeems the contract, and (ii) the payout is exactly the same (typically \$0 if incorrect and \$1 if correct). Odds are reflected in the price paid for a prediction market contract (\ie variable cost and fixed payout), while a bookmaker contract has a fixed cost and variable payout. Thus the key distinction is that prediction market outcome shares are \textit{fungible} and can be freely traded between participants, enabling a free market that communicates information to the public through outcome share prices, trading volume, market depth, and other financial market metrics.
+A wager is a two-party contract with payouts based on the outcome of a future event. Consider Alice and Bob who wager on the same outcome of an event. With a fixed-odds bookmaker (or online betting), Alice's contract is different from Bob's contract in at least two regards: (i) it specifically names Alice as the counterparty and (ii) the payouts could be different if the odds changed between Alice's wager and Bob's. By contrast, in a prediction market contract (called a outcome share), Alice and Bob hold identical contracts: (i) all contracts are between the market operator and whoever redeems the contract, and (ii) the payout is exactly the same (typically \$0 if incorrect and \$1 if correct). Odds are reflected in the price paid for a prediction market contract (\ie variable cost and fixed payout), while a bookmaker contract has a fixed cost and variable payout. Thus the key distinction is that prediction market outcome shares are \textit{fungible} and can be freely traded between participants, enabling a free market that communicates information to the public through outcome share prices, trading volume, market depth, and other financial market metrics. Operating a prediction market also differs from operating a bookmaker in a very important way: 
 
-Operating a prediction market also differs from operating a bookmaker in a very important way (we call it \textit{solvency} in the definition below). Bookmakers quote odds but do not have to back up those odds with sufficient funds in the event of a payout. It is just a promise to pay. By contrast, a prediction market is structured with sufficient collateral for all outcomes at all times (including the very first trade! See \S\ref{wf:init}).  Every dollar paid to a winning trader is a dollar from either (a) a losing trader or (b) bounded within a special loss fund setup before the market opens. 
+\RQ{Bookmakers quote odds without needing to hold sufficient funds in the event of a payout. It is merely a promise to pay. By contrast, a prediction market is structured with sufficient collateral for all outcomes at all times (including the very first trade! See \S\ref{wf:init}).  Every dollar paid to a winning trader is a dollar from either (a) a losing trader or (b) bounded within a special loss fund setup before the market opens.}
 
 \paragraph{\cepm versus \depm.}
 
@@ -135,9 +135,9 @@ Before diving deep on the mechanics of decentralized prediction markets, we illu
 
 In game theory, \textit{cheap talk} describes strategic misinformation or signalling aimed at shaping beliefs or prices, provided the cost of deception is outweighed by the potential payoff~\cite{CrSo82}. This is well illustrated by what followed in the HBO Satoshi market as new pieces of evidence emerged, some real and some fake, with some fakes relatively elaborate (professional appearing end-credits or hijacking a target's X.com account) as summarized in Table~\ref{tab:hbo}. Further details are provided in Appendix~\ref{app:hbo}.
 
-Also of interest is how the prediction market did not obviously extract \textit{insider information} which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also high: web3 apps have a learning curve and if insiders were based at HBO in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market for the 5 days it ran. %By contrast, allegations of insider trading have be levelled in other markets concerning video productions.\footnote{\polyurl{}{}}
+Also of interest is how the prediction market did not obviously extract \textit{insider information} which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also high: web3 apps have a learning curve and if insiders were based at HBO in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market for the 5 days it ran. By contrast, allegations of insider trading have be levelled in other markets, including the removal of Nicolas Maduro from power immediately before his seizure by the United States military~\cite{Alm26}.
 
-\gap{Id insider trading? Differences between markets? Difference in accuracy? Metrics (prime impact, liquidity, etc) execution?}
+\gap{Can insider trades be classified from blockchain data with reasonable percision? Are occurrences higher on unregulated markets? Are markets with insider trading more accurate? What correlations exist between insider trading activity and market metrics (price, liquidity, \etc)?}
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -179,9 +179,9 @@ Also of interest is how the prediction market did not obviously extract \textit{
 
 \input{tables/wf_summary.tex}
 
-We now turn to the design landscape of \depms and step through our modular workflow (\cf~\cite{ClEsGS21}) of eight stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs, summarized as the columns of Table~\ref{tab:class}. The columns were developed after reviewing the materials (\S\ref{sec:meth}) and clustering through rounds of affinity diagraming by the authors. Relevant artifacts and data are available on GitHub.\footnote{GitHub: \textblue{Link withheld for anonymity.}}   Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to decentralization and permissionlessness. 
+We now turn to the design landscape of \depms and step through our modular workflow (\cf~\cite{ClEsGS21}) of eight stages: underlying infrastructure, market topic, share structure and pricing, trading, market resolution, settlement, and archiving. For each stage, we enumerate the possible designs and discuss competing trade-offs, summarized as the columns of Table~\ref{tab:class}. %Some design decisions will be common issues for both centralized and decentralized prediction markets. We include these anyways for completeness. However we put the emphasis on discussing design decisions that are pertinent to decentralization and permissionlessness. 
 
-\gap{Accuracy. Correlations between. }
+\gap{Application of accuracy metrics~\cite{GN07} to various \cepm and \depm platforms. Correlations between accuracy and the market microstructure options in Table~\ref{tab:class}.}
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -190,9 +190,9 @@ We now turn to the design landscape of \depms and step through our modular workf
 
 In theory, a decentralized and permissionless system might run on something other than a blockchain, but blockchain technology underlays all known \depms. The earliest (pre-Ethereum) research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a \textit{sidechain}~\cite{BCD+14} would be required~\cite{Sz14,BCFKMN14}. Today, projects tend to run as \textit{smart contracts} on an Ethereum competitor (\eg Polygon~\cite{AKN21} or Solana~\cite{Yak18}) or an Ethereum L2 (\eg Arbitrum~\cite{KGCWF18} or Optimism~\cite{op}). There are no strong qualitative differences between the underlying blockchain---it is a choice driven by fees, user base, and supporting infrastructure. One other approach (\eg Zeitgeist~\cite{zeit} or SX Network~\cite{sx}) is to put the prediction market logic into the blockchain rules themselves on a custom \textit{app-chain}.
 
-\gap{Transparency \depm, dyanmics from transparency (herding) }
+Perhaps the biggest evolution in \depm design is infrastructure~\cite{Gun24}. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which composes through highly standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework~\cite{ctf}. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle~\cite{uma}. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
 
-\gap{Leverage, conditional markets}
+\gap{On-chain markets provide open information about the trading strategies of other traders who do not deliberately and successfully obfuscate their trades and identities. Can we classify copy traders and measure occurrences? Is copy trading profitable? Under what conditions? Is there a negative impact on market accuracy due to cascading/herding effects?}
 
 
 %MEV?
@@ -215,9 +215,10 @@ These systems are not all purely permissionless. A \textit{hybrid model} puts so
 
 Careful attention must be paid to both the general topic of the market and the `fine-print' or exact predicate that decides the market. Table~\ref{tab:pitfalls} provides several examples of pitfalls. Dealing with definitional pitfalls has been, to date, a trial and error process where market creators learn from past mistakes and ad hoc `legalese' (e.g., a `consensus of credible reporting' may be used to resolve markets) is copied from market to market~\cite{Ad24}. 
 
-\gap{Future research could develop machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes) and verify they are well-defined with model checking (\cf~\cite{Cla21}). Safety measures.}
-
 If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting~\cite{poly}.
+
+\gap{Can market topics be written with machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes), where model checking (\cf~\cite{Cla21}) could eliminate ambiguities, corner cases, and loopholes?}
+
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
@@ -230,27 +231,27 @@ The core requirement of a prediction market is that wagers are represented by fu
 The first structure we term \textit{winner-take-all (WTA)} (\aka \textit{categorical}) and was popularized by Iowa Electronic Markets~\cite{iem}. Consider a market with three possible outcomes: $\Omega=\{\mathsf{A}, \mathsf{B}, \mathsf{C}\}$.  A WTA market issues an outcome share for each outcome $J=\{j_\mathsf{A}, j_\mathsf{B}, j_\mathsf{C}\}$. If there are only two outcomes, it is called a \textit{binary market}. If the outcome $\omega$ is $\mathsf{B}$, the share $j_\mathsf{B}$ pays \$1 (or one unit of numeraire $\mathcal{N}$) and the other shares pay \$0.  For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
 
 \begin{equation}
-R_{j_{\mathsf{k}}}(\omega)=\begin{cases}1, & \text{if } \omega=\mathsf{k},\\0, & \text{otherwise.}\end{cases}
+R(\omega)_{j_{\mathsf{k}}}=\begin{cases}1, & \text{if } \omega=\mathsf{k},\\0, & \text{otherwise.}\end{cases}
 \end{equation}
 
-For a WTA market to be well-functioning, two conditions must hold on outcome shares. (i) They should be \textit{mutually exclusive} so no more than one share wins: $R_{j_{\mathsf{k}}}(\omega)R_{j_{\mathsf{\ell}}}(\omega)=0 \quad \forall\omega\in\Omega, \forall\mathsf{k}\neq\mathsf{\ell} $; and (ii) they should be \textit{complete} so at least one share wins: $\sum_{\mathsf{k}\in\Omega} R_{j_{\mathsf{k}}}(\omega)=1\quad \forall \omega\in\Omega$. If they are not mutually exclusive, the operator could be under-collateralized for making all payments (in violation of solvency in Definition~\ref{def:axioms}). If they are incomplete, a deficient market might end with all participants receiving \$0. A consequence is that holding one share for each outcome is equivalent to holding \$1, a fact we will return to in \S\ref{wf:trade}. 
+For a WTA market to be well-functioning, two conditions must hold on outcome shares. (i) They should be \textit{mutually exclusive} so no more than one share wins: $R(\omega)_{j_{\mathsf{k}}}\,R(\omega)_{j_{\mathsf{\ell}}}=0 \quad \forall\omega\in\Omega, \forall\mathsf{k}\neq\mathsf{\ell} $; and (ii) they should be \textit{complete} so at least one share wins: $\sum_{\mathsf{k}\in\Omega} R(\omega)_{j_{\mathsf{k}}}=1\quad \forall \omega\in\Omega$. If they are not mutually exclusive, the operator could be under-collateralized for making all payments (in violation of solvency in Definition~\ref{def:axioms}). If they are incomplete, a deficient market might end with all participants receiving \$0. A consequence is that holding one share for each outcome is equivalent to holding \$1, a fact we will return to in \S\ref{wf:trade}. 
 
-In a WTA market, the price of a outcome share (\eg $p(j_\mathsf{A})=\$0.54$) is a proxy for the probability that the outcome will occur (\eg $\mathrm{Pr}[\omega=\mathsf{A}]=54\%$). A common adage is the prices of each share sum to \$1.00 ignoring fees and discounting (\eg $p(j_\mathsf{A})=\$0.54$, $p(j_\mathsf{B})=\$0.23$, $p(j_\mathsf{C})=\$0.23$) but this is imprecise~\cite{BCFKMN14}. Outcome shares (like anything) have two prices: a bid price (what a trader is willing to buy for) and an ask price (willing to sell for). If the sum of the bid prices exceeds \$1.00 or if the sum of ask prices are below \$1.00, arbitrageurs have an opportunity to secure risk-free profit through a trade that will erase the condition when fully extracted. This means the sum of bids and sum of asks should result in the bid-ask spread straddling \$1.00 but the amount of the spread could be arbitrarily large. So in user interfaces that display a single `price' (\eg the last sale price or the midpoint between the best bid and the best ask), prices may indeed not sum to \$1.00---this is not a market failure, just a misunderstanding.  
+In a WTA market, the price of a outcome share (\eg $p(j_\mathsf{A})=\$0.54$) is a proxy for the probability that the outcome will occur (\eg $\mathrm{Pr}[\omega=\mathsf{A}]=54\%$). A common adage is the prices of each share sum to \$1.00 ignoring fees and discounting (\eg $p(j_\mathsf{A})=\$0.54$, $p(j_\mathsf{B})=\$0.23$, $p(j_\mathsf{C})=\$0.23$) but this is imprecise~\cite{BCFKMN14}. Outcome shares (like anything) have two prices: a bid price (what a trader is willing to buy for) and an ask price (willing to sell for). If the sum of the bid prices exceeds \$1.00 or if the sum of ask prices are below \$1.00, arbitrageurs have an opportunity to secure risk-free profit through a trade that will erase the condition when fully extracted. This means the sum of bids and sum of asks should result in the bid-ask spread straddling \$1.00 but the amount of the spread could be arbitrarily large. So in user interfaces that display a single `price' (\eg the last sale price or the midpoint between the best bid and the best ask), prices may indeed not sum to \$1.00---this is not a market failure, just a misunderstanding. 
 
  % = = =
  
  \subsubsection{YNB.}
  
-The second structure we term a \textit{yes-no bundle (YNB)}. YNB markets were popularized by InTrade~\cite{intrade}. A YNB market issues two outcome shares for each outcome, a `yes' and a `no:'  $J=\{j_{\mathsf{A_Y}}, j_{\mathsf{A_N}}, j_{\mathsf{B_Y}}, j_{\mathsf{B_N}}, j_{\mathsf{C_Y}},j_{\mathsf{C_N}} \}$. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
+The second structure we term a \textit{yes-no bundle (YNB)}. YNB markets were popularized by InTrade~\cite{intrade}. A YNB market issues two share labels for each outcome, a `yes' and a `no:'  $J=\{j_{\mathsf{A_Y}}, j_{\mathsf{A_N}}, j_{\mathsf{B_Y}}, j_{\mathsf{B_N}}, j_{\mathsf{C_Y}},j_{\mathsf{C_N}} \}$. For any $k\in\{\mathsf{A},\mathsf{B},\mathsf{C}\}$,
 
 \begin{equation}
-R_{j_{\mathsf{k_Y}}}(\omega)=
+R(\omega)_{j_{\mathsf{k_Y}}}=
 \begin{cases}
 1, & \text{if } \omega=\mathsf{k},\\
 0, & \text{otherwise.}
 \end{cases}
 \qquad
-R_{j_{\mathsf{k_N}}}(\omega)=
+R(\omega)_{j_{\mathsf{k_N}}}=
 \begin{cases}
 1, & \text{if } \omega\neq\mathsf{k},\\
 0, & \text{otherwise.}
@@ -261,23 +262,33 @@ Each outcome-specific pair $\{j_{\mathsf{k_Y}}, j_{\mathsf{k_N}}\}$ constitutes 
 
 \subsubsection{YNB-NR.}
 
-A variant of the YNB market is one where, even though it is not necessary, the yes share outcomes are in fact complete and exclusive. In other words, each yes/no bundle is a WTA market and the set of all yes shares is also a WTA market. We term this YNB variant as \textit{negative risk} (YNB-NR), a term introduced by Polymarket~\cite{poly}. Recall that in a WTA market, roughly speaking, the share prices sum to \$1 (modulo the fine print about bid/ask spreads above). For a YNB-NR market, the Yes shares sum to \$1, while the No shares will sum to $|\Omega|-1$. 
+A variant of the YNB market is one where, even though it is not necessary, the yes share outcomes are in fact complete and exclusive. In other words, each yes/no bundle is a WTA market and the set of all yes shares is also a WTA market. We term this YNB variant as \textit{negative risk} (YNB-NR), a term introduced by Polymarket~\cite{poly}. Recall that in a WTA market, roughly speaking, the share prices sum to \$1 (modulo the fine print about bid/ask spreads above). For a YNB-NR market, the Yes shares sum to \$1, while the No shares will sum to $|\Omega|-1$.
+
+\begin{equation}
+\sum_{\mathsf{k}\in\Omega} R(\omega)_{j_{\mathsf{k_Y}}}=1
+\quad\text{and}\quad
+\sum_{\mathsf{k}\in\Omega} R(\omega)_{j_{\mathsf{k_N}}}=|\Omega|-1
+\quad\text{for all }\omega\in\Omega.
+\end{equation}
 
 The HBO documentary market from Section~\ref{sec:hbo} is an example of a YNB-NR market (Polymarket markets are either YNB or YNB-NR\footnote{Dune Analytics: `\href{https://dune.com/filarm/polymarket-activity}{Polymarket - Activity and Volume}' compares YNB (called CTF there) and YNB-NR (called negrisk there) statistics.}). This market was intended to be exclusive and complete across bundles by including a bundle for the outcome: `other/multiple.' Holding a No outcome share for Hal Finney has the same payoff as holding a Yes share for every other candidate. Polymarket introduced a \textit{negRisk} gadget that allows a trader to convert any No share into a portfolio of Yes shares for every other outcome. This enables traders to adjust their positions with less buying/selling on the markets, and also aligns prices between Yes and No markets with low friction arbitrage opportunities. Formally, a single No share has the equivalence (\ie same payoff ignoring fees and discounting):
 
 \begin{equation}
-j_{\mathsf{k_N}} \equiv \sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} j_{\mathsf{\ell_Y}} \quad\text{for any }\mathsf{k}\in\Omega.
+R(\omega)_{j_{\mathsf{k_N}}} \;=\; \sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} R(\omega)_{j_{\ell_Y}}
+\quad\text{for all }\omega\in\Omega\text{ and any }\mathsf{k}\in\Omega.
 \end{equation}
 
-And multiple No outcome shares can be converted into Yes shares plus cash:
+While Yes has equivalence to:
 
 \begin{equation}
-\sum_{\ell \in \Omega\setminus\{\mathsf{k}\}} j_{\mathsf{\ell_N}}
-\equiv
-j_{\mathsf{k_Y}} + \$1\cdot(|\Omega|-2)
+R(\omega)_{j_{k_Y}}
+\;=\;
+\sum_{\ell\in\Omega\setminus\{k\}} R(\omega)_{j_{\ell_N}}
+\;-\;
+(|\Omega|-2)
 \end{equation}
 
-
+\gap{How does a \textit{negRisk} gadget encourage price parity between equivalent positions? Quantify its improvements for price execution and trade execution costs. Does a reverse gadget, for converting a single yes share, offer similar benefits?}
 
 % = = = 
 
@@ -288,7 +299,7 @@ The third structure is a market where the outcome is a quantity of interest (\eg
 Formally, if we let $X:\Omega\to\mathbb{R}$ be the observed quantity, and $[a,b]$ be an interval of values, then the linear outcome share $j_{\mathrm{lin}}$ pays:
 
 \begin{equation}
-R_{j_{\mathrm{lin}}}(\omega)=
+R(\omega)_{j_{\mathrm{lin}}}=
 \begin{cases}
 0, & X(\omega)\le a,\\
 \dfrac{X(\omega)-a}{\,b-a\,}, & a< X(\omega) < b,\\
@@ -296,30 +307,61 @@ R_{j_{\mathrm{lin}}}(\omega)=
 \end{cases}
 \end{equation}
 
-
 While scalar markets are supported by \depms like Augur~\cite{AKPWZ15,AKPWZ19} or those based on Gnosis' Conditional Tokens Framework (CTF)~\cite{ctf}, including Polymarket~\cite{poly} and Omen~\cite{Omen_docs}, they are not frequently used. For Polymarket, markets instead cheat, approximating a scalar market  by splitting the quantity into `buckets' and running a YNB market for each bucket. This avoids a less-vetted codebase within CTF, unifies the user interface across market types, and possibly avoids small edge cases over the exact resolution of the quantity (\eg off by 0.1 percentage disputes). However a problem with buckets is as follows: Alice estimates correctly that Trump will win the election with 49--51\% of the popular vote. If there is a bucket for 45--49.9\% and a bucket for 50--54.9\%, Alice's forecast does not fit into a single bucket. Alice buys both buckets, knowing only one will win, diluting her expected return on capital. A second consequence of bucketization is volatile market jumps when the market consensus crosses from one expected bucket into a neighbouring bucket.\footnote{\polyurl{April 2025 Temperature Increase (ºC)}{https://polymarket.com/event/april-2025-temperature-increase-c4}} 
+
+\gap{The academic literature has explored advanced market types, including combinatorial markets and establishing conditional probabilities from markets. Implementing and experimenting with these designs for \depms is open. In sports-betting, chaining together multiple outcomes in an all-or-nothing bet (parlay) is popular but a treatment for \depms is lacking. }
 
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Market Initialization}\label{wf:init}
 % JC
 
-A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-20 or the more efficient ERC-1155~\cite{LDBR24}. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services, including on-chain trading, lending, and leverage~\cite{WPG+22}. Options for trading outcome shares can be broken into two steps: (i) how does the first outcome share come into existence and how does the first trader trade, and (ii) how do traders trade once a market has been established? 
+A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-20 or the more efficient ERC-1155~\cite{LDBR24}. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services, including on-chain trading, lending, and leverage~\cite{WPG+22}. Options for trading outcome shares can be broken into two steps: (i) how does the first outcome share come into existence and how does the first trader trade, and (ii) how do traders trade once a market has been established? Probably the greatest evolution in \depms, from Truthcoin to Polymarket, concerns how the first trade happens. There are three options: \textit{automated bookmaking}, \textit{splitting}, and \textit{matching}. 
 
-\subsubsection{The first trade.} Probably the greatest evolution in \depms, from Truthcoin to Polymarket, concerns how the first trade happens. There are three options: \textit{automated bookmaking}, \textit{splitting}, and \textit{matching}. 
+\textit{Automated bookmaking} was popularized through the academic work of Robin Hanson~\cite{Ha03,Han07b}, researched for Intrade~\cite{McC08}, and first suggested for \depms by Truthcoin~\cite{Sz14}, which heavily influenced Augur v1~\cite{AKPWZ15}. 
 
-\textit{Automated bookmaking} was popularized through the academic work of Robin Hanson~\cite{Ha03,Han07b}, researched for Intrade~\cite{McC08}, and first suggested for \depms by Truthcoin~\cite{Sz14}, which heavily influenced Augur v1~\cite{AKPWZ15}. In this model, the operator sets initial prices for each outcome share (equivalent to setting market odds) and collateralizes enough payout money to cover a worst-case loss in its treasury (preserving solvency in Definition~\ref{def:axioms}). If Alice is the first trader, she can immediately trade with the operator. The operator is autonomous and sets buy/sell prices algorithmically, originally using Hanson's logarithmic market scoring rule (LMSR)~\cite{Han07b}. The key point is that the operator is Alice's counterparty; if Alice wins, the operator loses, and vice-versa. The pros are instant liquidity for the first trader and the cons are the risk to the operator of losing money and the burden of needing to set initial odds (getting them wrong increases the chances it loses). 
+\begin{definition}[Automated bookmaking]\label{def:autobook}
+Fix a market $M=(\Omega,J,R)$. An \emph{automated bookmaker} posts (i) a loss fund $\mathsf{Treas}\in\mathbb{R}_{\ge 0}$ in the numeraire $\mathcal{N}$ and (ii) a pricing rule (odds) for labels $j\in J$. It accepts deposits in $\mathcal{N}$ and issues shares, updating the supply vector $S$, and must always satisfy solvency (Definition~\ref{def:axioms}). 
+\end{definition}
 
-Acute readers might wonder the relationship between automated bookmaking and  an automated market makers (\eg Uniswap) discussed below. Roughly speaking, a WTA market run by automated bookmaking is termed a cost-function prediction market (CFPM) and a CFPM is equivalent in pricing (and trade costs) to an AMM (defined by a set of axioms) with the right invariant~\cite{FPW23}.
+In this model, the operator sets initial prices for each outcome share (equivalent to setting market odds) and collateralizes enough payout money to cover a worst-case loss in its treasury. If Alice is the first trader, she can immediately trade with the operator. The operator is autonomous and sets buy/sell prices algorithmically, originally using Hanson's logarithmic market scoring rule (LMSR)~\cite{Han07b}. The key point is that the operator's fund is Alice's counterparty; if Alice wins, the fund loses, and vice-versa. The pros are instant liquidity for the first trader and the cons are the risk to the operator of losing money and the burden of needing to set initial odds (getting them wrong increases the chances it loses). 
+
+Acute readers might wonder the relationship between automated bookmaking and  an automated market makers (\eg Uniswap), which are discussed in the next section. Roughly speaking, a WTA market run by automated bookmaking is termed a cost-function prediction market (CFPM) and a CFPM is equivalent in pricing (and trade costs) to an AMM (defined by a set of axioms) with the right invariant~\cite{FPW23}.
 
 The second approach, \textit{splitting}, was first suggested for \depms by the Princeton \depm~\cite{BCFKMN14} based on the Iowa Electronic Market~\cite{iem}. Augur switched from automated book making to splitting in v2~\cite{AKPWZ19}, Gnosis implemented splitting in CTF~\cite{ctf}, and \depms built on CTF, including Polymarket~\cite{poly} and Omen~\cite{Omen_docs}, use it.
 
+\begin{definition}[Splitting and merging]\label{def:splitmerge}
+Fix a market $M=(\Omega,J,R)$ in numeraire $\mathcal{N}$. A \emph{splitting/merging} mechanism provides counterparty-free state transitions for a fixed \emph{unit bundle} $B$ of WTA share labels such that
+\[
+\sum_{j\in B} R(\omega)_j = 1 \quad\text{for all }\omega\in\Omega.
+\]
+\emph{Splitting} maps $1\cdot\mathcal{N}\mapsto \sum_{j\in B} j$ (minting one unit of each $j\in B$), and \emph{merging} maps $\sum_{j\in B} j \mapsto 1\cdot\mathcal{N}$ (burning them), typically before resolution. Repeating the operation yields multiple bundles.
+\end{definition}
+
 Recall that in a WTA market, exactly one share in a set of shares will payout \$1. This means that holding a complete portfolio of every share is equivalent (in payoff, ignoring fees and discounting) to holding \$1. A splitting gadget allows a trader to input \$1 and receive a portfolio contain 1 share of each outcome. Generally, a \textit{merging} gadget is also available where a complete set can be redeemed for \$1 at any time before the market closes. Alice can obtain a set of shares and list asking prices (through a limit order book or by being the first liquidity provider in an AMM) for some or all of the shares, and if Bob is willing to buy a share from Alice, the first trade occurs. The pros to splitting is that the operator has zero exposure to the market, while the con is that Alice must wait for a second trader, Bob, before she can trade. 
 
-In YNB markets, each outcome’s YES/NO pair is its own two-outcome WTA market. Splitting is per outcome: converting \$1 of collateral mints one $j_{\mathsf{k_Y}}$ and one $j_{\mathsf{k_N}}$ for the chosen $\mathsf{k}$. Across outcomes, supplies are uncoupled---the total minted for the $\mathsf{A}$ bundle need not match that for $\mathsf{B}$ or $\mathsf{C}$. 
+In YNB markets, each outcome’s YES/NO pair is its own two-outcome WTA market. Splitting is per outcome: converting \$1 of collateral mints one $j_{\mathsf{k_Y}}$ and one $j_{\mathsf{k_N}}$ for the chosen $\mathsf{k}$. Across outcomes, supplies are uncoupled---the total minted for the outcome $\mathsf{A}$'s bundle need not match that for outcomes $\mathsf{B}$ or $\mathsf{C}$. 
 
-The third approach, \textit{matching}, was used by InTrade~\cite{intrade} and a variant by Fairlay~\cite{fairlay}. Briefly, it mirrors a futures market, where Alice posts a desired short/long position at a chosen price on an orderbook with a margin account holding enough cash to cover her maximum loss if she obtains the position. If Bob is willing to take the other side, also with sufficient margin for his maximum loss, the operator matches them, creates two shares and gives them to Alice and Bob. Alice and Bob are not counterparties, both settle with the operator once the shares are created, however their coincidence of wants (COW) is necessary for the operator to create shares at no risk to itself. Matching is operationally more complex and effectively requires a central limit order book or batch auction, which excludes is too expensive to run on-chain~\cite{MoCl23}. 
+The third approach, \textit{matching}, was used by InTrade~\cite{intrade} and a variant by Fairlay~\cite{fairlay}, and is used today by Kalshi. 
 
+\begin{definition}[Matching]\label{def:matching}
+Fix a market $M=(\Omega,J,R)$ in numeraire $\mathcal{N}$. For each label $j\in J$, define its per-unit worst-case payoff
+\[
+c_j \;:=\; \sup_{\omega\in\Omega} R(\omega)_j,
+\]
+and define the complementary label $\bar{j}$ with payoff
+\[
+R(\omega)_{\bar{j}} \;:=\; c_j - R(\omega)_j.
+\]
+A \emph{matching} mechanism accepts orders of the form $(j,q,p)$, meaning ``trade $q\ge 0$ units of label $j$ at price $p$ (in $\mathcal{N}$) per unit,'' and executes a trade only when a buy order and a sell order coincide on $(j,q,p)$. Upon such a match, the mechanism:
+(i) transfers $qp$ units of $\mathcal{N}$ from the buyer and $q(c_j-p)$ units of $\mathcal{N}$ from the seller into escrow;
+(ii) mints $q$ units of label $j$ to the buyer and $q$ units of label $\bar{j}$ to the seller.
+At resolution $\omega\in\Omega$, the two positions pay $qR(\omega)_j$ and $qR(\omega)_{\bar{j}}$, which sum to $qc_j$, exactly covered by the escrow; hence the operator is riskless.
+\end{definition}
+
+Briefly, it mirrors a futures market, where Alice posts a desired short/long position at a chosen price on an orderbook with a margin account holding enough cash to cover her maximum loss if she obtains the position. If Bob is willing to take the other side, also with sufficient margin for his maximum loss, the operator matches them, creates two shares and gives them to Alice and Bob. Alice and Bob are not counterparties, both settle with the operator once the shares are created, however their coincidence of wants (COW) is necessary for the operator to create shares at no risk to itself. 
+
+\RQ{A \depm operated through smart contracts should use automated bookmaking or splitting/merging. Matching effectively requires a central limit order book, which is too expensive to run on-chain at scale~\cite{MoCl23}.}
 
 \subsection{Trading}\label{wf:trade}
 
@@ -329,9 +371,13 @@ Of interest, AMMs were born out of Gnosis' research into automated bookmarking f
 
 Circling back to automated bookmaking, splitting can be used in conjunction with AMMs to realize automated booking, as first used in Gnosis' closed beta Sight~\cite{Bar19}. An operator begins with $2n$ units of the numeraire, \eg $2n$ USDC. It takes half of the money, $n$ USDC, and uses the splitting gadget to obtain $n$ shares in each outcome. For each outcome share, it estimates the outcome probability as $p_i$ and starts an AMM with initial liquidity of $n$ outcome shares and $p_i\cdot n$ USDC. It repeats for each outcome. Thus assuming the probabilities sum to 1, the operator has split its remaining $n$ USDC across the AMMs. The operator can lose up to $2n$ USDC in divergence loss, assuming traders can split as well (and thus create the shares necessary to drain the AMM of its USDC), in addition to failing (through stale prices) to realize profits (\ie LVR~\cite{MMRZ22}). The important point is that the operator is still solvent per Definition~\ref{def:axioms} as the $2n$ USDC is either locked in the splitting gadget or locked in the AMM.
 
-Despite the direct lineage between prediction markets and AMMs, AMMs are problematic for prediction market trading. \depm outcome shares behave in specific ways that differ from typical crypto-assets and tokens. The price is strictly bounded between \$0 and \$1, the value of a share can jump to \$0 or \$1 near-instantly when an event outcome is finalized, and once finalized, the price is permanent. When real world events occur, AMMs can be drained faster than liquidity providers can withdraw liquidity. Adapting AMMs to these constraints is an interesting open problem. Paradigm’s pm-AMM tapers liquidity as a scheduled expiry approaches, which helps for events that crystallize over a fixed time horizon~\cite{MR24}; but many markets jump or resolve unexpectedly, falling outside of the model used for the results.
+Despite the direct lineage between prediction markets and AMMs, AMMs are problematic for prediction market trading. \depm outcome shares behave in specific ways that differ from typical crypto-assets and tokens. The price is strictly bounded between \$0 and \$1, the value of a share can jump to \$0 or \$1 near-instantly when an event outcome is finalized, and once finalized, the price is permanent. When real world events occur, AMMs can be drained faster than liquidity providers can withdraw liquidity. 
+
+\gap{Adapting AMMs to the unique constraints of predictions markets is at an early stage. Paradigm’s pm-AMM tapers liquidity as a scheduled expiry approaches, which helps for events that crystallize over a fixed time horizon~\cite{MR24}; but many markets jump or resolve unexpectedly, falling outside of the model used for the results.}
 
 When trading on-chain, miners and other users can front-run transactions, an area of study called maximum extracted value (MEV)~\cite{BBDGJKLZ19}. Although the term MEV did not exist at the time, the Princeton \depm describes the MEV problem extensively~\cite{BCFKMN14} and proposes a mitigation now called a frequent batch auction (FBA) (again, the term FBA was not popularized until later~\cite{BCS15}).
+
+\gap{Measurements of MEV extraction for on-chain \depms. Mechanisms for order-flow privacy for on-chain \depms.}
 
 A final trading-relevant subject for prediction markets is arbitrage. Arbitrageurs ensure market prices are consistent, for example across all shares in a WTA market or between Yes/No bundles in a YNB market. A recent paper studies combinatorial arbitrage on Polymarket between markets with logically related predicates (\eg Republicans win the presidency; Trump wins the presidency) and measures roughly \$40M USD of realized arbitrage profits over the measurement period~\cite{SGKS25}. 
 
@@ -383,13 +429,17 @@ Token votes for \depms are hostile environments where an attacker’s external p
 
 These concerns affirm design decisions like a secret ballot, using subsets of participants in a vote (potentially split by subject expertise), and redrawing larger panels on appeal with higher bonds/fees to raise capture costs only when disputes persist.
 
+\gap{Less convergence exists on how to decide market outcomes, a uniquely \depm problem (since a \cepm can arbitrate its own markets). Another way to look for research problems is to pinpoint where faulty behaviour is still occurring: for Polymarket, the biggest sources are poorly defined market topics and the vulnerability of market resolution to manipulation. Analysis of new approaches to either problem (formal verification for topics? AI as oracles?) would be welcome research, as would bringing a theoretical lens to deployed oracle voting systems to understand if formal guarantees about incentives can be made.}
+
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 \subsection{Settlement}\label{wf:clear}
 
-The slogan `sweat the game, not the payout~\cite{Fu24}' is used to differentiate regulated sportsbook operators from `neighbourhood bookies,' however even legitimate operators in the US have allegedly denied payouts using a legal loophole.\footnote{A law protects sports books from obvious errors, like a `fat finger' when setting odds, but can be misused to claim long-shot bets were `obvious mistakes' after the fact~\cite{Fu24}.} The advantage of a \depm in this context is two-fold: (i) payouts are fully (or largely) autonomous, not subject to human discretion, and (ii) the share structure ensures the operator has zero risk (or predetermined bounded risk, in the case of automated bookmaking) and is therefore financially indifferent to making any fair payout (see the solvency axiom in Definition~\ref{def:axioms}). \textblue{and you can see it.}
+The slogan `sweat the game, not the payout~\cite{Fu24}' is used to differentiate regulated sportsbook operators from `neighbourhood bookies,' however even legitimate operators in the US have allegedly denied payouts using a legal loophole.\footnote{A law protects sports books from obvious errors, like a `fat finger' when setting odds, but can be misused to claim long-shot bets were `obvious mistakes' after the fact~\cite{Fu24}.} The advantage of a \depm in this context is two-fold: (i) payouts are fully (or largely) autonomous, not subject to human discretion, and (ii) the share structure ensures the operator has zero risk (or predetermined bounded risk, in the case of automated bookmaking) and is therefore financially indifferent to making any fair payout (see the solvency axiom in Definition~\ref{def:axioms}). 
 
-\RQ{A prediction market has no need to fight against paying out a bet the way bookmakers have in practice~\cite{}. On-chain can see it. Add parlay and fun bets.}
+% \textblue{and you can see it.}
+
+\RQ{A prediction market has no need to fight against paying out a bet the way bookmakers have in practice~\cite{Fu24}. When operations are on-chain, solvency can be demonstrated directly from blockchain data.}
 
 
 % Split payouts possible in Truthcoin: 0.5/0.5
@@ -407,15 +457,15 @@ Two kinds of artifacts matter most. First, the market semantics: the market topi
 
 For example, Polymarket settles markets on the canonical ledger using the UMA Optimistic Oracle (the dispute game) and writes the final payout vector into the Gnosis Conditional Tokens Framework (CTF) (the settlement contract); outcome shares are ERC-1155 tokens (a multi-token standard), so transfers, mints, and redemptions are visible in logs. Trades are matched off-chain on a central limit order book (CLOB) but settle on-chain, while detailed order-book depth, quotes, and liquidity metrics are exposed via Polymarket’s API (called Gamma). For reproducible research, the same on-chain events are also mirrored by deterministic chain indexers (subgraphs run by services such as Goldsky/The Graph), and API time series can be cross-checked against transaction hashes on the ledger.
 
-\gap{Replay the market. Augment with external data (news, social media). See Satoshi. }
+\gap{A useful tool that does not exist yet could use on-chain data, API data, and external data (news, social media, \etc) to replay a past market, allowing researchers to step forward and backward at each timestamp. It was onerous for us to manually study how how markets incorporate news (real and fake) into prices in \S\ref{app:hbo}.}
 % = = = = =
 
-\section{Discussion and Research Agenda}
+%\section{Discussion and Research Agenda}
 
-\paragraph{Composability.} Perhaps the biggest evolution in \depm design is infrastructure~\cite{Gun24}. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which composes through highly standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework~\cite{ctf}. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle~\cite{uma}. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
+%\paragraph{Composability.} Perhaps the biggest evolution in \depm design is infrastructure~\cite{Gun24}. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which composes through highly standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework~\cite{ctf}. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle~\cite{uma}. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
 
 
-\paragraph{Regulation.} In jurisdictions like the United States, both \cepms and \depms are tightly controlled and not always legal to operate~\cite{Du19,Ma24}. The paramount concerns of regulators are not specific to prediction markets or the difference in their microstructure from other forms of wagering (although market integrity is always a concern); rather, regulators control any kind of wagering on political events (a stance challenged by leading economists~\cite{AFGH+08}), as well as any kind of financial service offered to unaccredited consumers. For advocates of liberal markets, \depms are seen as a way to side-step regulation, particularly when the \depm is decentralized in most or all dimensions of our taxonomy. 
+%\paragraph{Regulation.} In jurisdictions like the United States, both \cepms and \depms are tightly controlled and not always legal to operate~\cite{Du19,Ma24}. The paramount concerns of regulators are not specific to prediction markets or the difference in their microstructure from other forms of wagering (although market integrity is always a concern); rather, regulators control any kind of wagering on political events (a stance challenged by leading economists~\cite{AFGH+08}), as well as any kind of financial service offered to unaccredited consumers. For advocates of liberal markets, \depms are seen as a way to side-step regulation, particularly when the \depm is decentralized in most or all dimensions of our taxonomy. 
 
 
 % Does polymarket need uma?
@@ -427,9 +477,9 @@ For example, Polymarket settles markets on the canonical ledger using the UMA Op
 % Insider trading, asymmetric info, example: betting on software delays -> no surprises any more if PMs extract insider info and build it into prices
 % Polymarket as news source (also circular feedback through LLMs, AI trained on market data, AI agents, AI generated news, AI oracles)
 
-\paragraph{Research Agenda.}
+%\paragraph{Research Agenda.}
 
-The history of \depm shows a convergence toward trading outcome shares, creating by splitting, on CLOBs and AMMs. While many aspects of prediction markets have been studied formally, comparing different market microstructures has not received adequate research; and optimizing AMMs for \depms is still at the beginning stages~\cite{KS23,MR24}. Less convergence exists on how to decide market outcomes, a uniquely \depm problem (since a \cepm can arbitrate its own markets). Another way to look for research problems is to pinpoint where faulty behaviour is still occurring: for Polymarket, the biggest sources are poorly defined market topics and the vulnerability of market resolution to manipulation. Analysis of new approaches to either problem (formal verification for topics? AI as oracles?) would be welcome research, as would bringing a theoretical lens to deployed oracle voting systems to understand if formal guarantees about incentives can be made. A lesser known issue is archiving \depm data and developing tools that could fully `replay' a market at each timestep, which would be useful for understanding how markets incorporate news (real and fake) into prices. Finally, the degree to which \depms can be pushed further toward permissionlessness in all aspects is still largely open, particularly around setting topics for markets.
+%The history of \depm shows a convergence toward trading outcome shares, creating by splitting, on CLOBs and AMMs. While many aspects of prediction markets have been studied formally, comparing different market microstructures has not received adequate research; and optimizing AMMs for \depms is still at the beginning stages~\cite{KS23,MR24}. Less convergence exists on how to decide market outcomes, a uniquely \depm problem (since a \cepm can arbitrate its own markets). Another way to look for research problems is to pinpoint where faulty behaviour is still occurring: for Polymarket, the biggest sources are poorly defined market topics and the vulnerability of market resolution to manipulation. Analysis of new approaches to either problem (formal verification for topics? AI as oracles?) would be welcome research, as would bringing a theoretical lens to deployed oracle voting systems to understand if formal guarantees about incentives can be made. A lesser known issue is archiving \depm data and developing tools that could fully `replay' a market at each timestep, which would be useful for understanding how markets incorporate news (real and fake) into prices. Finally, the degree to which \depms can be pushed further toward permissionlessness in all aspects is still largely open, particularly around setting topics for markets.
 
 \section{Conclusion}
 
