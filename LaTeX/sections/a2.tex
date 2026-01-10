@@ -91,6 +91,7 @@
 
 
 \section{Satoshi HBO Market}
+\label{sec:hbo}
 
 
 \begin{table}[t!]
@@ -114,8 +115,7 @@
 \end{tabularx}
 \end{table}
 
-\subsection{An Example of a Market}
-\label{sec:hbo}
+
 
 Before diving deep on the mechanics of decentralized prediction markets, we illustrate how markets work with a lighthearted example. On 3 Oct 2024, a trailer was released with press coverage of a new HBO documentary on Bitcoin to air about a week later on 8 Oct 2024. In an interview, the director stated, the film would question Satoshi's anonymous identity and, `who we land on is unexpected and is going to result in a fair amount of controversy.~\cite{Bec24}' The next day, Polymarket setup a market for speculating on who the documentary would name, providing 15 names plus an `other/multiple' option.\footnote{\polyurl{Who will HBO doc identify as Satoshi?}{https://polymarket.com/event/who-will-hbo-doc-identify-as-satoshi}} A benefit of a decentralized prediction market is allowing niche topics for markets, unlikely to attract mainstream betting websites---in this case, attracting \$44M USD in trading volume. Having an `other' option is also critical after many markets have failed to fully articulate every eventuality and in this case, the winner, was not one of the original 15 names (see Section~\ref{wf:topic}).
 
@@ -148,11 +148,12 @@ Also of interest is how the prediction market did not obviously extract \textit{
 
 In theory, a decentralized and permissionless system might run on something other than a blockchain, but blockchain technology underlays all known \depms. The earliest (pre-Ethereum) research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a \textit{sidechain}~\cite{BCD+14} would be required~\cite{Sz14,BCFKMN14}. Today, projects tend to run as \textit{smart contracts} on an Ethereum competitor (\eg Polygon~\cite{AKN21} or Solana~\cite{Yak18}) or an Ethereum L2 (\eg Arbitrum~\cite{KGCWF18} or Optimism~\cite{op}). There are no strong qualitative differences between the underlying blockchain---it is a choice driven by fees, user base, and supporting infrastructure. One other approach (\eg Zeitgeist~\cite{zeit} or SX Network~\cite{sx}) is to put the prediction market logic into the blockchain rules themselves on a custom \textit{app-chain}.
 
+A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-20 or the more efficient ERC-1155~\cite{LDBR24}. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services, including on-chain trading, lending, and leverage~\cite{WPG+22}.
+
 Perhaps the biggest evolution in \depm design is infrastructure~\cite{Gun24}. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which composes through highly standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework~\cite{ctf}. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle~\cite{uma}. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
 
 \gap{On-chain markets provide open information about the trading strategies of other traders who do not deliberately and successfully obfuscate their trades and identities. Can we classify copy traders and measure occurrences? Is copy trading profitable? Under what conditions? Is there a negative impact on market accuracy due to cascading/herding effects?}
 
-A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-20 or the more efficient ERC-1155~\cite{LDBR24}. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services, including on-chain trading, lending, and leverage~\cite{WPG+22}.
 
 % = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
 
