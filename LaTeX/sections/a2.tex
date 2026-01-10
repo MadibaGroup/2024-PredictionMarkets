@@ -1,5 +1,8 @@
 % !TEX root = ../main.tex
 
+
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
+
 \section{List of \depms}
 \label{app:list}
 
@@ -84,19 +87,44 @@
 \end{enumerate}
 
 
-
-
-
-
-
-
-
-
-
-
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
 
 
 \section{Satoshi HBO Market}
+
+
+\begin{table}[t!]
+\centering
+\caption{Over a few days, truthful and untruthful (`cheap talk') evidence was presented to traders. The market reacted to correct signals and effectively filtered out fake signals, demonstrating a beneficial feature of prediction markets.\label{tab:hbo}}
+\begin{tabularx}{\textwidth}{|X|L{7cm}|L{1.7cm}|L{1.7cm}|}
+\hline
+\textbf{Date} & \textbf{Information} & \textbf{Market Impact} & \textbf{Hindsight Verdict} \\ \hline
+05 Oct & A long-dormant X account belonging to someone who had corresponded with Sassaman on Twitter posts a new message stating they were interviewed for the documentary. & Immaterial & Fake\\ \hline
+05 Oct & Partially redacted leaked email from an HBO executive implies Len Sassaman. & Immaterial & Fake \\ \hline
+07 Oct & CNN piece states director `confronts' Satoshi suspect `face-to-face' ruling out Sassaman, David Klieman, and Hal Finney. & Material & Truthful\\ \hline
+07 Oct & Samson Mow, featured in the trailer, speculates it will name Adam Back. & Material & Wrong but factual basis \\ \hline
+07 Oct & End credits of documentary leak featuring a tribute to Klieman. & Immaterial & Fake \\ \hline
+07 Oct & Mow states Nick Szabo refused to discuss with director implying he was not `confronted'. & Material & Truthful \\ \hline
+07 Oct & Widow of Sassaman states she was not interviewed. & Moderate & Truthful\\ \hline
+08 Oct & A scene with Todd leaked but inconclusive if it is film's thesis. & Material & Truthful \\ \hline
+08 Oct & Peter Todd confirms being confronted for documentary but unsure if he will be named. & Material & Truthful \\ \hline
+08 Oct & Polymarket commenter claims screen test names Nick Szabo. & Immaterial & Fake \\ \hline
+08 Oct & Fortune movie review discloses Todd is named & Very Significant & Truthful \\ \hline
+08 Oct & Documentary airs and names Todd & Very Significant & Conclusive \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{An Example of a Market}
+\label{sec:hbo}
+
+Before diving deep on the mechanics of decentralized prediction markets, we illustrate how markets work with a lighthearted example. On 3 Oct 2024, a trailer was released with press coverage of a new HBO documentary on Bitcoin to air about a week later on 8 Oct 2024. In an interview, the director stated, the film would question Satoshi's anonymous identity and, `who we land on is unexpected and is going to result in a fair amount of controversy.~\cite{Bec24}' The next day, Polymarket setup a market for speculating on who the documentary would name, providing 15 names plus an `other/multiple' option.\footnote{\polyurl{Who will HBO doc identify as Satoshi?}{https://polymarket.com/event/who-will-hbo-doc-identify-as-satoshi}} A benefit of a decentralized prediction market is allowing niche topics for markets, unlikely to attract mainstream betting websites---in this case, attracting \$44M USD in trading volume. Having an `other' option is also critical after many markets have failed to fully articulate every eventuality and in this case, the winner, was not one of the original 15 names (see Section~\ref{wf:topic}).
+
+In game theory, \textit{cheap talk} describes strategic misinformation or signalling aimed at shaping beliefs or prices, provided the cost of deception is outweighed by the potential payoff~\cite{CrSo82}. This is well illustrated by what followed in the HBO Satoshi market as new pieces of evidence emerged, some real and some fake, with some fakes relatively elaborate (professional appearing end-credits or hijacking a target's X.com account) as summarized in Table~\ref{tab:hbo}. Further details are provided in Appendix~\ref{app:hbo}.
+
+Also of interest is how the prediction market did not obviously extract \textit{insider information} which is in violation of what theory would predict~\cite{Han07}. The director did state he did not participate in the market and advised his team working on the film not to either~\cite{Beg24}. Friction for novice users is also high: web3 apps have a learning curve and if insiders were based at HBO in the US, access would require circumvention of Polymarket's geofencing. Perhaps these reasons kept insiders out of the market for the 5 days it ran. By contrast, allegations of insider trading have be levelled in other markets, including the removal of Nicolas Maduro from power immediately before his seizure by the United States military~\cite{Alm26}.
+
+\gap{Can insider trades be classified from blockchain data with reasonable percision? Are occurrences higher on unregulated markets? Are markets with insider trading more accurate? What correlations exist between insider trading activity and market metrics (price, liquidity, \etc)?}
+
 \label{app:hbo}
 
 \begin{figure}
@@ -113,90 +141,192 @@
   \label{fig:example2}
 \end{figure}
 
-\section{Example instantiation of definition}
-\label{app:example}
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
 
-In section~\ref{sec:hbo}, we discussed an example market concerning who the HBO documentary `Money Electric' would name as Satoshi Nakamoto. In this section, we will see how this fits the definitions of a market, prediction market system, and the Arrow--Debreau special case. As discussed in Section~\ref{wf:mech}, Polymarket employs a market mechanism we call a yes/no bundle (YNB), as opposed to winner-take-all (WTA). YNB requires an extra step in the definitions so we will do a first pass with a simplified WTA submarket, and then add the full YNB market.
+\section{Underlying Infrastructure}
+\label{app:chain}
 
-\subsection{Pass 1: Single WTA Market}
+In theory, a decentralized and permissionless system might run on something other than a blockchain, but blockchain technology underlays all known \depms. The earliest (pre-Ethereum) research was in agreement that Bitcoin Script was not powerful enough to operate a \depm, and a \textit{sidechain}~\cite{BCD+14} would be required~\cite{Sz14,BCFKMN14}. Today, projects tend to run as \textit{smart contracts} on an Ethereum competitor (\eg Polygon~\cite{AKN21} or Solana~\cite{Yak18}) or an Ethereum L2 (\eg Arbitrum~\cite{KGCWF18} or Optimism~\cite{op}). There are no strong qualitative differences between the underlying blockchain---it is a choice driven by fees, user base, and supporting infrastructure. One other approach (\eg Zeitgeist~\cite{zeit} or SX Network~\cite{sx}) is to put the prediction market logic into the blockchain rules themselves on a custom \textit{app-chain}.
 
-Consider a simplified market that questions whether one specific candidate, \eg Hal Finney, is named as Satoshi: yes or no. If through unforeseen circumstances, who the documentary names is not verifiable by the air date, the market resolves to no.
+Perhaps the biggest evolution in \depm design is infrastructure~\cite{Gun24}. Early \depms were monolithic, single-vendor codebases. Modern \depms are built from existing infrastructure, which composes through highly standardized interfaces. For example, Polymarket's core \depm code is Gnosis' conditional token framework~\cite{ctf}. The numeraire is Circle's USDC stablecoin, which can be bought with a credit card through MoonPay. Trading outcome shares and USDC works out-of-the-box on any platform (on- or off-chain) that supports ERC-1155 tokens. Market outcome disputes are escalated to UMA's DVM oracle~\cite{uma}. Polymarket also uses third party services for bridging assets, embedded wallets (based on email verification), and EIP-3009 gasless withdrawals. Beyond software engineering benefits, building a service by composing modules can enhance trust agility, which is the ability to quickly swap out modules that are faulty or malicious. For example, Polymarket could switch from UMA to say Chainlink or Kleros, with less effort than if the oracle service was vertically integrated. 
 
-Recall Definition~\ref{def:market} of a market: 
+\gap{On-chain markets provide open information about the trading strategies of other traders who do not deliberately and successfully obfuscate their trades and identities. Can we classify copy traders and measure occurrences? Is copy trading profitable? Under what conditions? Is there a negative impact on market accuracy due to cascading/herding effects?}
 
-\begin{definition}[Market]
-A (single) market is a tuple $M=(E,\Omega,J,R)$, where $E$ is a well-defined uncertain event, $\Omega$ is a nonempty outcome space for $E$, $J$ is a finite index set of contract labels (“shares”), and $R=(R_j)_{j\in J}$ are nonnegative payoff functions with $R_j:\Omega\to\mathbb{R}_{\ge 0}$. 
-We assume $|J|\ge|\Omega|$ and we require \emph{outcome distinguishability} on $\Omega$:
+A near universal difference between any \cepm and \depm is that a \depm allows outcome shares to be withdrawn from the platform, typically in a form compliant with a token standard such as ERC-20 or the more efficient ERC-1155~\cite{LDBR24}. Withdrawing outcome shares allows traders to exchange tokens outside of the platform and to compose with third party DeFi services, including on-chain trading, lending, and leverage~\cite{WPG+22}.
+
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
+
+\section{Market Topic}\label{app:topic}
+
+\input{tables/topics.tex}
+
+\cepms include the Iowa Electronic Markets~\cite{iem}, Kalshi~\cite{kalshi_docs}, and PredictIt~\cite{predictit_faq}, as well as InTrade historically~\cite{intrade}. These systems exercise control over what topics may form a market and thus are \textit{permissioned} with respect to market topics. They also operate under regulations that may restrict markets to certain topics or fully ban operations in regulated jurisdictions~\cite{Du19,Ma24}. 
+
+By contrast, \depms like Augur~\cite{AKPWZ15,AKPWZ19}, the original Gnosis~\cite{Gn17}, and PlotX~\cite{plotx_docs} enable \textit{permissionless} market creation by any user without centralized review. This removes the regulatory hook, enables niche topics that might not attract mainstream interest~\cite{WZ24}, and allows markets to be created without delay after real world events. However it can also lead to a greater incidence of malformed (or even malicious) market definitions, spam duplicates of existing markets, and unlawful topics, such as the `assassination markets' which appeared on Augur in 2018~\cite{Du19}. \depms are generally web3 applications which means that a web-based user interface mediates transactions between the user and the underlying smart contracts. Market topic moderation could be implemented at the web3 layer (\eg Predictions.Global unlisted assignations markets from Augur's smart contracts~\cite{Du19}) but this does not prevent users from building an alternative UI or directly transacting with the smart contracts. 
+
+%While \depms have the option to operate permissionlessly, they may also choose to permission market creation while leaving other aspects permissionless. At the time of writing, Polymarket is considered a \depm and while market topics can be suggested by users, final approval is made by a Market Integrity Committee.
+
+These systems are not all purely permissionless. A \textit{hybrid model} puts some controls on topic creation without centralizing it fully~\cite{AKPWZ19}. For example, proposers may have to stake tokens to propose a market, and while the market is optimistically published, a review (either centralized or via an on-chain voting mechanism) could remove the market and/or slash the proposer.  
+
+If issues in a market's topic or definition are uncovered while the market is still active, \depms like Polymarket allow `additional context' notes to be added. However these clarifications could alter the market ex post and also disadvantage traders who do not see the note. The latter can be mitigated by advertising that a note will be published, always publishing at the same time (\eg 5pm ET), and clearing standing limit orders from an orderbook before posting~\cite{poly}.
+
+\RQ{Careful attention must be paid to both the general topic of the market and the `fine-print' or exact predicate that decides the market. Table~\ref{tab:pitfalls} provides several examples of pitfalls. Dealing with definitional pitfalls has been, to date, a trial and error process where market creators learn from past mistakes and ad hoc `legalese' (e.g., a `consensus of credible reporting' may be used to resolve markets) is copied from market to market~\cite{Ad24}.}
+
+\gap{Can market topics be written with machine-checkable predicate specifications (precedence rules, ranked sources, time semantics, and default outcomes), where model checking (\cf~\cite{Cla21}) could eliminate ambiguities, corner cases, and loopholes? What would real world case studies of markets with additional context tell us?}
+
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
+
+\section{Scalar Markets}
+\label{app:scalar}
+
+The third structure is a market where the outcome is a quantity of interest (\eg popular vote, temperature, price level, \etc) observed at a cutoff time with a strict lower bound and upper bound. Termed a \textit{linear} or \textit{scalar} market, there is only one share and its payout is what value the quantity takes on (typically normalized to the range $[0,1]$ with rounding). As an example, in a market on Trump's popular vote, if the quantity is 49.8\%, the share will pay \$0.498. Shares can also be sold in bundles with `long' receiving \$0.498 and `short' receiving (\$1-\$0.498).
+
+Formally, if we let $X:\Omega\to\mathbb{R}$ be the observed quantity, and $[a,b]$ be an interval of values, then the linear outcome share $j_{\mathrm{lin}}$ pays:
+
+\begin{equation}
+R(\omega)_{j_{\mathrm{lin}}}=
+\begin{cases}
+0, & X(\omega)\le a,\\
+\dfrac{X(\omega)-a}{\,b-a\,}, & a< X(\omega) < b,\\
+1, & X(\omega)\ge b.
+\end{cases}
+\end{equation}
+
+While scalar markets are supported by \depms like Augur~\cite{AKPWZ15,AKPWZ19} or those based on Gnosis' Conditional Tokens Framework (CTF)~\cite{ctf}, including Polymarket~\cite{poly} and Omen~\cite{Omen_docs}, they are not frequently used. For Polymarket, markets instead cheat, approximating a scalar market  by splitting the quantity into `buckets' and running a YNB market for each bucket. This avoids a less-vetted codebase within CTF, unifies the user interface across market types, and possibly avoids small edge cases over the exact resolution of the quantity (\eg off by 0.1 percentage disputes). However a problem with buckets is as follows: Alice estimates correctly that Trump will win the election with 49--51\% of the popular vote. If there is a bucket for 45--49.9\% and a bucket for 50--54.9\%, Alice's forecast does not fit into a single bucket. Alice buys both buckets, knowing only one will win, diluting her expected return on capital. A second consequence of bucketization is volatile market jumps when the market consensus crosses from one expected bucket into a neighbouring bucket.\footnote{\polyurl{April 2025 Temperature Increase (ºC)}{https://polymarket.com/event/april-2025-temperature-increase-c4}} 
+
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
+
+\section{Matching}\label{app:matching}
+
+In the market initialization component of the modular workflow, a third approach, \textit{matching}, was used by InTrade~\cite{intrade} and a variant by Fairlay~\cite{fairlay}, and is used today by Kalshi. 
+
+\begin{definition}[Matching]\label{def:matching}
+Fix a market $M=(\Omega,J,R)$ in numeraire $\mathcal{N}$. For each label $j\in J$, define its per-unit worst-case payoff
 \[
-\forall\,\omega\neq\omega'\in\Omega\ \ \exists\,j\in J:\ R_j(\omega)\neq R_j(\omega').
+c_j \;:=\; \sup_{\omega\in\Omega} R(\omega)_j,
 \]
-When $M$ resolves to $\omega_M\in\Omega$, one unit of share $j\in J$ pays $R_j(\omega_M)$ (in units of $\mathcal{N}$ defined below).
+and define the complementary label $\bar{j}$ with payoff
+\[
+R(\omega)_{\bar{j}} \;:=\; c_j - R(\omega)_j.
+\]
+A \emph{matching} mechanism accepts orders of the form $(j,q,p)$, meaning ``trade $q\ge 0$ units of label $j$ at price $p$ (in $\mathcal{N}$) per unit,'' and executes a trade only when a buy order and a sell order coincide on $(j,q,p)$. Upon such a match, the mechanism:
+(i) transfers $qp$ units of $\mathcal{N}$ from the buyer and $q(c_j-p)$ units of $\mathcal{N}$ from the seller into escrow;
+(ii) mints $q$ units of label $j$ to the buyer and $q$ units of label $\bar{j}$ to the seller.
+At resolution $\omega\in\Omega$, the two positions pay $qR(\omega)_j$ and $qR(\omega)_{\bar{j}}$, which sum to $qc_j$, exactly covered by the escrow; hence the operator is riskless.
 \end{definition}
 
-Event $E$ is whether or not Hal Finney is named as Satoshi in the documentary.
+Briefly, it mirrors a futures market, where Alice posts a desired short/long position at a chosen price on an orderbook with a margin account holding enough cash to cover her maximum loss if she obtains the position. If Bob is willing to take the other side, also with sufficient margin for his maximum loss, the operator matches them, creates two shares and gives them to Alice and Bob. Alice and Bob are not counterparties, both settle with the operator once the shares are created, however their coincidence of wants (COW) is necessary for the operator to create shares at no risk to itself. 
 
-$\Omega$ is the set of resolution outcomes the market recognizes for $E$, the labels the system can publish at settlement. For this Hal-only binary market the outcome space is $\Omega=\{\mathsf{True},\mathsf{False}\}$. Here $\mathsf{True}$ means the documentary (per the market’s stated criteria) identifies Hal Finney as Satoshi; $\mathsf{False}$ aggregates all other possibilities (Hal not named, someone else named, no one named, the film does not air, or the identification is not verifiable by the resolution deadline).
+\RQ{A \depm operated through smart contracts should use automated bookmaking or splitting/merging. Matching effectively requires a central limit order book, which is too expensive to run on-chain at scale~\cite{MoCl23}.}
 
-%Once some $\omega\in\Omega$ is published, all payoffs $R_j(\omega)$ are determined.
 
-We require that $\Omega$ contain no redundant labels. A label is redundant if it does not change at least one contract’s payoff: $\omega\sim\omega' \iff \forall j\in J,\ R_j(\omega)=R_j(\omega')$. For example, “Hal is named and it is raining’’ and “Hal is named and it is not raining’’ are distinct real-world states, but they cannot both appear in $\Omega$ since they both map to $\mathsf{True}$. The restriction can be written as:
-\[
-\forall\,\omega\neq\omega'\in\Omega\ \ \exists\,j\in J:\ R_j(\omega)\neq R_j(\omega').
-\]
+% = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = =  = = = = = = 
 
-In a prediction market, there are a set of shares. If we label them and add them all to an index set, that set is $J$. For this example, $J=\{\textsf{YES},\textsf{NO}\}$: Hal Finney is named (yes) and else (no). This is a normal case where each share in $J$ corresponds to an outcome in $\Omega$ but it is possible that the number of shares could exceed the number of outcomes.\footnote{For example, consider a market of where Newcastle United (NUFC) finishes in the 2024-35 English Premier League season. Since there are 20 teams, the outcome has 20 possible labels: positions 1 to 20. Shares could exist for each of the 20 positions. But the outcome could also settle shares for whether NUFC finishes in the top 5 (which is relevant to champions league admittance), or shares on finishing in the bottom 3 (which is relevant to relegation).}
+\section{Archiving}\label{app:archive}
 
-$J$ is the index set of contract labels, the names of the tradeable shares. In this binary market we take $J=\{\textsf{YES},\textsf{NO}\}$. 
+Publicly accessible \depm data provides society with a useful forecasting tool, and archival datasets enable calibration, insight into historical events, and replication of findings. On-chain records (state, logs, and calldata) inherit strong archival and verification properties so long as the chain persists. These records can be replayed and exposed via deterministic chain indexers (\eg The Graph, SubQuery) or managed subgraph hosting (\eg Goldsky). Human-readable materials can be stored in content-addressed, peer-to-peer systems (\eg IPFS) and mirrored to permanence layers with economic durability (\eg Arweave, Filecoin), with their content identifiers anchored on-chain. Privately held operational data can be released as signed public snapshots or made queryable via open APIs.
 
-The labels get their meaning from the component payoff functions $R_j:\Omega\to\mathbb{R}_{\ge 0}$. In this example, a payoff of 1 is given for shares that correctly predict the outcome and 0 otherwise. This means $R_{\textsf{YES}}(\mathsf{True})=1$, $R_{\textsf{YES}}(\mathsf{False})=0$, $R_{\textsf{NO}}(\mathsf{True})=0$, $R_{\textsf{NO}}(\mathsf{False})=1$.
+Two kinds of artifacts matter most. First, the market semantics: the market topic, resolution rules, and any clarifications. Platforms such as Augur and Polymarket record stable on-chain identifiers (e.g., market/condition and token IDs) and keep the human-readable documents in content-addressed storage, with their content hashes/CIDs referenced on-chain. Second is the market data, including trading data (time, volume, price), outcome share supply and redemption totals, and timestamps for the status of the market (\eg opened, resolved, finalized). In practice, settlements and token movements are emitted on-chain, then replayed by deterministic chain indexers into queryable tables for research and UX. The same applies to the resolution process, its dispute trail and finalized outcome. If trading is off-chain (fully or partially), \depms will need to expose application indexes/APIs for fast access and publish signed public snapshots for reproducibility. This missing data includes detailed trading, order-book depth, and liquidity metrics.
 
-Recall Definition~\ref{def:market} of a prediction--market system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{Res})$:
-$\mathcal{M}$ is the (countable) catalog of markets; $\mathcal{N}$ is the numeraire (unit of account used to price and settle claims);
-and $\mathsf{Res}=\{\mathrm{res}_M\}_{M\in\mathcal{M}}$ assigns to each market $M$ a resolution register that is initially
-$\bot$ and flips exactly once to some $\omega_M\in\Omega_M$.
-When $\mathrm{res}_M\neq\bot$, we set $\omega_M:=\mathrm{res}_M$ and each unit of label $j\in J$ settles for $R_j(\omega_M)$ units of $\mathcal{N}$.
+For example, Polymarket settles markets on the canonical ledger using the UMA Optimistic Oracle (the dispute game) and writes the final payout vector into the Gnosis Conditional Tokens Framework (CTF) (the settlement contract); outcome shares are ERC-1155 tokens (a multi-token standard), so transfers, mints, and redemptions are visible in logs. Trades are matched off-chain on a central limit order book (CLOB) but settle on-chain, while detailed order-book depth, quotes, and liquidity metrics are exposed via Polymarket’s API (called Gamma). For reproducible research, the same on-chain events are also mirrored by deterministic chain indexers (subgraphs run by services such as Goldsky/The Graph), and API time series can be cross-checked against transaction hashes on the ledger.
 
-This market is a winner--take--all (Arrow--Debreu) special case: there is a bijection $\iota:J\to\Omega$ as follows: $\textsf{YES}\rightarrow\mathsf{True}$ and $\textsf{NO}\rightarrow\mathsf{False}$. Payoffs are $R_j(\omega)=\mathbf{1}\{\omega=\iota(j)\}$. Hence, for each $\omega\in\Omega$, exactly one label pays $1$ and all others pay $0$. 
+\gap{A useful tool that does not exist yet could use on-chain data, API data, and external data (news, social media, \etc) to replay a past market, allowing researchers to step forward and backward at each timestamp. It was onerous for us to manually study how how markets incorporate news (real and fake) into prices in \S\ref{app:hbo} without such a tool.}
 
-The market tuple $M=(E,\Omega,J,R)$ specifies \emph{what} to pay \emph{given} an outcome (via $R$).
-The register $\mathrm{res}_M$ is the system’s single source of truth for \emph{which} outcome actually occurred:
-before resolution $\mathrm{res}_M=\bot$ (no settlement), after resolution $\mathrm{res}_M=\omega_M\in\Omega_M$ (settlement applies).
 
-Polymarket instantiates $\mathcal{S}$ with $\mathcal{M}$ equal to its live and historical markets, $\mathcal{N}$ the USD–denominated stablecoin USDC, and $\mathsf{Res}$ implemented by its on–chain resolution process (e.g., UMA’s optimistic oracle) that writes a single outcome to each $\mathrm{res}_M$.
 
-For the Hal–only binary market, the system maintains a resolution register
-$\mathrm{res}_{M_{\mathrm{Hal}}}\in\{\bot\}\cup\Omega$ with
-$\Omega=\{\mathsf{True},\mathsf{False}\}$ (i.e., “yes/no” to the proposition).
-The register is initially $\bot$ and, after the platform’s resolution process completes, the oracle writes a single value
-$\omega_{M_{\mathrm{Hal}}}\in\Omega$ to the register.
 
-Set $\omega_{M_{\mathrm{Hal}}}=\mathsf{True}$ iff the documentary (per stated criteria) identifies \emph{Hal Finney} as Satoshi; otherwise set $\omega_{M_{\mathrm{Hal}}}=\mathsf{False}$.
 
-Shares are fully collateralized to \$1 in the numeraire $\mathcal{N}$ (USDC): a unit of \textsf{YES} pays $1$\,USDC at $\mathsf{True}$ and $0$\,USDC at $\mathsf{False}$; a unit of \textsf{NO} pays $1$\,USDC at $\mathsf{False}$ and $0$\,USDC at $\mathsf{True}$. Formally,
-\[
-R_{\textsf{YES}}(\mathsf{True})=1,\ \ R_{\textsf{YES}}(\mathsf{False})=0,\qquad
-R_{\textsf{NO}}(\mathsf{True})=0,\ \ R_{\textsf{NO}}(\mathsf{False})=1.
-\]
 
-In the aired documentary, \emph{Peter Todd} was named; therefore
-\[
-\mathrm{res}_{M_{\mathrm{Hal}}}=\omega_{M_{\mathrm{Hal}}}=\mathsf{False},
-\]
-and each unit settles as
-\[
-\textsf{YES}\ \to\ 0\ \text{USDC},\qquad
-\textsf{NO}\ \to\ 1\ \text{USDC}.
-\]
 
-% = = = 
 
-\subsection{Pass 2: YNB Market}
 
-We define a \textit{family} of markets $\{M_c\}_{c\in C}$ where each $c\in C$ names one market in the family. For the HBO film, $C$ is the set of candidates including $\mathsf{Finney}$, $\mathsf{Szabo}$,  $\mathsf{Sassaman}$,  $\mathsf{Back}$, and $\mathsf{Other/Multiple}$. The event $E_c$ for a particular $\{M_c\}$ is: the documentary identifies $c$ as Satoshi. For each candidate's market, the relevant market outcomes are $\Omega_c=\tuple{\mathsf{True},\mathsf{False}}$. As a YNB market, Polymarket creates a yes share and a no share for each candidate $J_c=\tuple{\textsf{YES},\textsf{NO}}$ called a yes/no bundle (YNB). The payoffs are as follows: $R^{(c)}_{\textsf{YES}}(\mathsf{True})=1$, $R^{(c)}_{\textsf{YES}}(\mathsf{False})=0$, $R^{(c)}_{\textsf{NO}}(\mathsf{True})=0$, and $R^{(c)}_{\textsf{NO}}(\mathsf{False})=1$. Each $\{M_c\}$ has its own volume of outstanding shares, its own pricing, and its own orderbook or AMM. 
 
-For settling, $\mathsf{Res}=\{\mathrm{res}_{M}\}_{M\in\mathcal{M}}$ gives each $M_c$ a register $\mathrm{res}_{M_c}\in\{\bot\}\cup\Omega_c$, initially $\bot$, that flips exactly once to $\omega_{M_c}\in\Omega_c$. The documentary named Peter Todd, who was not one of the named candidates and thus fell under \textsf{Other/Multiple}: $\omega_{M_{\textsf{Other/Multiple}}}=\mathsf{True}$ while $\omega_{M_c}=\mathsf{False}$ for all other $c\neq\textsf{Other/Multiple}$. 
+% = = = = = = = = = 
 
-The $R^{(c)}_j(\omega_{M_c})$ for \textsf{Other/Multiple: YES} was $1$ USDC, \textsf{Other/Multiple: NO} was $0$ USDC, every other named candidate’s \textsf{NO} paid $1$ USDC and their corresponding \textsf{YES} paid $0$ USDC. 
+%\section{Example instantiation of definition}
+%\label{app:example}
+%
+%In section~\ref{sec:hbo}, we discussed an example market concerning who the HBO documentary `Money Electric' would name as Satoshi Nakamoto. In this section, we will see how this fits the definitions of a market, prediction market system, and the Arrow--Debreau special case. As discussed in Section~\ref{wf:mech}, Polymarket employs a market mechanism we call a yes/no bundle (YNB), as opposed to winner-take-all (WTA). YNB requires an extra step in the definitions so we will do a first pass with a simplified WTA submarket, and then add the full YNB market.
+%
+%\subsection{Pass 1: Single WTA Market}
+%
+%Consider a simplified market that questions whether one specific candidate, \eg Hal Finney, is named as Satoshi: yes or no. If through unforeseen circumstances, who the documentary names is not verifiable by the air date, the market resolves to no.
+%
+%Recall Definition~\ref{def:market} of a market: 
+%
+%\begin{definition}[Market]
+%A (single) market is a tuple $M=(E,\Omega,J,R)$, where $E$ is a well-defined uncertain event, $\Omega$ is a nonempty outcome space for $E$, $J$ is a finite index set of contract labels (“shares”), and $R=(R_j)_{j\in J}$ are nonnegative payoff functions with $R_j:\Omega\to\mathbb{R}_{\ge 0}$. 
+%We assume $|J|\ge|\Omega|$ and we require \emph{outcome distinguishability} on $\Omega$:
+%\[
+%\forall\,\omega\neq\omega'\in\Omega\ \ \exists\,j\in J:\ R_j(\omega)\neq R_j(\omega').
+%\]
+%When $M$ resolves to $\omega_M\in\Omega$, one unit of share $j\in J$ pays $R_j(\omega_M)$ (in units of $\mathcal{N}$ defined below).
+%\end{definition}
+%
+%Event $E$ is whether or not Hal Finney is named as Satoshi in the documentary.
+%
+%$\Omega$ is the set of resolution outcomes the market recognizes for $E$, the labels the system can publish at settlement. For this Hal-only binary market the outcome space is $\Omega=\{\mathsf{True},\mathsf{False}\}$. Here $\mathsf{True}$ means the documentary (per the market’s stated criteria) identifies Hal Finney as Satoshi; $\mathsf{False}$ aggregates all other possibilities (Hal not named, someone else named, no one named, the film does not air, or the identification is not verifiable by the resolution deadline).
+%
+%%Once some $\omega\in\Omega$ is published, all payoffs $R_j(\omega)$ are determined.
+%
+%We require that $\Omega$ contain no redundant labels. A label is redundant if it does not change at least one contract’s payoff: $\omega\sim\omega' \iff \forall j\in J,\ R_j(\omega)=R_j(\omega')$. For example, “Hal is named and it is raining’’ and “Hal is named and it is not raining’’ are distinct real-world states, but they cannot both appear in $\Omega$ since they both map to $\mathsf{True}$. The restriction can be written as:
+%\[
+%\forall\,\omega\neq\omega'\in\Omega\ \ \exists\,j\in J:\ R_j(\omega)\neq R_j(\omega').
+%\]
+%
+%In a prediction market, there are a set of shares. If we label them and add them all to an index set, that set is $J$. For this example, $J=\{\textsf{YES},\textsf{NO}\}$: Hal Finney is named (yes) and else (no). This is a normal case where each share in $J$ corresponds to an outcome in $\Omega$ but it is possible that the number of shares could exceed the number of outcomes.\footnote{For example, consider a market of where Newcastle United (NUFC) finishes in the 2024-35 English Premier League season. Since there are 20 teams, the outcome has 20 possible labels: positions 1 to 20. Shares could exist for each of the 20 positions. But the outcome could also settle shares for whether NUFC finishes in the top 5 (which is relevant to champions league admittance), or shares on finishing in the bottom 3 (which is relevant to relegation).}
+%
+%$J$ is the index set of contract labels, the names of the tradeable shares. In this binary market we take $J=\{\textsf{YES},\textsf{NO}\}$. 
+%
+%The labels get their meaning from the component payoff functions $R_j:\Omega\to\mathbb{R}_{\ge 0}$. In this example, a payoff of 1 is given for shares that correctly predict the outcome and 0 otherwise. This means $R_{\textsf{YES}}(\mathsf{True})=1$, $R_{\textsf{YES}}(\mathsf{False})=0$, $R_{\textsf{NO}}(\mathsf{True})=0$, $R_{\textsf{NO}}(\mathsf{False})=1$.
+%
+%Recall Definition~\ref{def:market} of a prediction--market system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{Res})$:
+%$\mathcal{M}$ is the (countable) catalog of markets; $\mathcal{N}$ is the numeraire (unit of account used to price and settle claims);
+%and $\mathsf{Res}=\{\mathrm{res}_M\}_{M\in\mathcal{M}}$ assigns to each market $M$ a resolution register that is initially
+%$\bot$ and flips exactly once to some $\omega_M\in\Omega_M$.
+%When $\mathrm{res}_M\neq\bot$, we set $\omega_M:=\mathrm{res}_M$ and each unit of label $j\in J$ settles for $R_j(\omega_M)$ units of $\mathcal{N}$.
+%
+%This market is a winner--take--all (Arrow--Debreu) special case: there is a bijection $\iota:J\to\Omega$ as follows: $\textsf{YES}\rightarrow\mathsf{True}$ and $\textsf{NO}\rightarrow\mathsf{False}$. Payoffs are $R_j(\omega)=\mathbf{1}\{\omega=\iota(j)\}$. Hence, for each $\omega\in\Omega$, exactly one label pays $1$ and all others pay $0$. 
+%
+%The market tuple $M=(E,\Omega,J,R)$ specifies \emph{what} to pay \emph{given} an outcome (via $R$).
+%The register $\mathrm{res}_M$ is the system’s single source of truth for \emph{which} outcome actually occurred:
+%before resolution $\mathrm{res}_M=\bot$ (no settlement), after resolution $\mathrm{res}_M=\omega_M\in\Omega_M$ (settlement applies).
+%
+%Polymarket instantiates $\mathcal{S}$ with $\mathcal{M}$ equal to its live and historical markets, $\mathcal{N}$ the USD–denominated stablecoin USDC, and $\mathsf{Res}$ implemented by its on–chain resolution process (e.g., UMA’s optimistic oracle) that writes a single outcome to each $\mathrm{res}_M$.
+%
+%For the Hal–only binary market, the system maintains a resolution register
+%$\mathrm{res}_{M_{\mathrm{Hal}}}\in\{\bot\}\cup\Omega$ with
+%$\Omega=\{\mathsf{True},\mathsf{False}\}$ (i.e., “yes/no” to the proposition).
+%The register is initially $\bot$ and, after the platform’s resolution process completes, the oracle writes a single value
+%$\omega_{M_{\mathrm{Hal}}}\in\Omega$ to the register.
+%
+%Set $\omega_{M_{\mathrm{Hal}}}=\mathsf{True}$ iff the documentary (per stated criteria) identifies \emph{Hal Finney} as Satoshi; otherwise set $\omega_{M_{\mathrm{Hal}}}=\mathsf{False}$.
+%
+%Shares are fully collateralized to \$1 in the numeraire $\mathcal{N}$ (USDC): a unit of \textsf{YES} pays $1$\,USDC at $\mathsf{True}$ and $0$\,USDC at $\mathsf{False}$; a unit of \textsf{NO} pays $1$\,USDC at $\mathsf{False}$ and $0$\,USDC at $\mathsf{True}$. Formally,
+%\[
+%R_{\textsf{YES}}(\mathsf{True})=1,\ \ R_{\textsf{YES}}(\mathsf{False})=0,\qquad
+%R_{\textsf{NO}}(\mathsf{True})=0,\ \ R_{\textsf{NO}}(\mathsf{False})=1.
+%\]
+%
+%In the aired documentary, \emph{Peter Todd} was named; therefore
+%\[
+%\mathrm{res}_{M_{\mathrm{Hal}}}=\omega_{M_{\mathrm{Hal}}}=\mathsf{False},
+%\]
+%and each unit settles as
+%\[
+%\textsf{YES}\ \to\ 0\ \text{USDC},\qquad
+%\textsf{NO}\ \to\ 1\ \text{USDC}.
+%\]
+%
+%% = = = 
+%
+%\subsection{Pass 2: YNB Market}
+%
+%We define a \textit{family} of markets $\{M_c\}_{c\in C}$ where each $c\in C$ names one market in the family. For the HBO film, $C$ is the set of candidates including $\mathsf{Finney}$, $\mathsf{Szabo}$,  $\mathsf{Sassaman}$,  $\mathsf{Back}$, and $\mathsf{Other/Multiple}$. The event $E_c$ for a particular $\{M_c\}$ is: the documentary identifies $c$ as Satoshi. For each candidate's market, the relevant market outcomes are $\Omega_c=\tuple{\mathsf{True},\mathsf{False}}$. As a YNB market, Polymarket creates a yes share and a no share for each candidate $J_c=\tuple{\textsf{YES},\textsf{NO}}$ called a yes/no bundle (YNB). The payoffs are as follows: $R^{(c)}_{\textsf{YES}}(\mathsf{True})=1$, $R^{(c)}_{\textsf{YES}}(\mathsf{False})=0$, $R^{(c)}_{\textsf{NO}}(\mathsf{True})=0$, and $R^{(c)}_{\textsf{NO}}(\mathsf{False})=1$. Each $\{M_c\}$ has its own volume of outstanding shares, its own pricing, and its own orderbook or AMM. 
+%
+%For settling, $\mathsf{Res}=\{\mathrm{res}_{M}\}_{M\in\mathcal{M}}$ gives each $M_c$ a register $\mathrm{res}_{M_c}\in\{\bot\}\cup\Omega_c$, initially $\bot$, that flips exactly once to $\omega_{M_c}\in\Omega_c$. The documentary named Peter Todd, who was not one of the named candidates and thus fell under \textsf{Other/Multiple}: $\omega_{M_{\textsf{Other/Multiple}}}=\mathsf{True}$ while $\omega_{M_c}=\mathsf{False}$ for all other $c\neq\textsf{Other/Multiple}$. 
+%
+%The $R^{(c)}_j(\omega_{M_c})$ for \textsf{Other/Multiple: YES} was $1$ USDC, \textsf{Other/Multiple: NO} was $0$ USDC, every other named candidate’s \textsf{NO} paid $1$ USDC and their corresponding \textsf{YES} paid $0$ USDC. 
 
 %% = = = 
 %
