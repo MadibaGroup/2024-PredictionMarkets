@@ -162,11 +162,11 @@ Good point, added.
 
 > There was some angst expressed about it being an SoK (its "difficult to establish what constitutes an SoK paper.") There were research gaps identified, which is more statement of lack of knowledge. That is fine, but they were not well incorporated into the text and offered no insight as to how to evaluate research on those outstanding issues.
 
-
+Sigh, yes this was an overreaction to FC reviews. Moving to appendix this blurb and replacing with a connection to market microstructure. 
 
 > The conclusion looked like an afterthought. I could be more comprehensive.
 
-
+We dislike repeating the intro in the conclusion so try to say something both conclusive and new. **Revisit this.** Enhance if space is favourable. 
 
 > I recommend accept but think the minor issues above could be addressed for the publication of the conference proceedings.
 
@@ -195,21 +195,36 @@ Good point, added.
 >
 > Definition 1: Arrow-Debreu instead of Arrow--Debreu
 
-
+Fixed
 
 > Definition 2:
 > prediction market instead of prediction-market
 > (unit of accounting) instead of (unit of account)
+>
 > res(M) is not a function if it may return two different values for the same M. Consider adding something like time as an additional parameter (probably from a discrete range, say t \in N), writing it as res_t(M) or res(M,t). Then you can characterise the admissible functions as res_t(M) = \bot for t < t_0 and = \omega for t >= t_0, for some fixed t_0 and \omega. As t_0 and \omega are fixed per market, you might as well add t_0 and \omega to the definition of the market, making it a 5-tuple. Then, res(M) doesn't need an additional parameter, as its result depends solely on the components of M.
 
-
+Fixed to this idea largely, although keeping $\omega$ out of the tuple as it is a realized outcome and the definition defines the market. But adding $t_0$ clarifies res and also simplifies the condition for settlement (axiom 3).
 
 > Definition 3:
 >
 > 1. bad notation, S looks like \mathcal S.
+> 
+
+Changed to Q
+
 >   Define what you mean by "outstanding supplies". This notion is hardly used throughout the paper and hasn't been introduced yet. Moreover, the phrase "outstanding supply vector" is hard to parse (as "outstanding" often means excellent/exceptional). Consider rewriting it to "vector of outstanding supplies".
+
+Defined in place and changed name
+
 > 2. per-label instead of per--label
+> 
+
+Fixed
+
 >   Out of the blue, you mention holdings and accounts. It may be clearer if you first introduce the notion of an abstract fungible token with the associated and familiar notions of accounts, transfers, burning, and creation, and then specify that J is a finite set of such tokens. Saying that J is just a set of labels is less abstract than it seems, since you implicitly assume that each label has the properties of a fungible token.
+
+
+
 > 3. This condition becomes less obfuscated if time and t_0 are introduced explicitly, as it becomes "If t >= t_0, any holder may redeem".
 >
 
