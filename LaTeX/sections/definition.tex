@@ -18,7 +18,6 @@ Then $M$ is a winner-take-all (WTA) or Arrow--Debreu market: a unit claim of lab
 A prediction--market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of account), and $\mathsf{res}$ is a resolution function such that, for each $M=(\Omega,J,R)\in\mathcal{M}$, we have $\mathsf{res}(M)\in\{\bot\}\cup\Omega$, $\mathsf{res}(M)$ is initially $\bot$, and $\mathsf{res}(M)$ transitions exactly once to some $\omega\in\Omega$.
 \end{definition}
 
-
 \begin{definition}[System Axioms]\label{def:axioms} For every market $M=(\Omega,J,R)\in\mathcal{M}$ operating in system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{res})$, the following axioms hold. In what follows, all quantities are for this fixed market $M$, and we write $\mathsf{Treas}:=\mathsf{Treas}_M$ and $L:=L_M$.
 
 \begin{enumerate}
@@ -33,13 +32,14 @@ The system maintains, at all times,
 \begin{equation}
   \mathsf{Treas} \;\ge\; L(S).
 \end{equation}
-Any operation that changes supplies (including issuance) must preserve solvency. In particular, if issuance changes supplies from $S$ to $S'$, then treasury increases sufficiently:
+Any operation that changes supplies (including issuance) must preserve solvency. In particular, if issuance changes supplies from $S$ to $S'$, then the treasury is adjusted sufficiently:
 \begin{equation}
   \Delta \mathsf{Treas} \;\ge\; L(S') - L(S).
 \end{equation}
 
 \item \textbf{Transfer and Fungibility.}
-Holdings are transferable between accounts and transfers conserve per--label totals $S_j$. Shares are fungible within each label: for all $j\in J$, any $\omega\in\Omega$, and any $q\ge 0$, redeeming $q$ units pays $q\,R(\omega)_j$ units of $\mathcal{N}$.
+Holdings are transferable between accounts and transfers conserve per--label totals $S_j$. 
+Shares are fungible within each label: for all $j\in J$, any $\omega\in\Omega$, and any $q\ge 0$, $q$ units of label $j$ entitle the holder to $q\,R(\omega)_j$ units of $\mathcal{N}$ if the realized outcome is $\omega$.
 
 \item \textbf{Settlement and redemption.}
 If $\mathsf{res}(M)=\omega\in\Omega$, then any holder may redeem: for all $j\in J$ and $q\ge 0$, redeeming $q$ units of label $j$ pays $q\,R(\omega)_j$ units of $\mathcal{N}$. Redemption burns the redeemed shares and debits the treasury by the corresponding payout, preserving the solvency invariant above.
