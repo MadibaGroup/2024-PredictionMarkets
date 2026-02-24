@@ -203,7 +203,7 @@ Fixed
 >
 > res(M) is not a function if it may return two different values for the same M. Consider adding something like time as an additional parameter (probably from a discrete range, say t \in N), writing it as res_t(M) or res(M,t). Then you can characterise the admissible functions as res_t(M) = \bot for t < t_0 and = \omega for t >= t_0, for some fixed t_0 and \omega. As t_0 and \omega are fixed per market, you might as well add t_0 and \omega to the definition of the market, making it a 5-tuple. Then, res(M) doesn't need an additional parameter, as its result depends solely on the components of M.
 
-Fixed to this idea largely, although keeping $\omega$ out of the tuple as it is a realized outcome and the definition defines the market. But adding $t_0$ clarifies res and also simplifies the condition for settlement (axiom 3).
+Fixed to this idea largely, although keeping $\omega$ out of the tuple as it is a realized outcome and the definition defines the market. But adding $t_0$ clarifies res and also simplifies the condition for settlement (axiom 3). We felt $t_0$ seems like "initial" time rather than finalization time, so adjusted the variable name to be clearer. 
 
 > Definition 3:
 >
@@ -223,17 +223,21 @@ Fixed
 
 >   Out of the blue, you mention holdings and accounts. It may be clearer if you first introduce the notion of an abstract fungible token with the associated and familiar notions of accounts, transfers, burning, and creation, and then specify that J is a finite set of such tokens. Saying that J is just a set of labels is less abstract than it seems, since you implicitly assume that each label has the properties of a fungible token.
 
+This a good point, we baked in the idea of a token from the start of the definition all the way through, abandoning the abstraction of "labels" (now everything is either a share (the what) or a token (the how))
+
 
 
 > 3. This condition becomes less obfuscated if time and t_0 are introduced explicitly, as it becomes "If t >= t_0, any holder may redeem".
 >
+
+Fixed
 
 
 
 > 3 Modular Workflow
 > Why is this a workflow? Is there a temporal order? Or is it rather a collection of 8 categories or dimensions, along which you classify DePMs?
 
-
+We borrowed this term from the literature. There is no strong motivation for it. It could be a classification or taxonomy. 
 
 > 3.3 eq (4):
 > The mathematical typography is confusing. Usually, we use (math-)italic letters for variables (including names for functions that are not fixed), and upright letters for constants with a fixed meaning. It seems that you use a sans-serif font for the latter. Why is k sans-serif, if it is just a place-holder for an arbitrary value (a.k.a. a variable)? Similarly, it is not quite clear why res is upright, when it is actually a placeholder (and thus should be \mathit{res}), and L is italic, when it is actually an operator with a fixed meaning.
@@ -241,9 +245,15 @@ Fixed
 
 
 > References 29 and 53 are missing source information.
+
+Fixed
+
+
 > Thorough proofreading would be nice.
 
-
+Will try
 
 > Suggestion for future applications:
 > Even though no major DePM protocol yet implements an end-to-end autonomous feedback loop, you may want to include it in your last stage (thereby going beyond preservation). Learning loops already exist in some systems, but they are still fragmented and not fully automated.
+
+Added to reserach gap 10

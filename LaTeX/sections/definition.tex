@@ -6,19 +6,19 @@
 
 
 \begin{definition}[Market]\label{def:market}
-A (single) market is a tuple $M=(\Omega,J,R,t_{\mathsf{res}})$, where $\Omega$ is a nonempty outcome space, $J$ is a finite index set of fungible token types, $R:\Omega\to\mathbb{R}_{\ge 0}^{J}$ is a nonnegative payoff map, and $t_{\mathsf{res}}\in\mathbb{N}$ is the (scheduled) resolution time. Intuitively, $M$ is associated with an underlying uncertain event, whose possible resolutions are represented by $\Omega$.
+A (single) market is a tuple $M=(\Omega,J,R,t_{\mathrm{res}})$, where $\Omega$ is a nonempty outcome space, $J$ is a finite index set of fungible token types, $R:\Omega\to\mathbb{R}_{\ge 0}^{J}$ is a nonnegative payoff map, and $t_{\mathrm{res}}\in\mathbb{N}$ is the (scheduled) resolution time. Intuitively, $M$ is associated with an underlying uncertain event, whose possible resolutions are represented by $\Omega$.
 \end{definition}
 
 \paragraph{Remark: WTA special-case.}
-For a market $M=(\Omega,J,R,t_{\mathsf{res}})$, suppose there exists a bijection $\iota:J\to\Omega$ and
+For a market $M=(\Omega,J,R,t_{\mathrm{res}})$, suppose there exists a bijection $\iota:J\to\Omega$ and
 $R(\omega)_j\in\{0,1\}$ with $\sum_{j\in J} R(\omega)_j=1$ for all $\omega\in\Omega$.
 Then $M$ is a winner-take-all (WTA) or Arrow-Debreu market: a unit claim of token $j$ pays $1$ iff the realized outcome equals $\iota(j)$, and $0$ otherwise.
 
 \begin{definition}[Prediction Market System]\label{def:system}
-A prediction market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of accounting), and $\mathsf{res}$ is a resolution function over discrete time $t\in\mathbb{N}$ such that, for each $M=(\Omega,J,R,t_{\mathsf{res}})\in\mathcal{M}$, we have $\mathsf{res}(M,t)\in\{\bot\}\cup\Omega$ for all $t\in\mathbb{N}$, $\mathsf{res}(M,t)=\bot$ for $t<t_{\mathsf{res}}$, and there exists $\omega\in\Omega$ such that $\mathsf{res}(M,t)=\omega$ for all $t\ge t_{\mathsf{res}}$.
+A prediction market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathrm{res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of accounting), and $\mathrm{res}$ is a resolution function over discrete time $t\in\mathbb{N}$ such that, for each $M=(\Omega,J,R,t_{\mathrm{res}})\in\mathcal{M}$, we have $\mathrm{res}(M,t)\in\{\bot\}\cup\Omega$ for all $t\in\mathbb{N}$, $\mathrm{res}(M,t)=\bot$ for $t<t_{\mathrm{res}}$, and there exists $\omega\in\Omega$ such that $\mathrm{res}(M,t)=\omega$ for all $t\ge t_{\mathrm{res}}$.
 \end{definition}
 
-\begin{definition}[System Axioms]\label{def:axioms} For every market $M=(\Omega,J,R,t_{\mathsf{res}})\in\mathcal{M}$ operating in system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathsf{res})$, the following axioms hold. In what follows, all quantities are for this fixed market $M$, and we write $\mathsf{Treas}:=\mathsf{Treas}_M$ and $L:=L_M$.
+\begin{definition}[System Axioms]\label{def:axioms} For every market $M=(\Omega,J,R,t_{\mathrm{res}})\in\mathcal{M}$ operating in system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathrm{res})$, the following axioms hold. In what follows, all quantities are for this fixed market $M$, and we write $\mathsf{Treas}:=\mathsf{Treas}_M$ and $L:=L_M$.
 
 \begin{enumerate}
 
@@ -28,15 +28,15 @@ Let $Q=(Q_j)_{j\in J}\in\mathbb{R}_{\ge 0}^{J}$ be the vector of outstanding sup
 
 Define the worst-case liability
 \begin{equation}
-  L(Q) \;:=\; \sup_{\omega\in\Omega}\; \sum_{j\in J} Q_j\,R(\omega)_j.
+  \mathrm{L}(Q) \;:=\; \sup_{\omega\in\Omega}\; \sum_{j\in J} Q_j\,R(\omega)_j.
 \end{equation}
 The system maintains, at all times,
 \begin{equation}
-  \mathsf{Treas} \;\ge\; L(Q).
+  \mathsf{Treas} \;\ge\; \mathrm{L}(Q).
 \end{equation}
 Any operation that changes supplies (including issuance) must preserve solvency. In particular, if issuance changes supplies from $Q$ to $Q'$, then the treasury is adjusted sufficiently:
 \begin{equation}
-  \Delta \mathsf{Treas} \;\ge\; L(Q') - L(Q).
+  \Delta \mathsf{Treas} \;\ge\; \mathrm{L}(Q') - \mathrm{L}(Q).
 \end{equation}
 
 \item \textbf{Transfer and Fungibility.}
@@ -45,7 +45,7 @@ Holdings are transferable between accounts and transfers conserve per-token tota
 Units of each token type are fungible: for all $j\in J$, any $\omega\in\Omega$, and any $a\ge 0$, $a$ units of token $j$ entitle the holder to $a\,R(\omega)_j$ units of $\mathcal{N}$ if the realized outcome is $\omega$.
 
 \item \textbf{Settlement and Redemption.}
-If $t\ge t_{\mathsf{res}}$ and $\mathsf{res}(M,t)=\omega\in\Omega$, then any holder may redeem: for all $j\in J$ and $a\ge 0$, redeeming $a$ units of token $j$ pays $a\,R(\omega)_j$ units of $\mathcal{N}$. 
+If $t\ge t_{\mathrm{res}}$ and $\mathrm{res}(M,t)=\omega\in\Omega$, then any holder may redeem: for all $j\in J$ and $a\ge 0$, redeeming $a$ units of token $j$ pays $a\,R(\omega)_j$ units of $\mathcal{N}$. 
 Redemption burns the redeemed tokens and debits the treasury by the corresponding payout, preserving the solvency invariant above.
  
  \end{enumerate}
