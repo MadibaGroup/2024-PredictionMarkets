@@ -4,27 +4,31 @@
 
 % = = = 
 
+We distinguish an \emph{event contract} from a \emph{trading venue}. An event contract specifies the outcome space and the payoff rules for a fixed set of fungible token types. A trading venue (e.g., an order book or AMM) is an implementation choice that quotes prices and executes trades in some subset of those token types. Throughout, we use `market' informally to refer to trading venues, and use `event contract' for the event-level specification defined below.
 
-\begin{definition}[Market]\label{def:market}
-A (single) market is a tuple $M=(\Omega,J,R,t_{\mathrm{res}})$, where $\Omega$ is a nonempty outcome space, $J$ is a finite index set of fungible token types, $R:\Omega\to\mathbb{R}_{\ge 0}^{J}$ is a nonnegative payoff map, and $t_{\mathrm{res}}\in\mathbb{N}$ is the (scheduled) resolution time. Intuitively, $M$ is associated with an underlying uncertain event, whose possible resolutions are represented by $\Omega$.
+\begin{definition}[Event contract]\label{def:contract}
+A (single) event contract is a tuple $C=(\Omega,J,R,t_{\mathrm{res}})$, where $\Omega$ is a nonempty outcome space, $J$ is a finite index set of fungible token types, $R:\Omega\to\mathbb{R}_{\ge 0}^{J}$ is a nonnegative payoff map, and $t_{\mathrm{res}}\in\mathbb{N}$ is the (scheduled) resolution time. Intuitively, $C$ is associated with an underlying uncertain event, whose possible resolutions are represented by $\Omega$.
 \end{definition}
 
 \paragraph{Remark: WTA special-case.}
-For a market $M=(\Omega,J,R,t_{\mathrm{res}})$, suppose there exists a bijection $\iota:J\to\Omega$ and
+For an event contract $C=(\Omega,J,R,t_{\mathrm{res}})$, suppose there exists a bijection $\iota:J\to\Omega$ and
 $R(\omega)_j\in\{0,1\}$ with $\sum_{j\in J} R(\omega)_j=1$ for all $\omega\in\Omega$.
-Then $M$ is a winner-take-all (WTA) or Arrow-Debreu market: a unit claim of token $j$ pays $1$ iff the realized outcome equals $\iota(j)$, and $0$ otherwise.
+Then $C$ is a winner-take-all (WTA) or Arrow--Debreu contract: a unit claim of token $j$ pays $1$ iff the realized outcome equals $\iota(j)$, and $0$ otherwise.
 
-\begin{definition}[Prediction Market System]\label{def:system}
-A prediction market system is a tuple $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathrm{res})$, where $\mathcal{M}$ is a countable set of markets, $\mathcal{N}$ is a numeraire (unit of accounting), and $\mathrm{res}$ is a resolution function over discrete time $t\in\mathbb{N}$ such that, for each $M=(\Omega,J,R,t_{\mathrm{res}})\in\mathcal{M}$, we have $\mathrm{res}(M,t)\in\{\bot\}\cup\Omega$ for all $t\in\mathbb{N}$, $\mathrm{res}(M,t)=\bot$ for $t<t_{\mathrm{res}}$, and there exists $\omega\in\Omega$ such that $\mathrm{res}(M,t)=\omega$ for all $t\ge t_{\mathrm{res}}$.
+\paragraph{Bundles and portfolios.}
+A \emph{bundle} is a specified collection of token types within an event contract (for example, a set of tokens that the system treats as a unit for minting, burning, or conversion). A \emph{portfolio} is a vector $b=(b_j)_{j\in J}\in\mathbb{R}_{\ge 0}^{J}$ describing a trader's holdings, where $b_j$ is the number of units of token type $j$. The payoff of a portfolio at outcome $\omega\in\Omega$ is $\langle b, R(\omega)\rangle=\sum_{j\in J} b_j\,R(\omega)_j$. Bundles are used to define mechanisms such as splitting/merging and other payoff-preserving conversions; portfolios are the positions held by traders.
+
+\begin{definition}[Prediction market system]\label{def:system}
+A prediction market system is a tuple $\mathcal{S}=(\mathcal{C},\mathcal{N},\mathrm{res})$, where $\mathcal{C}$ is a countable set of event contracts, $\mathcal{N}$ is a numeraire (unit of accounting), and $\mathrm{res}$ is a resolution function over discrete time $t\in\mathbb{N}$ such that, for each $C=(\Omega,J,R,t_{\mathrm{res}})\in\mathcal{C}$, we have $\mathrm{res}(C,t)\in\{\bot\}\cup\Omega$ for all $t\in\mathbb{N}$, $\mathrm{res}(C,t)=\bot$ for $t<t_{\mathrm{res}}$, and there exists $\omega\in\Omega$ such that $\mathrm{res}(C,t)=\omega$ for all $t\ge t_{\mathrm{res}}$.
 \end{definition}
 
-\begin{definition}[System Axioms]\label{def:axioms} For every market $M=(\Omega,J,R,t_{\mathrm{res}})\in\mathcal{M}$ operating in system $\mathcal{S}=(\mathcal{M},\mathcal{N},\mathrm{res})$, the following axioms hold. In what follows, all quantities are for this fixed market $M$, and we write $\mathsf{Treas}:=\mathsf{Treas}_M$ and $L:=L_M$.
+\begin{definition}[System Axioms]\label{def:axioms} For every event contract $C=(\Omega,J,R,t_{\mathrm{res}})\in\mathcal{C}$ operating in system $\mathcal{S}=(\mathcal{C},\mathcal{N},\mathrm{res})$, the following axioms hold. In what follows, all quantities are for this fixed event contract $C$, and we write $\mathsf{Treas}:=\mathsf{Treas}_C$ and $\mathrm{L}:=\mathrm{L}_C$.
 
 \begin{enumerate}
 
 \item \textbf{Issuance and Solvency.}
 
-Let $Q=(Q_j)_{j\in J}\in\mathbb{R}_{\ge 0}^{J}$ be the vector of outstanding supplies, where $Q_j$ is the total number of units of token $j$ that have been issued and not yet burned, and let $\mathsf{Treas}\ge 0$ be the market’s treasury (in the numeraire $\mathcal{N}$).
+Let $Q=(Q_j)_{j\in J}\in\mathbb{R}_{\ge 0}^{J}$ be the vector of outstanding supplies, where $Q_j$ is the total number of units of token $j$ that have been issued and not yet burned, and let $\mathsf{Treas}\ge 0$ be the event contract’s treasury (in the numeraire $\mathcal{N}$).
 
 Define the worst-case liability
 \begin{equation}
@@ -45,7 +49,7 @@ Holdings are transferable between accounts and transfers conserve per-token tota
 Units of each token type are fungible: for all $j\in J$, any $\omega\in\Omega$, and any $a\ge 0$, $a$ units of token $j$ entitle the holder to $a\,R(\omega)_j$ units of $\mathcal{N}$ if the realized outcome is $\omega$.
 
 \item \textbf{Settlement and Redemption.}
-If $t\ge t_{\mathrm{res}}$ and $\mathrm{res}(M,t)=\omega\in\Omega$, then any holder may redeem: for all $j\in J$ and $a\ge 0$, redeeming $a$ units of token $j$ pays $a\,R(\omega)_j$ units of $\mathcal{N}$. 
+If $t\ge t_{\mathrm{res}}$ and $\mathrm{res}(C,t)=\omega\in\Omega$, then any holder may redeem: for all $j\in J$ and $a\ge 0$, redeeming $a$ units of token $j$ pays $a\,R(\omega)_j$ units of $\mathcal{N}$. 
 Redemption burns the redeemed tokens and debits the treasury by the corresponding payout, preserving the solvency invariant above.
  
  \end{enumerate}

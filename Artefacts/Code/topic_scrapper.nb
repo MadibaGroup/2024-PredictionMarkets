@@ -1,0 +1,573 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     22595,        565]
+NotebookOptionsPosition[     20328,        516]
+NotebookOutlinePosition[     20724,        532]
+CellTagsIndexPosition[     20681,        529]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Functions", "Section",
+ CellChangeTimes->{{3.984211368317629*^9, 
+  3.984211370333107*^9}},ExpressionUUID->"f2c5de50-2fd9-4fdd-8d51-\
+7ef0146e2920"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"base", "=", "\"\<https://gamma-api.polymarket.com/markets\>\""}], 
+   ";"}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"fetchPage", "[", 
+     RowBox[{"offset_", ",", 
+      RowBox[{"limit_", ":", "500"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"url", ",", "raw"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"url", "=", 
+        RowBox[{"URLBuild", "[", 
+         RowBox[{"base", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<limit\>\"", "->", 
+             RowBox[{"ToString", "[", "limit", "]"}]}], ",", 
+            RowBox[{"\"\<offset\>\"", "->", 
+             RowBox[{"ToString", "[", "offset", "]"}]}]}], "}"}]}], "]"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"raw", "=", 
+        RowBox[{"Import", "[", 
+         RowBox[{"url", ",", "\"\<RawJSON\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "raw"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"fetchID", "[", "id_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"url", ",", "raw"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"url", "=", 
+        RowBox[{"URLBuild", "[", 
+         RowBox[{"{", 
+          RowBox[{"base", ",", 
+           RowBox[{"ToString", "[", "id", "]"}]}], "}"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"raw", "=", 
+        RowBox[{"Import", "[", 
+         RowBox[{"url", ",", "\"\<RawJSON\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "raw"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"shrinkPage", "[", 
+    RowBox[{"{", "}"}], "]"}], ":=", 
+   RowBox[{"{", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"shrinkPage", "[", "$Failed", "]"}], ":=", "$Failed"}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"shrinkPage", "[", "page_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<id\>\"", ",", "\"\<\>\""}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<slug\>\"", ",", "\"\<\>\""}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<question\>\"", ",", "\"\<\>\""}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<description\>\"", ",", "\"\<\>\""}], "]"}], ",",
+         "\[IndentingNewLine]", 
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<createdAt\>\"", ",", "\"\<\>\""}], "]"}], ",",
+         "\[IndentingNewLine]", 
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<automaticallyResolved\>\"", ",", "False"}], 
+         "]"}]}], "}"}], "&"}], "/@", "page"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.984209599771921*^9, 3.984209618690853*^9}, {
+   3.984209774618626*^9, 3.984209780878655*^9}, {3.9842098515601187`*^9, 
+   3.984209883842744*^9}, 3.984209966737495*^9, {3.9842099975190372`*^9, 
+   3.9842100023827543`*^9}, {3.984210665563826*^9, 3.9842106861667147`*^9}, {
+   3.984210761079582*^9, 3.984210783261045*^9}, {3.9842108881190968`*^9, 
+   3.9842109028107643`*^9}, {3.984210969248435*^9, 3.984211052496484*^9}, {
+   3.98421117451859*^9, 3.984211174972405*^9}, {3.9842113383017*^9, 
+   3.9842113593669558`*^9}, {3.984211704727839*^9, 3.984211706397121*^9}, {
+   3.9842238402870607`*^9, 3.984223873324844*^9}},
+ CellLabel->
+  "In[459]:=",ExpressionUUID->"f8d1709a-4be3-4b8d-8904-0f7058f59f36"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Scrape", "Section",
+ CellChangeTimes->{{3.984211373671772*^9, 
+  3.984211375682308*^9}},ExpressionUUID->"ac016c46-8a3a-4b39-825c-\
+8ecd4f8517c3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"start", "=", "0"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"end", "=", "760000"}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"EchoTiming", "[", 
+    RowBox[{"Monitor", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"topics", "=", 
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"acc", "=", 
+            RowBox[{"{", "}"}]}], ",", "page"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Do", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"page", "=", 
+              RowBox[{"shrinkPage", "[", 
+               RowBox[{"fetchPage", "[", "i", "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"acc", "=", 
+              RowBox[{"Join", "[", 
+               RowBox[{"acc", ",", "page"}], "]"}]}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "start", ",", "end", ",", "500"}], "}"}]}], 
+           "]"}], ";", "\[IndentingNewLine]", "acc"}]}], "]"}]}], ",", 
+      "\[IndentingNewLine]", "i"}], "]"}], "]"}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Topics (pre-filtered): \>\"", ",", 
+    RowBox[{"Length", "[", "topics", "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"filename", "=", 
+   RowBox[{"\"\<topics_\>\"", "<>", 
+    RowBox[{"ToString", "[", "start", "]"}], "<>", "\"\<_\>\"", "<>", 
+    RowBox[{"ToString", "[", "end", "]"}], "<>", "\"\<.csv\>\""}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"NotebookDirectory", "[", "]"}], "<>", "filename"}], ",", 
+   "topics"}], "]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{
+  3.984211805916253*^9, {3.984212007516542*^9, 3.9842120338004436`*^9}, {
+   3.984212064994378*^9, 3.984212166403206*^9}, {3.984212201743142*^9, 
+   3.9842123140897503`*^9}, {3.9842123792655287`*^9, 3.984212404685335*^9}, {
+   3.984224042066634*^9, 3.984224061239645*^9}, {3.984224211066868*^9, 
+   3.9842242113734703`*^9}, {3.984224255090954*^9, 3.984224256823523*^9}},
+ CellLabel->
+  "In[480]:=",ExpressionUUID->"2e8eb9c9-8e12-47a7-8d3e-e9241aadc62f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["1095.048314`"], "EchoTiming",
+ CellChangeTimes->{
+  3.984225360269915*^9},ExpressionUUID->"3d43905e-9e9f-4e2d-b5a2-\
+60e056f730c4"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Topics (pre-filtered): \"\>", "\[InvisibleSpace]", "760228"}],
+  SequenceForm["Topics (pre-filtered): ", 760228],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.984212151852157*^9, 3.9842121717277412`*^9}, 
+   3.984212259321588*^9, 3.9842123596451883`*^9, 3.9842140087803497`*^9, 
+   3.984224218384512*^9, 3.984225360273117*^9},
+ CellLabel->
+  "During evaluation of \
+In[480]:=",ExpressionUUID->"ddf30db7-9fc8-4b2a-9115-d065c034ded4"]
+}, Open  ]],
+
+Cell[BoxData["\<\"/Users/jeremyclark/Documents/Academia/Deliverables/\
+Publications/03 Published/2026 - WTSC \
+(DePM)/Artefacts/Code/topics_0_760000.csv\"\>"], "Output",
+ CellChangeTimes->{3.984212171762899*^9, 3.984212259412655*^9, 
+  3.984212359676074*^9, 3.984214009316065*^9, 3.984224218409927*^9, 
+  3.984225362586025*^9},
+ CellLabel->
+  "Out[485]=",ExpressionUUID->"ed849e47-f1a4-4133-8245-322fbacf1afe"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Filter Harder", "Section",
+ CellChangeTimes->{{3.984223940891262*^9, 
+  3.984223945366948*^9}},ExpressionUUID->"75cd1f04-9398-4a7f-9321-\
+4e7d7734c341"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"topics", "=", 
+    RowBox[{"Import", "[", 
+     RowBox[{
+      RowBox[{"NotebookDirectory", "[", "]"}], "<>", "filename"}], "]"}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Topics (pre-filtered): \>\"", ",", 
+    RowBox[{"Length", "[", "topics", "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ftopics", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"topics", ",", 
+     RowBox[{
+      RowBox[{"!", 
+       RowBox[{"TrueQ", "[", 
+        RowBox[{"#", "[", 
+         RowBox[{"[", "6", "]"}], "]"}], "]"}]}], "&"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ftopics", "=", 
+    RowBox[{"Most", "/@", "ftopics"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Topics (filter 1): \>\"", ",", 
+    RowBox[{"Length", "[", "ftopics", "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"isChainlinkUpDown", "[", "row_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"StringContainsQ", "[", 
+     RowBox[{
+      RowBox[{"ToLowerCase", "[", 
+       RowBox[{"row", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", "\"\<updown\>\""}], "]"}],
+     "||", 
+    RowBox[{"StringContainsQ", "[", 
+     RowBox[{
+      RowBox[{"ToLowerCase", "[", 
+       RowBox[{"row", "[", 
+        RowBox[{"[", "3", "]"}], "]"}], "]"}], ",", "\"\<up or down\>\""}], 
+     "]"}], "||", 
+    RowBox[{"StringContainsQ", "[", 
+     RowBox[{
+      RowBox[{"ToLowerCase", "[", 
+       RowBox[{"row", "[", 
+        RowBox[{"[", "4", "]"}], "]"}], "]"}], 
+      ",", "\"\<data.chain.link/streams\>\""}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"cleanTopics", "=", 
+    RowBox[{"Select", "[", 
+     RowBox[{"ftopics", ",", 
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"isChainlinkUpDown", "[", "#", "]"}]}], "&"}]}], "]"}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Topics (filter 2): \>\"", ",", 
+    RowBox[{"Length", "[", "cleanTopics", "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"filename2", "=", 
+   RowBox[{"\"\<topics_\>\"", "<>", 
+    RowBox[{"ToString", "[", "start", "]"}], "<>", "\"\<_\>\"", "<>", 
+    RowBox[{"ToString", "[", "end", "]"}], "<>", "\"\<_clean.csv\>\""}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"NotebookDirectory", "[", "]"}], "<>", "filename2"}], ",", 
+   "cleanTopics"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.98422395366696*^9, 3.984223972952475*^9}, {
+  3.984224066421522*^9, 3.984224094265111*^9}, {3.9842241386545*^9, 
+  3.984224183545844*^9}, {3.984224239830435*^9, 3.984224242562833*^9}, {
+  3.984224356149452*^9, 3.9842243874281273`*^9}},
+ CellLabel->
+  "In[486]:=",ExpressionUUID->"88f22975-b8d9-4278-a126-2965fc48bf09"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Topics (pre-filtered): \"\>", "\[InvisibleSpace]", "760228"}],
+  SequenceForm["Topics (pre-filtered): ", 760228],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.984224186475868*^9, 3.984224226029619*^9, 
+  3.984228512083872*^9},
+ CellLabel->
+  "During evaluation of \
+In[486]:=",ExpressionUUID->"cd014137-7a43-4700-9feb-a4da8f596496"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Topics (filter 1): \"\>", "\[InvisibleSpace]", "62293"}],
+  SequenceForm["Topics (filter 1): ", 62293],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.984224186475868*^9, 3.984224226029619*^9, 
+  3.9842285126984463`*^9},
+ CellLabel->
+  "During evaluation of \
+In[486]:=",ExpressionUUID->"0a985046-2a5d-45b6-9adf-bd8ed6658d19"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Topics (filter 2): \"\>", "\[InvisibleSpace]", "59036"}],
+  SequenceForm["Topics (filter 2): ", 59036],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.984224186475868*^9, 3.984224226029619*^9, 
+  3.984228513338994*^9},
+ CellLabel->
+  "During evaluation of \
+In[486]:=",ExpressionUUID->"e3bb571d-db74-485b-b9da-fc77d4ef242d"]
+}, Open  ]],
+
+Cell[BoxData["\<\"topics_0_760000_clean.csv\"\>"], "Output",
+ CellChangeTimes->{3.984223976025889*^9, 3.984224187089644*^9, 
+  3.98422422609711*^9, 3.984228513339682*^9},
+ CellLabel->
+  "Out[494]=",ExpressionUUID->"283d2256-379b-4e63-86d9-6230f7c9d7b6"],
+
+Cell[BoxData["\<\"/Users/jeremyclark/Documents/Academia/Deliverables/\
+Publications/03 Published/2026 - WTSC \
+(DePM)/Artefacts/Code/topics_0_760000_clean.csv\"\>"], "Output",
+ CellChangeTimes->{3.984223976025889*^9, 3.984224187089644*^9, 
+  3.98422422609711*^9, 3.984228514073929*^9},
+ CellLabel->
+  "Out[495]=",ExpressionUUID->"65fd0b72-d48f-4d6d-bb11-435d0dd5e571"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Scratch", "Section",
+ CellChangeTimes->{{3.9842113941207247`*^9, 
+  3.9842113962592897`*^9}},ExpressionUUID->"5c6fd346-0a88-4147-8570-\
+dc7b34c6565b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fetchID", "[", "1844979", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Lookup", "[", 
+  RowBox[{"%", ",", "\"\<automaticallyResolved\>\""}], "]"}]}], "Input",
+ CellChangeTimes->{{3.984211412537181*^9, 3.98421143594915*^9}, 
+   3.984211600637054*^9, {3.984212321970145*^9, 
+   3.9842123305519037`*^9}},ExpressionUUID->"951a2f19-da33-44b4-8e11-\
+36b3a9fb948d"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"1844979\"\>"}], ",", 
+   RowBox[{"\<\"question\"\>", 
+    "\[Rule]", "\<\"Dogecoin Up or Down - April 4, 9:15AM-9:20AM ET\"\>"}], ",", 
+   RowBox[{"\<\"conditionId\"\>", 
+    "\[Rule]", \
+"\<\"0x69c9c3461fe747310682d3ca50b97b428a830ea963f534357e21ad773fda87ad\"\>"}]\
+, ",", 
+   RowBox[{"\<\"slug\"\>", "\[Rule]", "\<\"doge-updown-5m-1775308500\"\>"}], ",", 
+   RowBox[{"\<\"resolutionSource\"\>", 
+    "\[Rule]", "\<\"https://data.chain.link/streams/doge-usd\"\>"}], ",", 
+   RowBox[{"\<\"endDate\"\>", "\[Rule]", "\<\"2026-04-04T13:20:00Z\"\>"}], ",", 
+   RowBox[{"\<\"liquidity\"\>", "\[Rule]", "\<\"6132.9018\"\>"}], ",", 
+   RowBox[{"\<\"startDate\"\>", 
+    "\[Rule]", "\<\"2026-04-03T13:23:36.676885Z\"\>"}], ",", 
+   RowBox[{"\<\"image\"\>", 
+    "\[Rule]", \
+"\<\"https://polymarket-upload.s3.us-east-2.amazonaws.com/dogecoin-9ae840dfa3.\
+png\"\>"}], ",", 
+   RowBox[{"\<\"icon\"\>", 
+    "\[Rule]", \
+"\<\"https://polymarket-upload.s3.us-east-2.amazonaws.com/dogecoin-9ae840dfa3.\
+png\"\>"}], ",", 
+   RowBox[{"\<\"description\"\>", 
+    "\[Rule]", "\<\"This market will resolve to \\\"Up\\\" if the Dogecoin \
+price at the end of the time range specified in the title is greater than or \
+equal to the price at the beginning of that range. Otherwise, it will resolve \
+to \\\"Down\\\".\\nThe resolution source for this market is information from \
+Chainlink, specifically the DOGE/USD data stream available at \
+https://data.chain.link/streams/doge-usd.\\nPlease note that this market is \
+about the price according to Chainlink data stream DOGE/USD, not according to \
+other sources or spot markets.\"\>"}], ",", 
+   RowBox[{"\<\"outcomes\"\>", 
+    "\[Rule]", "\<\"[\\\"Up\\\", \\\"Down\\\"]\"\>"}], ",", 
+   RowBox[{"\<\"outcomePrices\"\>", 
+    "\[Rule]", "\<\"[\\\"0.5\\\", \\\"0.5\\\"]\"\>"}], ",", 
+   RowBox[{"\<\"active\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"closed\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"marketMakerAddress\"\>", "\[Rule]", "\<\"\"\>"}], ",", 
+   RowBox[{"\<\"createdAt\"\>", 
+    "\[Rule]", "\<\"2026-04-03T13:22:24.821168Z\"\>"}], ",", 
+   RowBox[{"\<\"updatedAt\"\>", 
+    "\[Rule]", "\<\"2026-04-03T13:35:59.654811Z\"\>"}], ",", 
+   RowBox[{"\<\"new\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"featured\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"archived\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"restricted\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"groupItemThreshold\"\>", "\[Rule]", "\<\"0\"\>"}], ",", 
+   RowBox[{"\<\"questionID\"\>", 
+    "\[Rule]", \
+"\<\"0x7466a6b7a03ec7884939c4c2db51bd8d526149a65627829988646dab7f5abe7f\"\>"}]\
+, ",", 
+   RowBox[{"\<\"enableOrderBook\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"orderPriceMinTickSize\"\>", "\[Rule]", "0.01`"}], ",", 
+   RowBox[{"\<\"orderMinSize\"\>", "\[Rule]", "5"}], ",", 
+   RowBox[{"\<\"liquidityNum\"\>", "\[Rule]", "6132.9018`"}], ",", 
+   RowBox[{"\<\"endDateIso\"\>", "\[Rule]", "\<\"2026-04-04\"\>"}], ",", 
+   RowBox[{"\<\"startDateIso\"\>", "\[Rule]", "\<\"2026-04-03\"\>"}], ",", 
+   RowBox[{"\<\"hasReviewedDates\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"clobTokenIds\"\>", 
+    "\[Rule]", \
+"\<\"[\\\"\
+80159775437884343719480979683442695003518962570414057843223747989677740359812\
+\\\", \\\"\
+107415826393751690606262284061810295420906487976295329214771529452029451972796\
+\\\"]\"\>"}], ",", 
+   RowBox[{"\<\"liquidityClob\"\>", "\[Rule]", "6132.9018`"}], ",", 
+   RowBox[{"\<\"makerBaseFee\"\>", "\[Rule]", "1000"}], ",", 
+   RowBox[{"\<\"takerBaseFee\"\>", "\[Rule]", "1000"}], ",", 
+   RowBox[{"\<\"acceptingOrders\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"negRisk\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"ready\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"funded\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"acceptingOrdersTimestamp\"\>", 
+    "\[Rule]", "\<\"2026-04-03T13:22:31Z\"\>"}], ",", 
+   RowBox[{"\<\"cyom\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"competitive\"\>", "\[Rule]", "1"}], ",", 
+   RowBox[{"\<\"pagerDutyNotificationEnabled\"\>", "\[Rule]", "False"}], ",", 
+   
+   RowBox[{"\<\"approved\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"rewardsMinSize\"\>", "\[Rule]", "50"}], ",", 
+   RowBox[{"\<\"rewardsMaxSpread\"\>", "\[Rule]", "4.5`"}], ",", 
+   RowBox[{"\<\"spread\"\>", "\[Rule]", "0.02`"}], ",", 
+   RowBox[{"\<\"bestBid\"\>", "\[Rule]", "0.49`"}], ",", 
+   RowBox[{"\<\"bestAsk\"\>", "\[Rule]", "0.51`"}], ",", 
+   RowBox[{"\<\"automaticallyActive\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"clearBookOnStart\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"showGmpSeries\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"showGmpOutcome\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"manualActivation\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"negRiskOther\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"umaResolutionStatuses\"\>", "\[Rule]", "\<\"[]\"\>"}], ",", 
+   RowBox[{"\<\"pendingDeployment\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"deploying\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"rfqEnabled\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"eventStartTime\"\>", 
+    "\[Rule]", "\<\"2026-04-04T13:15:00Z\"\>"}], ",", 
+   RowBox[{"\<\"holdingRewardsEnabled\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"feesEnabled\"\>", "\[Rule]", "True"}], ",", 
+   RowBox[{"\<\"requiresTranslation\"\>", "\[Rule]", "False"}], ",", 
+   RowBox[{"\<\"makerRebatesFeeShareBps\"\>", "\[Rule]", "10000"}], ",", 
+   RowBox[{"\<\"feeType\"\>", "\[Rule]", "\<\"crypto_fees_v2\"\>"}], ",", 
+   RowBox[{"\<\"feeSchedule\"\>", "\[Rule]", 
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"\<\"exponent\"\>", "\[Rule]", "1"}], ",", 
+      RowBox[{"\<\"rate\"\>", "\[Rule]", "0.072`"}], ",", 
+      RowBox[{"\<\"takerOnly\"\>", "\[Rule]", "True"}], ",", 
+      RowBox[{"\<\"rebateRate\"\>", "\[Rule]", "0.2`"}]}], 
+     "\[RightAssociation]"}]}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.9842123285144453`*^9},
+ CellLabel->
+  "Out[418]=",ExpressionUUID->"6d1a334b-c7d4-4b2a-89f0-ad16c7ccfc88"],
+
+Cell[BoxData[
+ RowBox[{"Missing", "[", 
+  RowBox[{"\<\"KeyAbsent\"\>", ",", "\<\"automaticallyResolved\"\>"}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.984212328518149*^9},
+ CellLabel->
+  "Out[419]=",ExpressionUUID->"8a9eb02a-06f6-471b-9112-c9d896f3fb2b"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{46, Automatic}, {Automatic, 46}},
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (March 16, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"7086a7f1-b072-46bd-ae0f-b959011f4e8b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 154, 3, 66, "Section",ExpressionUUID->"f2c5de50-2fd9-4fdd-8d51-7ef0146e2920"],
+Cell[733, 27, 3833, 98, 458, "Input",ExpressionUUID->"f8d1709a-4be3-4b8d-8904-0f7058f59f36"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4603, 130, 151, 3, 66, "Section",ExpressionUUID->"ac016c46-8a3a-4b39-825c-8ecd4f8517c3"],
+Cell[CellGroupData[{
+Cell[4779, 137, 2305, 56, 335, "Input",ExpressionUUID->"2e8eb9c9-8e12-47a7-8d3e-e9241aadc62f"],
+Cell[CellGroupData[{
+Cell[7109, 197, 145, 3, 23, "EchoTiming",ExpressionUUID->"3d43905e-9e9f-4e2d-b5a2-60e056f730c4"],
+Cell[7257, 202, 488, 10, 23, "Print",ExpressionUUID->"ddf30db7-9fc8-4b2a-9115-d065c034ded4"]
+}, Open  ]],
+Cell[7760, 215, 410, 7, 33, "Output",ExpressionUUID->"ed849e47-f1a4-4133-8245-322fbacf1afe"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8219, 228, 158, 3, 66, "Section",ExpressionUUID->"75cd1f04-9398-4a7f-9321-4e7d7734c341"],
+Cell[CellGroupData[{
+Cell[8402, 235, 3021, 83, 376, "Input",ExpressionUUID->"88f22975-b8d9-4278-a126-2965fc48bf09"],
+Cell[CellGroupData[{
+Cell[11448, 322, 387, 9, 23, "Print",ExpressionUUID->"cd014137-7a43-4700-9feb-a4da8f596496"],
+Cell[11838, 333, 379, 9, 23, "Print",ExpressionUUID->"0a985046-2a5d-45b6-9adf-bd8ed6658d19"],
+Cell[12220, 344, 377, 9, 23, "Print",ExpressionUUID->"e3bb571d-db74-485b-b9da-fc77d4ef242d"]
+}, Open  ]],
+Cell[12612, 356, 253, 4, 33, "Output",ExpressionUUID->"283d2256-379b-4e63-86d9-6230f7c9d7b6"],
+Cell[12868, 362, 368, 6, 77, "Output",ExpressionUUID->"65fd0b72-d48f-4d6d-bb11-435d0dd5e571"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13285, 374, 156, 3, 66, "Section",ExpressionUUID->"5c6fd346-0a88-4147-8570-dc7b34c6565b"],
+Cell[CellGroupData[{
+Cell[13466, 381, 379, 7, 49, "Input",ExpressionUUID->"951a2f19-da33-44b4-8e11-36b3a9fb948d"],
+Cell[13848, 390, 6193, 114, 401, "Output",ExpressionUUID->"6d1a334b-c7d4-4b2a-89f0-ad16c7ccfc88"],
+Cell[20044, 506, 256, 6, 33, "Output",ExpressionUUID->"8a9eb02a-06f6-471b-9112-c9d896f3fb2b"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
