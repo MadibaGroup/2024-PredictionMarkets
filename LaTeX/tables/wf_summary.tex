@@ -1,35 +1,35 @@
 % !TEX root = ../main.tex
 
 \begin{table}[t!]
-\centering
+
 \caption{Classification of selected (for significance or novelty) \depms using our modular workflow. Keywords used in the table are defined in referenced section, while \CIRCLE,~\LEFTcircle, \Circle~respectively infer that the related property is fully, partially or not supported.\label{tab:class}}
 
-\adjustbox{max width=\textwidth}{
+\adjustbox{max width=0.9\textwidth}{
 \begin{tabular}{|l|l|c|c|c|c|c|c|c|c|c|c|}
 
-\flatrow{Year} & \flatrow{System}  & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Permissionless Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Numeraire  (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:init})} & \headrow{Permissionless Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{On-Chain Archiving  (\S\ref{wf:archive})} \\
+\flatrow{Year} & \flatrow{System}  & \headrow{Infrastucture (\S\ref{wf:chain})} & \headrow{Permissionless Topic (\S\ref{wf:topic})} & \headrow{Share Structure (\S\ref{wf:price})} & \headrow{Initial Issuance (\S\ref{wf:init})} & \headrow{Permissionless Trading  (\S\ref{wf:trade})} & \headrow{Resolution  (\S\ref{wf:close})} & \headrow{Settlement  (\S\ref{wf:clear})} & \headrow{Arch.  (\S\ref{wf:archive})} \\
 
 
 \hline
-2014 & Truthcoin~\cite{Sz14} & Sidechain & \CIRCLE & WTA & Pegged BTC & Auto Bookmaking &\CIRCLE & Vote & Pull & \CIRCLE \\
+2014 & Truthcoin~\cite{Sz14} & Sidechain & \CIRCLE & WTA & Bookmaking &\CIRCLE & Vote & Pull & \CIRCLE \\
 \hline
-2014 &Princeton~\cite{BCFKMN14} & Sidechain & \CIRCLE & WTA & Pegged BTC & Splitting & \CIRCLE & Arbiter & Push & \CIRCLE \\
+2014 &Princeton~\cite{BCFKMN14} & Sidechain & \CIRCLE & WTA & Splitting & \CIRCLE & Arbiter & Push & \CIRCLE \\
 \hline
-2015 &Augur~\cite{AKPWZ15}  &  Smart Contract & \CIRCLE & WTA & ETH & Auto Bookmaking &  \CIRCLE & Vote & Pull & \CIRCLE \\
+2015 &Augur~\cite{AKPWZ15}  &  Smart Con. & \CIRCLE & WTA & Bookmaking &  \CIRCLE & Vote & Pull & \CIRCLE \\
 \hline
-2019 &Gnosis Sight~\cite{Bar19}  &  Smart Contract &\CIRCLE & WTA & DAI & Splitting & \CIRCLE  & Arbiter & Pull & \LEFTcircle \\
+2019 &Gnosis Sight~\cite{Bar19}  &  Smart Con. &\CIRCLE & WTA & Splitting & \CIRCLE  & Arbiter & Pull & \LEFTcircle \\
 \hline
-2019 &Augur~\cite{AKPWZ19}  &  Smart Contract &\CIRCLE & WTA & DAI & Splitting & \LEFTcircle, \CIRCLE  & Vote & Pull & \LEFTcircle \\
+2019 &Augur~\cite{AKPWZ19}  &  Smart Con. &\CIRCLE & WTA & Splitting & \LEFTcircle, \CIRCLE  & Vote & Pull & \LEFTcircle \\
 \hline
-2020 &Polymarket~\cite{poly}  & Smart Contract & \Circle & YNB(-NR) & USDC & Splitting & \LEFTcircle, \CIRCLE & Optimistic, Vote & Gasless Pull & \LEFTcircle \\
+2020 &Polymarket~\cite{poly}  & Smart Con. & \Circle & YNB(-NR) & Splitting & \LEFTcircle, \CIRCLE & Opt., Vote & Gasless Pull & \LEFTcircle \\
 \hline
-2020 &Omen~\cite{Omen_docs}  &  Smart Contract & \LEFTcircle & YNB & DAI & Splitting & \CIRCLE & Optimistic, Vote & Push & \LEFTcircle\\
+2020 &Omen~\cite{Omen_docs}  &  Smart Con. & \LEFTcircle & YNB & Splitting & \CIRCLE & Opt., Vote & Push & \LEFTcircle\\
 \hline
-%PlotX (v2)~\cite{plotx_docs}  & Sidechain & \CIRCLE & B/S & CFMM & USDC & \Circle & Ext.O & PL & $\lozenge$ \\
+%PlotX (v2)~\cite{plotx_docs}  & Sidechain & \CIRCLE & B/S & CFMM & \Circle & Ext.O & PL & $\lozenge$ \\
 %\hline
-2021 &Kalshi~\cite{kalshi_docs} & Centralized  & \Circle & YNB & USD & Matching & \Circle & Arbiter & Push & \Circle \\
+2021 &Kalshi~\cite{kalshi_docs} & Centralized  & \Circle & YNB & Matching & \Circle & Arbiter & Push & \Circle \\
 \hline
-2022 &Zeitgeist~\cite{zeit} & App-chain & \LEFTcircle & WTA & Multi & Auto Bookmaking & \Circle & Optimistic, Vote & Pull & \LEFTcircle \\
+2022 &Zeitgeist~\cite{zeit} & App-chain & \LEFTcircle & WTA & Bookmaking & \Circle & Opt., Vote & Pull & \LEFTcircle \\
 \hline
 %Thales~\cite{thalesmarket_docs} & Smart Contract & \Circle & Binary & CFMM & Multi & \Circle & Ext.O & PL & $\blacklozenge$\\
 %\hline
