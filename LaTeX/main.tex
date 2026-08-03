@@ -1,6 +1,12 @@
 \documentclass[runningheads]{llncs}
 \bibliographystyle{splncs04}
 
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{orcidlink}
+
+\renewcommand{\orcidID}[1]{\,\orcidlink{#1}}
+
 % = = = = = Packages = = = = = %
 
 \input{setup/packages}
@@ -13,7 +19,7 @@
 
 \begin{document}
 
-\title{ SoK: Market Microstructure for Decentralized Prediction Markets (\depms)\thanks{A full version of this paper is available: \url{https://arxiv.org/abs/2510.15612}}}
+\title{ SoK: Market Microstructure for Decentralized Prediction Markets (\depms)\thanks{This is a full version of the paper that appeared at the \textit{Workshop on Trusted Smart Contracts (WTSC}) at \textit{Financial Cryptography 2026}.}}
 
 \author{
 	Nahid Rahman\inst{1}\orcidID{0009-0001-9625-3816} \and 
